@@ -1,0 +1,11 @@
+.form-view {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  & > div:first-child {
+    min-width: 10vw;
+  }
+  & > div:last-child {
+    flex-grow: 1;
+  }
+}

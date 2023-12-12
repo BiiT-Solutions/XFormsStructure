@@ -1,0 +1,6 @@
+<div class="form-view">
+  <div style="background: red">
+    <div class="category" *ngFor="let group of form.children" (click)="onGroup(group)">{{group.label}}</div>
+  </div>
+  <div style="background: blue">CONTENT</div>
+</div>
