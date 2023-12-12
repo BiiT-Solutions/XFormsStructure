@@ -3,9 +3,9 @@ import {Form} from "../../models/form";
 import {FormItem} from "../../models/form-item";
 
 @Component({
-  selector: 'biit-form',
+  selector: 'biit-x-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
   @Input() form: Form;

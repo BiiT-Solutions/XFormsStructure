@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { Form } from 'projects/biit-forms-ui-lib/src/lib/models/form';
+import { Form } from 'projects/x-forms-lib/src/lib/models/form';
 import {ActivatedRoute} from "@angular/router";
-import { Constants } from "../../projects/biit-forms-ui-lib/src/lib/utils/constants";
+import { Constants } from "../../projects/x-forms-lib/src/lib/utils/constants";
 import {HttpClient} from "@angular/common/http";
 
 @Component({

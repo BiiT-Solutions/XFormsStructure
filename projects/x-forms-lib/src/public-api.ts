@@ -1,5 +1,5 @@
 /*
- * Public API Surface of biit-forms-ui-lib
+ * Public API Surface of x-forms-lib
  */
 
 export * from './lib/models/form';

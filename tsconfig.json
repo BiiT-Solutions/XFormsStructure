@@ -4,8 +4,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "biit-forms-ui-lib": [
-        "dist/biit-forms-ui-lib"
+      "x-forms-lib": [
+        "dist/x-forms-lib"
       ]
     },
     "outDir": "./dist/out-tsc",

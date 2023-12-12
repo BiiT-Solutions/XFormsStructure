@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Form } from 'projects/biit-forms-ui-lib/src/lib/models/form';
+import { Form } from 'projects/x-forms-lib/src/lib/models/form';
 
 @Component({
   selector: 'biit-form-view',

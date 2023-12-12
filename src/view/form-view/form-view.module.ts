@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormViewComponent } from './form-view.component';
-import {FormModule} from "../../../projects/biit-forms-ui-lib/src/lib/views/form/form.module";
+import {FormModule} from "../../../projects/x-forms-lib/src/lib/views/form/form.module";
 
 
 

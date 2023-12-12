@@ -1,0 +1,13 @@
+.form-view {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.form-view > div:first-child {
+  min-width: 10vw;
+}
+.form-view > div:last-child {
+  flex-grow: 1;
+}
+
+/*# sourceMappingURL=form.component.css.map */
