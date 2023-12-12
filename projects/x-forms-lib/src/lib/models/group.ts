@@ -1,4 +1,5 @@
 import {FormItem} from "./form-item";
+import {Form} from "./form";
 
 export class Group extends FormItem {
   repeatable: boolean;

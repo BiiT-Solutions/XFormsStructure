@@ -2,6 +2,7 @@ import {FormItem} from "./form-item";
 import {AnswerType} from "./answer-type";
 import {VariableType} from "./variable-type";
 import {VariableFormat} from "./variable-format";
+import {Flow} from "./flow";
 
 export class Question<T> extends FormItem {
   answerType: AnswerType;
@@ -11,6 +12,8 @@ export class Question<T> extends FormItem {
   horizontal: boolean;
   description: string;
   response: T;
+
+  flows: Flow[];
 
   public static override copy<T>(from: Question<T>, to: Question<T>): void {
     super.copy(from, to);
