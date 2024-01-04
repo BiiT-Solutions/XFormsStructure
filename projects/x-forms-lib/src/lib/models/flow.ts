@@ -1,11 +1,14 @@
 import {Item} from "./item";
 import {FlowType} from "./flow-type";
 import {Condition} from "./condition";
+import {Question} from "./question";
 
 export class Flow extends Item {
   public  originId: string[];
+  public origin: Question<any>;
   public flowType: FlowType;
   public destinyId: string[];
+  public destiny: Question<any>;
   public others: boolean;
   public condition: Condition[];
 

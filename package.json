@@ -23,6 +23,8 @@
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
+    "biit-ui": "latest",
+    "biit-icons-collection": "latest",
     "@angular-devkit/build-angular": "v15-lts",
     "@angular/cli": "v15-lts",
     "@angular/compiler-cli": "v15-lts",

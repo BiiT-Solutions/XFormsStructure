@@ -1,6 +1,9 @@
 <div class="form-view">
-  <div style="background: red">
-    <div class="category" *ngFor="let group of form.children" (click)="onGroup(group)">{{group.label}}</div>
+  <div>
+    <div class="category" *ngFor="let group of form.children" (click)="onCategory(group)"
+         [class.hidden]="!group.display" [class.disabled]="group.disabled">{{group.label}}</div>
   </div>
-  <div style="background: blue">CONTENT</div>
+  <div>
+    <biit-category *ngIf="category" [category]="category"></biit-category>
+  </div>
 </div>

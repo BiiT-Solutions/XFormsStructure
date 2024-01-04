@@ -4,7 +4,8 @@
   "peerDependencies": {
     "@angular/common": "v15-lts",
     "@angular/core": "v15-lts",
-    "biit-ui": "latest"
+    "biit-ui": "latest",
+    "biit-icons-collection": "latest"
   },
   "dependencies": {
     "tslib": "^2.3.0"

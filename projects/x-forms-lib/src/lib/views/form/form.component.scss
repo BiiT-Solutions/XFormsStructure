@@ -9,3 +9,14 @@
     flex-grow: 1;
   }
 }
+.category {
+  cursor: pointer;
+  &.hidden {
+    visibility: hidden;
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

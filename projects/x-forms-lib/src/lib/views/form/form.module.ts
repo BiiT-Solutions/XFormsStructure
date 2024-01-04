@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormComponent } from './form.component';
+import {UtilsModule} from "../../utils/utils.module";
+import {CategoryModule} from "../../shared/category/category.module";
 
 
 
@@ -9,7 +11,9 @@ import { FormComponent } from './form.component';
     FormComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    UtilsModule,
+    CategoryModule
   ],
   exports: [
     FormComponent

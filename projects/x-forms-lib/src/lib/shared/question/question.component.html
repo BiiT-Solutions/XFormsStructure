@@ -1,0 +1,7 @@
+<biit-input-text *ngIf="question.answerFormat === VariableType.TEXT"
+                 [id]="question.id"
+                 [placeholder]="question.label"
+                 [required]="question.mandatory"
+                 [(ngModel)]="question.response"
+                 (ngModelChange)="onChanged($event)"
+></biit-input-text>

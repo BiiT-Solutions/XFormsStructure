@@ -1,0 +1,7 @@
+<fieldset *ngIf="element | instanceof: Group">
+  <legend>{{element.label}}</legend>
+  <biit-form-element *ngFor="let child of element.children" [element]="child"></biit-form-element>
+</fieldset>
+<div *ngIf="element | instanceof: Question">
+  <biit-question [question]="$any(element)"></biit-question>
+</div>
