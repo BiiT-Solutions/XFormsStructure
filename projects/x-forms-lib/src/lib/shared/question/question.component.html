@@ -55,4 +55,10 @@
                   [answers]="question.children"
 ></biit-multi-radio>
 
+<biit-dropdown *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_LIST"
+               [data]="question.children"
+               label="label"
+               [title]="question.label"
+               value="name"
+></biit-dropdown>
 

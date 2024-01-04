@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestionComponent } from './question.component';
 import {
-  BiitDatePickerModule,
+  BiitDatePickerModule, BiitDropdownModule,
   BiitInputTextModule,
   BiitMultiselectModule,
   BiitRadioButtonModule,
@@ -30,7 +30,8 @@ import {MultiRadioModule} from "../multi-radio/multi-radio.module";
     BiitTextareaModule,
     BiitRadioButtonModule,
     BiitMultiselectModule,
-    MultiRadioModule
+    MultiRadioModule,
+    BiitDropdownModule
   ]
 })
 export class QuestionModule { }
