@@ -5,6 +5,8 @@ import {Question} from "../../models/question";
 import {Structure} from "../../utils/structure";
 import {IsVisiblePipe} from "../../utils/is-visible.pipe";
 import {Category} from "../../models/category";
+import {BiitIconService} from "biit-ui/icon";
+import {completeIconSet} from "biit-icons-collection";
 
 @Component({
   selector: 'biit-x-form',
@@ -16,7 +18,8 @@ export class FormComponent implements OnInit {
   @Input() form: Form;
   protected category: Category;
 
-  constructor(private isVisible: IsVisiblePipe) {
+  constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe) {
+    iconService.registerIcons(completeIconSet);
   }
 
   protected onCategory(category: FormItem): void {

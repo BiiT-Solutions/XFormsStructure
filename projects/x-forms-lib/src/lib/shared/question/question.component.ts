@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Question} from "../../models/question";
 import {VariableType} from "../../models/variable-type";
 import {Type} from "biit-ui/inputs";
+import {AnswerType} from "../../models/answer-type";
 
 @Component({
   selector: 'biit-question',
@@ -18,4 +19,5 @@ export class QuestionComponent {
     this.changed.emit(response);
   }
 
+  protected readonly AnswerType = AnswerType;
 }

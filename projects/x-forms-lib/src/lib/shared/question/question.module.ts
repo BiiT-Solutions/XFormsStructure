@@ -1,9 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestionComponent } from './question.component';
-import {BiitDatePickerModule, BiitInputTextModule} from "biit-ui/inputs";
+import {
+  BiitDatePickerModule,
+  BiitInputTextModule,
+  BiitMultiselectModule,
+  BiitRadioButtonModule,
+  BiitTextareaModule
+} from "biit-ui/inputs";
 import {FormsModule} from "@angular/forms";
 import {UtilsModule} from "../../utils/utils.module";
+import {MultiRadioModule} from "../multi-radio/multi-radio.module";
 
 
 
@@ -19,7 +26,11 @@ import {UtilsModule} from "../../utils/utils.module";
     BiitInputTextModule,
     FormsModule,
     UtilsModule,
-    BiitDatePickerModule
+    BiitDatePickerModule,
+    BiitTextareaModule,
+    BiitRadioButtonModule,
+    BiitMultiselectModule,
+    MultiRadioModule
   ]
 })
 export class QuestionModule { }
