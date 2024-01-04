@@ -1,19 +1,25 @@
-<biit-input-text *ngIf="question.answerFormat === VariableType.TEXT"
-                 [id]="question.id"
-                 [placeholder]="question.label"
-                 [required]="question.mandatory"
-                 [regEx]="question.answerSubformat | getRegex"
-                 [(ngModel)]="question.response"
-                 (ngModelChange)="onChanged($event)"
-></biit-input-text>
+<div [ngSwitch]="question.answerFormat" [id]="question.id">
+  <biit-input-text *ngSwitchCase="VariableType.TEXT"
+                   [placeholder]="question.label"
+                   [required]="question.mandatory"
+                   [regEx]="question.answerSubformat | getRegex"
+                   [(ngModel)]="question.response"
+                   (ngModelChange)="onChanged($event)"
+  ></biit-input-text>
 
-<biit-input-text *ngIf="question.answerFormat === VariableType.NUMBER"
-                 [id]="question.id"
-                 [placeholder]="question.label"
-                 [required]="question.mandatory"
-                 [type]="Type.NUMBER"
-                 [regEx]="question.answerSubformat | getRegex"
-                 [(ngModel)]="question.response"
-                 (ngModelChange)="onChanged($event)"
-></biit-input-text>
+  <biit-input-text *ngSwitchCase="VariableType.NUMBER"
+                   [placeholder]="question.label"
+                   [required]="question.mandatory"
+                   [type]="Type.NUMBER"
+                   [regEx]="question.answerSubformat | getRegex"
+                   [(ngModel)]="question.response"
+                   (ngModelChange)="onChanged($event)"
+  ></biit-input-text>
+  <biit-datepicker *ngSwitchCase="VariableType.DATE"
+                   [required]="question.mandatory"
+                   [placeholder]="question.label"
+                   [min]="question.answerSubformat | getDate : 'min'"
+                   [max]="question.answerSubformat | getDate : 'max'"
+  ></biit-datepicker>
+</div>
 

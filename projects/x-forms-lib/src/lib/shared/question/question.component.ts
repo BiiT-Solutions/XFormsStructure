@@ -12,10 +12,10 @@ export class QuestionComponent {
   @Input() question: Question<any>;
   @Output() changed: EventEmitter<any> = new EventEmitter();
   protected readonly VariableType = VariableType;
+  protected readonly Type = Type;
 
   protected onChanged(response: any): void {
     this.changed.emit(response);
   }
 
-  protected readonly Type = Type;
 }

@@ -5,6 +5,7 @@ import { NextPipe } from './next.pipe';
 import { TypeofPipe } from './typeof.pipe';
 import { InstanceofPipe } from './instanceof.pipe';
 import { GetRegexPipe } from './get-regex.pipe';
+import { GetDatePipe } from './get-date.pipe';
 
 
 
@@ -14,7 +15,8 @@ import { GetRegexPipe } from './get-regex.pipe';
     NextPipe,
     TypeofPipe,
     InstanceofPipe,
-    GetRegexPipe
+    GetRegexPipe,
+    GetDatePipe
   ],
   imports: [
     CommonModule
@@ -23,7 +25,8 @@ import { GetRegexPipe } from './get-regex.pipe';
     NextPipe,
     TypeofPipe,
     InstanceofPipe,
-    GetRegexPipe
+    GetRegexPipe,
+    GetDatePipe
   ], providers: [
     IsVisiblePipe,
     NextPipe
