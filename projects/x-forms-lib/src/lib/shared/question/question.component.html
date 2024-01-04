@@ -2,6 +2,18 @@
                  [id]="question.id"
                  [placeholder]="question.label"
                  [required]="question.mandatory"
+                 [regEx]="question.answerSubformat | getRegex"
                  [(ngModel)]="question.response"
                  (ngModelChange)="onChanged($event)"
 ></biit-input-text>
+
+<biit-input-text *ngIf="question.answerFormat === VariableType.NUMBER"
+                 [id]="question.id"
+                 [placeholder]="question.label"
+                 [required]="question.mandatory"
+                 [type]="Type.NUMBER"
+                 [regEx]="question.answerSubformat | getRegex"
+                 [(ngModel)]="question.response"
+                 (ngModelChange)="onChanged($event)"
+></biit-input-text>
+

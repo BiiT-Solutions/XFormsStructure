@@ -4,6 +4,7 @@ import { IsVisiblePipe } from './is-visible.pipe';
 import { NextPipe } from './next.pipe';
 import { TypeofPipe } from './typeof.pipe';
 import { InstanceofPipe } from './instanceof.pipe';
+import { GetRegexPipe } from './get-regex.pipe';
 
 
 
@@ -12,7 +13,8 @@ import { InstanceofPipe } from './instanceof.pipe';
     IsVisiblePipe,
     NextPipe,
     TypeofPipe,
-    InstanceofPipe
+    InstanceofPipe,
+    GetRegexPipe
   ],
   imports: [
     CommonModule
@@ -20,7 +22,8 @@ import { InstanceofPipe } from './instanceof.pipe';
     IsVisiblePipe,
     NextPipe,
     TypeofPipe,
-    InstanceofPipe
+    InstanceofPipe,
+    GetRegexPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { QuestionComponent } from './question.component';
 import {BiitInputTextModule} from "biit-ui/inputs";
 import {FormsModule} from "@angular/forms";
+import {UtilsModule} from "../../utils/utils.module";
 
 
 
@@ -16,7 +17,8 @@ import {FormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     BiitInputTextModule,
-    FormsModule
+    FormsModule,
+    UtilsModule
   ]
 })
 export class QuestionModule { }

@@ -14,4 +14,5 @@ export class FormElementComponent {
 
   protected readonly Group = Group;
   protected readonly Question = Question;
+  protected readonly Text = Text;
 }
