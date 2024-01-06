@@ -1,3 +1,3 @@
 <div *ngFor="let element of category.children">
-  <biit-form-element [element]="element" ></biit-form-element>
+  <biit-form-element [element]="element" (changed)="onFormChanged()" ></biit-form-element>
 </div>

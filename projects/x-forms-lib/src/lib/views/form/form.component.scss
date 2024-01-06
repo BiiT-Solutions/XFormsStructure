@@ -20,3 +20,11 @@
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  gap: 1rem;
+  margin: 1rem;
+}

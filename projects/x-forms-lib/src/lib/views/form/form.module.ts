@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormComponent } from './form.component';
 import {UtilsModule} from "../../utils/utils.module";
 import {CategoryModule} from "../../shared/category/category.module";
+import {BiitButtonModule} from "biit-ui/button";
 
 
 
@@ -10,11 +11,12 @@ import {CategoryModule} from "../../shared/category/category.module";
   declarations: [
     FormComponent
   ],
-  imports: [
-    CommonModule,
-    UtilsModule,
-    CategoryModule
-  ],
+    imports: [
+        CommonModule,
+        UtilsModule,
+        CategoryModule,
+        BiitButtonModule
+    ],
   exports: [
     FormComponent
   ]

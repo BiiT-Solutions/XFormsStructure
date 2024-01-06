@@ -9,6 +9,7 @@ import {FormItem} from "../../models/form-item";
 export class MultiRadioComponent {
   @Input() label: string;
   @Input() answers: FormItem[];
+  @Input() required: boolean = false;
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();
   protected selectedAnswer: FormItem;
   protected response: string;

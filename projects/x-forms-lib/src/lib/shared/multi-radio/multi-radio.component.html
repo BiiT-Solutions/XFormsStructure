@@ -6,6 +6,7 @@
                    [id]="answer.id.toString()"
                    [name]="answer.id.toString()"
                    [value]="answer.name"
+                   [required]="required"
 >
   {{answer.label}}
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"

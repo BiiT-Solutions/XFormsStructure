@@ -7,6 +7,8 @@ import {IsVisiblePipe} from "../../utils/is-visible.pipe";
 import {Category} from "../../models/category";
 import {BiitIconService} from "biit-ui/icon";
 import {completeIconSet} from "biit-icons-collection";
+import {NextPipe} from "../../utils/next.pipe";
+import {PreviousPipe} from "../../utils/previous.pipe";
 
 @Component({
   selector: 'biit-x-form',
@@ -18,7 +20,8 @@ export class FormComponent implements OnInit {
   @Input() form: Form;
   protected category: Category;
 
-  constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe) {
+  constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
+              private next: NextPipe, private previous: PreviousPipe) {
     iconService.registerIcons(completeIconSet);
   }
 
@@ -95,5 +98,32 @@ export class FormComponent implements OnInit {
     const firstNode: Category = this.form.children[0];
     firstNode.disabled = false;
     this.onCategory(firstNode);
+  }
+
+  protected onCategoryCompleted(): void {
+    if (this.category) {
+      const nextCategory: Category = this.next.transform(this.form.children, 'id', this.category.id);
+      if (nextCategory) {
+        nextCategory.disabled = false;
+      }
+    }
+  }
+
+  protected onNext() {
+    if (this.category){
+      const nextCategory: Category = this.next.transform(this.form.children, 'id', this.category.id);
+      if (nextCategory) {
+        this.category = nextCategory;
+      }
+    }
+  }
+
+  protected onPrevious() {
+    if (this.category) {
+      const previousCategory: Category = this.previous.transform(this.form.children, 'id', this.category.id);
+      if (previousCategory) {
+        this.category = previousCategory;
+      }
+    }
   }
 }

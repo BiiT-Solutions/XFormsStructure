@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormItem} from "../../models/form-item";
 import {Group} from "../../models/group";
 import {Question} from "../../models/question";
@@ -11,6 +11,7 @@ import {Question} from "../../models/question";
 export class FormElementComponent {
 
   @Input() element: FormItem;
+  @Output() changed: EventEmitter<any> = new EventEmitter();
 
   protected readonly Group = Group;
   protected readonly Question = Question;

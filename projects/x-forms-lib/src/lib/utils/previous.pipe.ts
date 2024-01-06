@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'next'
+  name: 'previous'
 })
-export class NextPipe implements PipeTransform {
+export class PreviousPipe implements PipeTransform {
 
   transform<T>(object: T[], field: string, value: any): T {
     const index: number = object.findIndex(item => item[field] === value);
-    if (index > -1 && index < object.length - 1) {
-      const place: number = index + 1;
-      for (let i: number = place; i < object.length; i++) {
+    if (index > 0) {
+      const place: number = index - 1;
+      for (let i: number = place; i >= 0; i--) {
         if (object[i]['display']) {
           return object[i];
         }
@@ -17,5 +17,4 @@ export class NextPipe implements PipeTransform {
     }
     return null;
   }
-
 }
