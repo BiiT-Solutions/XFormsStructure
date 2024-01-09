@@ -5,6 +5,7 @@ import {Type} from "biit-ui/inputs";
 import {AnswerType} from "../../models/answer-type";
 import {CheckDatePipe} from "../../utils/check-date.pipe";
 import {VariableFormat} from "../../models/variable-format";
+import {GetRegexPipe} from "../../utils/get-regex.pipe";
 
 @Component({
   selector: 'biit-question',
@@ -18,7 +19,7 @@ export class QuestionComponent {
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
 
-  constructor(private checkDate: CheckDatePipe) {
+  constructor(private checkDate: CheckDatePipe, private getRegex: GetRegexPipe) {
   }
 
   protected onChanged(response: any): void {
@@ -28,6 +29,10 @@ export class QuestionComponent {
   private validate(response: any): boolean {
     if (this.question.answerFormat === VariableType.DATE) {
       return this.checkDate.transform(response, this.question.answerSubformat) === null;
+    }
+    const regex: RegExp = this.getRegex.transform(this.question.answerSubformat);
+    if (regex) {
+      return regex.test(response);
     }
     return true;
   }

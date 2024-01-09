@@ -37,7 +37,8 @@ import { CheckDatePipe } from './check-date.pipe';
     IsVisiblePipe,
     NextPipe,
     PreviousPipe,
-    CheckDatePipe
+    CheckDatePipe,
+    GetRegexPipe
   ]
 })
 export class UtilsModule { }
