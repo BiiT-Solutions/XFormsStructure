@@ -11,7 +11,7 @@
               [disabled]="!(form.children | previous : 'id': this.category.id)">Previous</button>
       <button biit-button primary
               (click)="onNext()"
-              [disabled]="(form.children | next : 'id': this.category.id)?.disabled">Next</button>
+              [disabled]="(form.children | next : 'id': this.category.id)?.disabled">{{(this.form.children | next : 'id' : this.category.id) === null ? 'Submit' : 'Next' }}</button>
     </div>
   </div>
 </div>
