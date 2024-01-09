@@ -100,11 +100,11 @@ export class FormComponent implements OnInit {
     this.onCategory(firstNode);
   }
 
-  protected onCategoryCompleted(): void {
+  protected onCategoryCompleted(completed: boolean): void {
     if (this.category) {
       const nextCategory: Category = this.next.transform(this.form.children, 'id', this.category.id);
       if (nextCategory) {
-        nextCategory.disabled = false;
+        nextCategory.disabled = !completed;
       }
     }
   }

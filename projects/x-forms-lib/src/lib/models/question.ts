@@ -11,7 +11,10 @@ export class Question<T> extends FormItem {
   mandatory: boolean;
   horizontal: boolean;
   description: string;
+  // Question answer
   response: T;
+  // Check if question has a valid answer
+  valid: boolean = false;
 
   flows: Flow[];
 

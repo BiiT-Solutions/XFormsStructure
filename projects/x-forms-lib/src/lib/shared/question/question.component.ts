@@ -3,6 +3,8 @@ import {Question} from "../../models/question";
 import {VariableType} from "../../models/variable-type";
 import {Type} from "biit-ui/inputs";
 import {AnswerType} from "../../models/answer-type";
+import {CheckDatePipe} from "../../utils/check-date.pipe";
+import {VariableFormat} from "../../models/variable-format";
 
 @Component({
   selector: 'biit-question',
@@ -14,10 +16,19 @@ export class QuestionComponent {
   @Output() changed: EventEmitter<any> = new EventEmitter();
   protected readonly VariableType = VariableType;
   protected readonly Type = Type;
+  protected readonly AnswerType = AnswerType;
 
-  protected onChanged(response: any): void {
-    this.changed.emit(response);
+  constructor(private checkDate: CheckDatePipe) {
   }
 
-  protected readonly AnswerType = AnswerType;
+  protected onChanged(response: any): void {
+    this.question.valid = this.validate(response);
+    this.question.valid ? this.changed.emit(response) : this.changed.emit(null);
+  }
+  private validate(response: any): boolean {
+    if (this.question.answerFormat === VariableType.DATE) {
+      return this.checkDate.transform(response, this.question.answerSubformat) === null;
+    }
+    return true;
+  }
 }

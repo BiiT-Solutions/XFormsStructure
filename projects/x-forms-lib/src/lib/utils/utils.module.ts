@@ -7,6 +7,7 @@ import { InstanceofPipe } from './instanceof.pipe';
 import { GetRegexPipe } from './get-regex.pipe';
 import { GetDatePipe } from './get-date.pipe';
 import { PreviousPipe } from './previous.pipe';
+import { CheckDatePipe } from './check-date.pipe';
 
 
 
@@ -18,22 +19,25 @@ import { PreviousPipe } from './previous.pipe';
     InstanceofPipe,
     GetRegexPipe,
     GetDatePipe,
-    PreviousPipe
+    PreviousPipe,
+    CheckDatePipe
   ],
   imports: [
     CommonModule
   ], exports: [
-        IsVisiblePipe,
-        NextPipe,
-        TypeofPipe,
-        InstanceofPipe,
-        GetRegexPipe,
-        GetDatePipe,
-        PreviousPipe
-    ], providers: [
     IsVisiblePipe,
     NextPipe,
-    PreviousPipe
+    TypeofPipe,
+    InstanceofPipe,
+    GetRegexPipe,
+    GetDatePipe,
+    PreviousPipe,
+    CheckDatePipe
+  ], providers: [
+    IsVisiblePipe,
+    NextPipe,
+    PreviousPipe,
+    CheckDatePipe
   ]
 })
 export class UtilsModule { }

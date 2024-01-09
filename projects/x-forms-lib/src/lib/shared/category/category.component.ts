@@ -11,16 +11,26 @@ import {Question} from "../../models/question";
 export class CategoryComponent {
   @Input() category: Category;
   @Output() completed: EventEmitter<boolean> = new EventEmitter<boolean>();
+  private completionSentinel: boolean = false;
 
   // When received a form event we need to check the complete form to check the complete category status
   protected onFormChanged(): void {
     if (this.isCompleted(this.category)) {
       this.completed.emit(true);
+      this.completionSentinel = true;
+    } else {
+      if (this.completionSentinel) {
+        this.completed.emit(false);
+        this.completionSentinel = false;
+      }
     }
   }
 
   private isCompleted(item: FormItem): boolean {
     if (item instanceof Question) {
+      if (!item.valid) {
+        return false;
+      }
       if (item.mandatory && !item.response) {
         return false;
       }

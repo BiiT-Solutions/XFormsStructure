@@ -1,3 +1,4 @@
+{{question.valid}}
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
   <biit-input-text *ngSwitchCase="VariableType.TEXT"
                    [placeholder]="question.label"
@@ -28,6 +29,7 @@
                    [max]="question.answerSubformat | getDate : 'max'"
                    [(ngModel)]="question.response"
                    (ngModelChange)="onChanged($event)"
+                   [error]="(question.response | checkDate : question.answerSubformat)"
   ></biit-datepicker>
 </div>
 <biit-textarea *ngIf="question.answerType === AnswerType.TEXT_AREA"
@@ -65,6 +67,5 @@
                [required]="question.mandatory"
                [(ngModel)]="question.response"
                (ngModelChange)="onChanged($event)"
-
 ></biit-dropdown>
 
