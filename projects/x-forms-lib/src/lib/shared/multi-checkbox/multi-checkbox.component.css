@@ -1,0 +1,7 @@
+.ident {
+  margin-left: 1.5rem;
+}
+.checklist {
+  display: flex;
+  flex-direction: column;
+}

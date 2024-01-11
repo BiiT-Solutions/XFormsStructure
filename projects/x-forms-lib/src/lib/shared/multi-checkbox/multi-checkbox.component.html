@@ -1,0 +1,15 @@
+<label *ngIf="label" [required]="required" [value]="answered">{{label}}</label>
+<div class="checklist" *ngFor="let answer of answers">
+  <biit-checkbox
+                     [(ngModel)]="$any(answer).selected"
+                     (ngModelChange)="onSelected(answer)"
+                     [id]="answer.id.toString()"
+  >
+    {{answer.label}}
+  </biit-checkbox>
+  <biit-multi-checkbox *ngIf="answer && answer['selected']"
+                       class="ident"
+                       [answers]="answer.children"
+                       (selected)="checkAnswer()"
+  ></biit-multi-checkbox>
+</div>

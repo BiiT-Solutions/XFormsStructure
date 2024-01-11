@@ -11,6 +11,8 @@ import {
 import {FormsModule} from "@angular/forms";
 import {UtilsModule} from "../../utils/utils.module";
 import {MultiRadioModule} from "../multi-radio/multi-radio.module";
+import {RequiredLabelModule} from "../required-label/required-label.module";
+import {MultiCheckboxModule} from "../multi-checkbox/multi-checkbox.module";
 
 
 
@@ -31,7 +33,9 @@ import {MultiRadioModule} from "../multi-radio/multi-radio.module";
     BiitRadioButtonModule,
     BiitMultiselectModule,
     MultiRadioModule,
-    BiitDropdownModule
+    BiitDropdownModule,
+    RequiredLabelModule,
+    MultiCheckboxModule
   ]
 })
 export class QuestionModule { }

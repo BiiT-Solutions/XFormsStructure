@@ -1,4 +1,3 @@
-{{question.valid}}
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
   <biit-input-text *ngSwitchCase="VariableType.TEXT"
                    [placeholder]="question.label"
@@ -39,7 +38,7 @@
                (ngModelChange)="onChanged($event)"
 ></biit-textarea>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_RADIO">
-  {{question.label}}
+  <label [required]="question.mandatory" [value]="question.response">{{question.label}}</label>
   <biit-radio-button *ngFor="let child of question.children"
                      [required]="question.mandatory"
                      [(ngModel)]="question.response"
@@ -52,12 +51,12 @@
   </biit-radio-button>
 </div>
 
-<biit-multi-radio *ngIf="question.answerType === AnswerType.MULTIPLE_SELECTION"
+<biit-multi-checkbox *ngIf="question.answerType === AnswerType.MULTIPLE_SELECTION"
                   [label]="question.label"
                   [answers]="question.children"
                   [required]="question.mandatory"
                   (selected)="question.response = $event; onChanged($event)"
-></biit-multi-radio>
+></biit-multi-checkbox>
 
 <biit-dropdown *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_LIST"
                [data]="question.children"

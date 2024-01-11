@@ -1,0 +1,9 @@
+.disabled {
+  color: rgb(128, 128, 128);
+}
+.warned {
+  color: rgb(255, 0, 0);
+}
+a {
+  margin-left: 0.25rem;
+}
