@@ -55,7 +55,7 @@
                   [label]="question.label"
                   [answers]="question.children"
                   [required]="question.mandatory"
-                  (selected)="question.response = $event; onChanged($event)"
+                  (selected)="question.response = $event; onChanged($event);"
 ></biit-multi-checkbox>
 
 <biit-dropdown *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_LIST"

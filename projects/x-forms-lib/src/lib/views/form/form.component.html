@@ -10,8 +10,13 @@
               (click)="onPrevious()"
               [disabled]="!(form.children | previous : 'id': this.category.id)">Previous</button>
       <button biit-button primary
+              *ngIf="(form.children | next : 'id': this.category.id)"
               (click)="onNext()"
-              [disabled]="(form.children | next : 'id': this.category.id)?.disabled">{{(this.form.children | next : 'id' : this.category.id) === null ? 'Submit' : 'Next' }}</button>
+              [disabled]="(form.children | next : 'id': this.category.id)?.disabled">Next</button>
+      <button biit-button primary
+              *ngIf="!(form.children | next : 'id': this.category.id)"
+              (click)="onNext()"
+              [disabled]="(form | checkAnswers)">Submit</button>
     </div>
   </div>
 </div>

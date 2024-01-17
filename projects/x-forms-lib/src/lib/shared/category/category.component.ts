@@ -15,7 +15,7 @@ export class CategoryComponent {
 
   // When received a form event we need to check the complete form to check the complete category status
   protected onFormChanged(): void {
-    if (this.isCompleted(this.category)) {
+    if (CategoryComponent.isCompleted(this.category)) {
       this.completed.emit(true);
       this.completionSentinel = true;
     } else {
@@ -26,9 +26,9 @@ export class CategoryComponent {
     }
   }
 
-  private isCompleted(item: FormItem): boolean {
+  public static isCompleted(item: FormItem): boolean {
     if (item instanceof Question) {
-      if (!item.valid) {
+      if (item.mandatory && !item.valid) {
         return false;
       }
       if (item.mandatory && !item.response) {
@@ -37,7 +37,7 @@ export class CategoryComponent {
     }
     if (item.children) {
       for(let child of item.children) {
-        if (!this.isCompleted(child)) {
+        if (!CategoryComponent.isCompleted(child)) {
           return false;
         }
       }

@@ -8,6 +8,7 @@ import { GetRegexPipe } from './get-regex.pipe';
 import { GetDatePipe } from './get-date.pipe';
 import { PreviousPipe } from './previous.pipe';
 import { CheckDatePipe } from './check-date.pipe';
+import { CheckAnswersPipe } from './check-answers.pipe';
 
 
 
@@ -20,7 +21,8 @@ import { CheckDatePipe } from './check-date.pipe';
     GetRegexPipe,
     GetDatePipe,
     PreviousPipe,
-    CheckDatePipe
+    CheckDatePipe,
+    CheckAnswersPipe
   ],
   imports: [
     CommonModule
@@ -32,7 +34,8 @@ import { CheckDatePipe } from './check-date.pipe';
     GetRegexPipe,
     GetDatePipe,
     PreviousPipe,
-    CheckDatePipe
+    CheckDatePipe,
+    CheckAnswersPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,
