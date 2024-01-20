@@ -1,3 +1,6 @@
 <div *ngFor="let element of category.children">
-  <biit-form-element [element]="element" (changed)="onFormChanged()" ></biit-form-element>
+  <biit-form-element [element]="element" (changed)="onFormChanged()"
+                     (duplicated)="onDuplicated($event, this.category.children)"
+                     (removed)="onRemoved($event, this.category.children)"
+  ></biit-form-element>
 </div>

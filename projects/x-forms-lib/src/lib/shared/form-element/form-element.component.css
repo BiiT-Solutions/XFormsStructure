@@ -1,0 +1,23 @@
+.legend-right {
+  position: absolute;
+  right: 10vw;
+}
+
+.legend {
+  display: flex;
+  flex-direction: row;
+  width: 100%
+}
+
+.legend-button {
+  background-color: lightgrey;
+  padding: 0.25rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+fieldset {
+  margin-top: 0.25rem;
+}

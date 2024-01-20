@@ -4,6 +4,7 @@ import { FormElementComponent } from './form-element.component';
 import {UtilsModule} from "../../utils/utils.module";
 import {BiitInputTextModule} from "biit-ui/inputs";
 import {QuestionModule} from "../question/question.module";
+import {BiitIconModule} from "biit-ui/icon";
 
 
 
@@ -14,11 +15,12 @@ import {QuestionModule} from "../question/question.module";
   exports: [
     FormElementComponent
   ],
-    imports: [
-        CommonModule,
-        UtilsModule,
-        BiitInputTextModule,
-        QuestionModule
-    ]
+  imports: [
+    CommonModule,
+    UtilsModule,
+    BiitInputTextModule,
+    QuestionModule,
+    BiitIconModule
+  ]
 })
 export class FormElementModule { }

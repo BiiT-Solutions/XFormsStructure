@@ -9,6 +9,7 @@ import { GetDatePipe } from './get-date.pipe';
 import { PreviousPipe } from './previous.pipe';
 import { CheckDatePipe } from './check-date.pipe';
 import { CheckAnswersPipe } from './check-answers.pipe';
+import { AsGroupPipe } from './as-group.pipe';
 
 
 
@@ -22,7 +23,8 @@ import { CheckAnswersPipe } from './check-answers.pipe';
     GetDatePipe,
     PreviousPipe,
     CheckDatePipe,
-    CheckAnswersPipe
+    CheckAnswersPipe,
+    AsGroupPipe
   ],
   imports: [
     CommonModule
@@ -35,7 +37,8 @@ import { CheckAnswersPipe } from './check-answers.pipe';
     GetDatePipe,
     PreviousPipe,
     CheckDatePipe,
-    CheckAnswersPipe
+    CheckAnswersPipe,
+    AsGroupPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,

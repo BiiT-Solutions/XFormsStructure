@@ -5,6 +5,7 @@ export class Group extends FormItem {
   repeatable: boolean;
   isTable: boolean;
   numberOfColumns: number;
+  duplicated: boolean = false;
 
   public static override copy(from: Group, to: Group): void {
     super.copy(from, to);

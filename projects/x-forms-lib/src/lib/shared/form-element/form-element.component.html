@@ -1,6 +1,34 @@
 <fieldset *ngIf="element | instanceof: Group">
-  <legend>{{element.label}}</legend>
-  <biit-form-element *ngFor="let child of element.children" [element]="child" (changed)="changed.emit($event)"></biit-form-element>
+  <legend>
+    <div class="legend">
+      <div>{{element.label}}</div>
+      <div class="legend-right">
+        <div *ngIf="(element | asGroup)?.repeatable && !(element | asGroup)?.duplicated" (click)="duplicate()"
+             class="legend-button clickable">
+          <biit-icon
+            name="plus"
+            [svgStyle]="{'backgroundColor': 'transparent'}"
+            [pathStyle]="{fill: '#000'}"
+            style="width: 12px; height: 12px; display: block;"
+          ></biit-icon> Duplicate
+        </div>
+        <div *ngIf="(element | asGroup)?.duplicated" (click)="remove()"
+             class="legend-button clickable">
+          <biit-icon
+            name="minus"
+            [svgStyle]="{'backgroundColor': 'transparent'}"
+            [pathStyle]="{fill: '#000'}"
+            style="width: 12px; height: 12px; display: block;"
+          ></biit-icon> Remove
+        </div>
+      </div>
+    </div>
+  </legend>
+  <biit-form-element *ngFor="let child of element.children" [element]="child"
+                     (changed)="changed.emit($event)"
+                     (duplicated)="onDuplicated($event, element.children)"
+                     (removed)="onRemoved($event, element.children)"
+  ></biit-form-element>
 </fieldset>
 <div *ngIf="element | instanceof: Question">
   <biit-question [question]="$any(element)" (changed)="changed.emit($event)"></biit-question>

@@ -3,6 +3,8 @@ import { Form } from 'projects/x-forms-lib/src/lib/models/form';
 import {ActivatedRoute} from "@angular/router";
 import { Constants } from "../../projects/x-forms-lib/src/lib/utils/constants";
 import {HttpClient} from "@angular/common/http";
+import {BiitIconService} from "biit-ui/icon";
+import {completeIconSet} from "biit-icons-collection";
 
 @Component({
   selector: 'app-root',
@@ -11,8 +13,8 @@ import {HttpClient} from "@angular/common/http";
 })
 export class AppComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
-
+  constructor(private route: ActivatedRoute, private biitIconService: BiitIconService ,private http: HttpClient) {
+    biitIconService.registerIcons(completeIconSet);
   }
 
   ngOnInit(): void {
