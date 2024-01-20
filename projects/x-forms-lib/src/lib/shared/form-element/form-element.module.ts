@@ -5,6 +5,7 @@ import {UtilsModule} from "../../utils/utils.module";
 import {BiitInputTextModule} from "biit-ui/inputs";
 import {QuestionModule} from "../question/question.module";
 import {BiitIconModule} from "biit-ui/icon";
+import {TextModule} from "../text/text.module";
 
 
 
@@ -20,7 +21,8 @@ import {BiitIconModule} from "biit-ui/icon";
     UtilsModule,
     BiitInputTextModule,
     QuestionModule,
-    BiitIconModule
+    BiitIconModule,
+    TextModule
   ]
 })
 export class FormElementModule { }

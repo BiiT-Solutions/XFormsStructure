@@ -36,4 +36,6 @@ export class QuestionComponent {
     }
     return true;
   }
+
+  protected readonly console = console;
 }

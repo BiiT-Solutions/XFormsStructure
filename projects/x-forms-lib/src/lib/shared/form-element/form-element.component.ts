@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormItem} from "../../models/form-item";
 import {Group} from "../../models/group";
 import {Question} from "../../models/question";
+import {Text} from "../../models/text";
 
 @Component({
   selector: 'biit-form-element',

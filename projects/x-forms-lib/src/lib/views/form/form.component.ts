@@ -9,6 +9,7 @@ import {BiitIconService} from "biit-ui/icon";
 import {completeIconSet} from "biit-icons-collection";
 import {NextPipe} from "../../utils/next.pipe";
 import {PreviousPipe} from "../../utils/previous.pipe";
+import {Text} from "../../models/text";
 
 @Component({
   selector: 'biit-x-form',
@@ -43,6 +44,8 @@ export class FormComponent implements OnInit {
   private linkQuestionToFlow(): void {
     const questions: Map<string, Question<any>> = new Map();
     Structure.extractQuestions(this.form, questions);
+    const texts: Map<string, Text> = new Map();
+    Structure.extractTexts(this.form, texts);
     this.form.flows.forEach(flow => {
       const key: string[] = flow.originId;
       const question: Question<any> = questions.get(key.join('.'));
@@ -60,7 +63,13 @@ export class FormComponent implements OnInit {
       const originKey: string = flow.originId.join('.')
       const destinyKey: string = flow.destinyId.join('.');
       flow.origin = questions.get(originKey);
+      if (!flow.origin) {
+        flow.origin = texts.get(originKey);
+      }
       flow.destiny = questions.get(destinyKey);
+      if (!flow.destiny) {
+        flow.destiny = texts.get(destinyKey);
+      }
     });
   }
 

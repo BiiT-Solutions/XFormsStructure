@@ -5,6 +5,7 @@ import {Category} from "./category";
 import {Group} from "./group";
 import {VariableType} from "./variable-type";
 import {Question} from "./question";
+import {Text} from "./text";
 
 export class Form extends FormItem {
   version: number;
@@ -37,7 +38,9 @@ export class Form extends FormItem {
     const className: string = item.class;
     if (className.endsWith(Constants.ITEM_CLASSES.CATEGORY)) {
       return Category.clone(item);
-    } else if (className.endsWith(Constants.ITEM_CLASSES.GROUP)) {
+    } else if(className.endsWith(Constants.ITEM_CLASSES.TEXT)) {
+      return Text.clone(item as Text);
+    }else if (className.endsWith(Constants.ITEM_CLASSES.GROUP)) {
       return Group.clone(item as Group);
     } else if (className.endsWith(Constants.ITEM_CLASSES.QUESTION)) {
       const type: VariableType = (item as Question<any>).answerFormat;

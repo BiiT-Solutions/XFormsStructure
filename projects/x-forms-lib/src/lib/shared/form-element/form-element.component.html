@@ -33,3 +33,6 @@
 <div *ngIf="element | instanceof: Question">
   <biit-question [question]="$any(element)" (changed)="changed.emit($event)"></biit-question>
 </div>
+<div *ngIf="element | instanceof: Text">
+  <biit-text [text]="$any(element)"></biit-text>
+</div>
