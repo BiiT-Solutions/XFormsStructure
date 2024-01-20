@@ -16,7 +16,7 @@
       <button biit-button primary
               *ngIf="!(form.children | next : 'id': this.category.id)"
               (click)="onNext()"
-              [disabled]="(form | checkAnswers)">Submit</button>
+              [disabled]="!(form | checkAnswers)">Submit</button>
     </div>
   </div>
 </div>
