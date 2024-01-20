@@ -1,6 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {Form} from "../models/form";
-import {FormItem} from "../models/form-item";
 import {CategoryComponent} from "../shared/category/category.component";
 
 @Pipe({
