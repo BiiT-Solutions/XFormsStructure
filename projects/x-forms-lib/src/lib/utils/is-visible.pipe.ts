@@ -47,7 +47,7 @@ export class IsVisiblePipe implements PipeTransform {
 
   private extractFlows(parent: FormItem, flows: Flow[]): void {
     if (parent['flows']) {
-      parent['flows'].forEach(flow => flows.push(flow as Flow));
+      (parent['flows'] as Flow[]).forEach(flow => flows.push(flow));
     }
     if (parent.children) {
       for(let child of parent.children) {
