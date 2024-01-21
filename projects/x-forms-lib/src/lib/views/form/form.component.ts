@@ -83,15 +83,11 @@ export class FormComponent implements OnInit {
   }
 
   private displayChildren(): void {
-    let latestVisibleNode: FormItem = this.findLatestVisibleNode();
     this.form.children.forEach( (child, index) => {
       if (!child.display) {
-        child.display = this.isVisible.transform(latestVisibleNode, child.id, index ? this.form.children[index - 1] : null);
-        if (child.display) {
-          latestVisibleNode = child;
-        }
+        child.display = this.isVisible.transform(index < 1 ? null : this.form.children[index - 1] , child.id);
       }
-    })
+    });
   }
   private findLatestVisibleNode(): FormItem {
     const visibleNodes: FormItem[] = this.form.children.filter(child => child.display);

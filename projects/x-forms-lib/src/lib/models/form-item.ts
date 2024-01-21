@@ -6,8 +6,10 @@ export class FormItem extends Item {
   label: string;
   hidden: boolean;
   children: FormItem[];
+  // display means the item is reachable from the current node path, but user still has not reached the node.
   display: boolean;
   path: number[];
+  // if item is disabled, item can not be shown because node path can not reach it by all its possible paths.
   disabled: boolean = true;
 
   public static override copy(from: FormItem, to: FormItem): void {

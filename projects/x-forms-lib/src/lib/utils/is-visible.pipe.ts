@@ -7,35 +7,30 @@ import {Flow} from "../models/flow";
 })
 export class IsVisiblePipe implements PipeTransform {
 
-  transform(visible: FormItem,  targetId: number, parent?: FormItem): boolean {
-    return this.isVisible(visible, targetId, parent);
+  transform(visible: FormItem,  targetId: number): boolean {
+    return this.isVisible(visible, targetId);
   }
 
-  private isVisible(visible: FormItem,  targetId: number, parent?: FormItem): boolean {
-    if (!visible) {
+  private isVisible(parent: FormItem,  targetId: number): boolean {
+    // There is no parent, then it is visible (First node)
+    if (!parent) {
       return true;
     }
-    if (visible.path.includes(targetId)) {
+    // If parent can not be reached, then its children can not be reached either
+    if (!parent.disabled) {
+      return false;
+    }
+    if (this.allFlowsReachNode(parent, targetId)) {
       return true;
     }
-    if (visible['flows']) {
-      const flows: Flow[] = visible['flows'];
-      for(let flow of flows) {
-        if (this.isVisible(flow.destiny, targetId)) {
-          return true;
-        }
-      }
-    }
-    if (visible.children) {
-      for(let child of visible.children) {
-        if (this.isVisible(child, targetId)) {
-          return true;
-        }
-      }
-    }
-    return parent ? !this.parentHasFlows(parent) : false;
+    return false;
   }
 
+  private allFlowsReachNode(parent: FormItem, targetId: number): boolean {
+      const flows: Flow[] = [];
+      this.extractFlows(parent, flows);
+      return !flows.some(flow => !flow.destinyId.includes(targetId.toString()));
+  }
   private parentHasFlows(parent: FormItem): boolean {
     if (parent['flows']) {
       return true;
@@ -50,4 +45,14 @@ export class IsVisiblePipe implements PipeTransform {
     return false;
   }
 
+  private extractFlows(parent: FormItem, flows: Flow[]): void {
+    if (parent['flows']) {
+      parent['flows'].forEach(flow => flows.push(flow as Flow));
+    }
+    if (parent.children) {
+      for(let child of parent.children) {
+        this.extractFlows(child, flows);
+      }
+    }
+  }
 }
