@@ -6,6 +6,7 @@ import {AnswerType} from "../../models/answer-type";
 import {CheckDatePipe} from "../../utils/check-date.pipe";
 import {VariableFormat} from "../../models/variable-format";
 import {GetRegexPipe} from "../../utils/get-regex.pipe";
+import {Flow} from "../../models/flow";
 
 @Component({
   selector: 'biit-question',
@@ -15,6 +16,7 @@ import {GetRegexPipe} from "../../utils/get-regex.pipe";
 export class QuestionComponent {
   @Input() question: Question<any>;
   @Output() changed: EventEmitter<any> = new EventEmitter();
+  @Output() moveTo: EventEmitter<Flow> = new EventEmitter();
   protected readonly VariableType = VariableType;
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
@@ -25,6 +27,12 @@ export class QuestionComponent {
   protected onChanged(response: any): void {
     this.question.valid = this.validate(response);
     this.question.valid ? this.changed.emit(response) : this.changed.emit(null);
+    if (this.question.flows) {
+      const flow: Flow = this.question.flows.find(this.checkFlow);
+      if (flow) {
+        this.moveTo.emit(flow);
+      }
+    }
   }
   private validate(response: any): boolean {
     if (this.question.answerFormat === VariableType.DATE) {
@@ -37,5 +45,9 @@ export class QuestionComponent {
     return true;
   }
 
-  protected readonly console = console;
+  private checkFlow(flow: Flow): boolean {
+
+    return true;
+  }
+  protected readonly console: Console = console;
 }
