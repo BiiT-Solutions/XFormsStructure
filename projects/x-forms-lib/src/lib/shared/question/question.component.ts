@@ -6,6 +6,8 @@ import {AnswerType} from "../../models/answer-type";
 import {CheckDatePipe} from "../../utils/check-date.pipe";
 import {VariableFormat} from "../../models/variable-format";
 import {GetRegexPipe} from "../../utils/get-regex.pipe";
+import {Answer} from "../../models/answer";
+import {MultiCheckboxComponent} from "../multi-checkbox/multi-checkbox.component";
 
 @Component({
   selector: 'biit-question',
@@ -27,6 +29,15 @@ export class QuestionComponent {
     this.question.valid ? this.changed.emit(response) : this.changed.emit(null);
   }
   private validate(response: any): boolean {
+    if (this.question.mandatory && !response) {
+      return false;
+    }
+    if (this.question.answerType === AnswerType.MULTIPLE_SELECTION) {
+      debugger
+      if (!this.question.children.some(child => MultiCheckboxComponent.checkDeepAnswer(child as Answer))) {
+        return false;
+      }
+    }
     if (this.question.answerFormat === VariableType.DATE) {
       return this.checkDate.transform(response, this.question.answerSubformat) === null;
     }

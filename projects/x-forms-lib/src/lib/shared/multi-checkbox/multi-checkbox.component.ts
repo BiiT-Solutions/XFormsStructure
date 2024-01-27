@@ -29,11 +29,11 @@ export class MultiCheckboxComponent {
     }
   }
   protected checkAnswer(): void {
-    this.answered =this.answers.map(answer => answer as Answer)
+    this.answered = this.answers.map(answer => answer as Answer)
       .some(MultiCheckboxComponent.checkDeepAnswer) ? true : null;
   }
 
-  private static checkDeepAnswer(answer: Answer): boolean {
+  public static checkDeepAnswer(answer: Answer): boolean {
     if (answer.children && answer.children.length) {
       const returned: boolean = (answer.children as Answer[]).some(MultiCheckboxComponent.checkDeepAnswer);
       return returned;

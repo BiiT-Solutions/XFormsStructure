@@ -10,6 +10,6 @@
   <biit-multi-checkbox *ngIf="answer && answer['selected']"
                        class="ident"
                        [answers]="answer.children"
-                       (selected)="checkAnswer()"
+                       (selected)="onSelected(answer);"
   ></biit-multi-checkbox>
 </div>
