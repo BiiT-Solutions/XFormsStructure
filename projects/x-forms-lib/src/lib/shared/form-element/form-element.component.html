@@ -1,4 +1,5 @@
-<fieldset *ngIf="element | instanceof: Group">
+<label (click)="console.log(element)">Display: {{element.display}}</label>
+<fieldset *ngIf="(element | instanceof: Group) && element.display">
   <legend>
     <div class="legend">
       <div>{{element.label}}</div>
@@ -30,9 +31,9 @@
                      (removed)="onRemoved($event, element.children)"
   ></biit-form-element>
 </fieldset>
-<div *ngIf="element | instanceof: Question">
+<div *ngIf="(element | instanceof: Question) && element.display">
   <biit-question [question]="$any(element)" (changed)="changed.emit($event)"></biit-question>
 </div>
-<div *ngIf="element | instanceof: Text">
+<div *ngIf="(element | instanceof: Text) && element.display">
   <biit-text [text]="$any(element)"></biit-text>
 </div>

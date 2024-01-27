@@ -70,5 +70,5 @@ export class FormElementComponent {
   }
 
 
-
+  protected readonly console = console;
 }

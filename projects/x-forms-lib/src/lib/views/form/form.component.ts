@@ -89,15 +89,6 @@ export class FormComponent implements OnInit {
       }
     });
   }
-  private findLatestVisibleNode(): FormItem {
-    const visibleNodes: FormItem[] = this.form.children.filter(child => child.display);
-    if (visibleNodes.length) {
-      return visibleNodes[visibleNodes.length - 1];
-    } else {
-      this.form.children[0].display = true;
-      return this.form.children[0];
-    }
-  }
 
   private startForm(): void {
     const firstNode: Category = this.form.children[0];
