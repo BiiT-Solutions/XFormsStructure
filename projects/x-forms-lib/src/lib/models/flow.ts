@@ -5,7 +5,7 @@ import {Question} from "./question";
 import {FormItem} from "./form-item";
 
 export class Flow extends Item {
-  public  originId: string[];
+  public originId: string[];
   public origin: FormItem;
   public flowType: FlowType;
   public destinyId: string[];

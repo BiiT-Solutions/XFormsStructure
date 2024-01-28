@@ -8,6 +8,7 @@ import {VariableFormat} from "../../models/variable-format";
 import {GetRegexPipe} from "../../utils/get-regex.pipe";
 import {Answer} from "../../models/answer";
 import {MultiCheckboxComponent} from "../multi-checkbox/multi-checkbox.component";
+import {Flow} from "../../models/flow";
 
 @Component({
   selector: 'biit-question',
@@ -17,6 +18,7 @@ import {MultiCheckboxComponent} from "../multi-checkbox/multi-checkbox.component
 export class QuestionComponent {
   @Input() question: Question<any>;
   @Output() changed: EventEmitter<any> = new EventEmitter();
+  @Output() moveTo: EventEmitter<Flow> = new EventEmitter();
   protected readonly VariableType = VariableType;
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
@@ -27,6 +29,12 @@ export class QuestionComponent {
   protected onChanged(response: any): void {
     this.question.valid = this.validate(response);
     this.question.valid ? this.changed.emit(response) : this.changed.emit(null);
+    if (this.question.flows) {
+      const flow: Flow = this.question.flows.find(this.checkFlow);
+      if (flow) {
+        this.moveTo.emit(flow);
+      }
+    }
   }
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {
@@ -48,5 +56,9 @@ export class QuestionComponent {
     return true;
   }
 
-  protected readonly console = console;
+  private checkFlow(flow: Flow): boolean {
+
+    return true;
+  }
+  protected readonly console: Console = console;
 }

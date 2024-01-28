@@ -10,6 +10,9 @@ import {completeIconSet} from "biit-icons-collection";
 import {NextPipe} from "../../utils/next.pipe";
 import {PreviousPipe} from "../../utils/previous.pipe";
 import {Text} from "../../models/text";
+import {Answer} from "../../models/answer";
+import {Flow} from "../../models/flow";
+import {Condition} from "../../models/condition";
 
 @Component({
   selector: 'biit-x-form',
@@ -46,6 +49,8 @@ export class FormComponent implements OnInit {
     Structure.extractQuestions(this.form, questions);
     const texts: Map<string, Text> = new Map();
     Structure.extractTexts(this.form, texts);
+    const answers: Map<string, Answer> = new Map();
+    Structure.extractAnswers(this.form, answers);
     this.form.flows.forEach(flow => {
       const key: string[] = flow.originId;
       const question: Question<any> = questions.get(key.join('.'));
@@ -53,6 +58,7 @@ export class FormComponent implements OnInit {
         if (!question.flows) {
           question.flows = [];
         }
+        this.linkFlowAnswersToAnswers(flow, answers);
         question.flows.push(flow);
       }
     });
@@ -72,6 +78,26 @@ export class FormComponent implements OnInit {
       }
     });
   }
+
+  private linkFlowAnswersToAnswers(flow: Flow, answers: Map<string, Answer>): void {
+    //TODO(jnavalon): Continue implementing this method is not linking properly answers.
+    const conditions: Condition[] = flow.condition;
+    conditions.forEach(condition => {
+      if (condition.answer_id) {
+        condition.linkedAnswer = answers.get(condition.answer_id.join('.'));
+      }
+      if (condition.values) {
+        condition.linkedValues = [];
+        condition.values.forEach(value => {
+          if (value.answer_id) {
+            condition.linkedValues.push(answers.get(value.answer_id.join('.')));
+          }
+        })
+      }
+    });
+  }
+
+
 
   private generateIdPath(formItem: FormItem, path: number[] = []): void {
     formItem.path = path;
