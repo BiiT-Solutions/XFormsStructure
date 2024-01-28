@@ -6,6 +6,7 @@ import {Group} from "./group";
 import {VariableType} from "./variable-type";
 import {Question} from "./question";
 import {Text} from "./text";
+import {Answer} from "./answer";
 
 export class Form extends FormItem {
   version: number;
@@ -34,15 +35,17 @@ export class Form extends FormItem {
     return to;
   }
 
+  // As it is quite impossible to check the class type of FormItem by its similar structure with other classes we use className
+
   public static cloneFormItem(item: FormItem): FormItem {
     const className: string = item.class;
-    if (className.endsWith(Constants.ITEM_CLASSES.CATEGORY)) {
+    if (className.endsWith(`.${Constants.ITEM_CLASSES.CATEGORY}`)) {
       return Category.clone(item);
-    } else if(className.endsWith(Constants.ITEM_CLASSES.TEXT)) {
+    } else if(className.endsWith(`.${Constants.ITEM_CLASSES.TEXT}`)) {
       return Text.clone(item as Text);
-    }else if (className.endsWith(Constants.ITEM_CLASSES.GROUP)) {
+    } else if (className.endsWith(`.${Constants.ITEM_CLASSES.GROUP}`)) {
       return Group.clone(item as Group);
-    } else if (className.endsWith(Constants.ITEM_CLASSES.QUESTION)) {
+    } else if (className.endsWith(`.${Constants.ITEM_CLASSES.QUESTION}`)) {
       const type: VariableType = (item as Question<any>).answerFormat;
       switch (type) {
         case VariableType.DATE:
@@ -52,6 +55,8 @@ export class Form extends FormItem {
         default:
           return Question.clone(item as Question<string>);
       }
+    } else if (className.endsWith(`.${Constants.ITEM_CLASSES.ANSWER}`)) {
+      return Answer.clone(item as Answer);
     } else {
       return FormItem.clone(item);
     }

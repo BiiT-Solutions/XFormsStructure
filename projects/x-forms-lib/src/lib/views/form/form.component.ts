@@ -58,7 +58,6 @@ export class FormComponent implements OnInit {
         if (!question.flows) {
           question.flows = [];
         }
-        this.linkFlowAnswersToAnswers(flow, answers);
         question.flows.push(flow);
       }
     });
@@ -76,6 +75,7 @@ export class FormComponent implements OnInit {
       if (!flow.destiny) {
         flow.destiny = texts.get(destinyKey);
       }
+      this.linkFlowAnswersToAnswers(flow, answers);
     });
   }
 

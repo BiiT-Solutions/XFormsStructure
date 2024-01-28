@@ -49,9 +49,9 @@ export class Structure {
       item.children.forEach(child => {
         if (child instanceof Answer) {
           map.set([...path, child.name].join('.'), child);
-        } else {
-          Structure.extractAnswers(child, map, path)
         }
+        // Answers may have Answers as children. We need to iterate over them as well.
+        Structure.extractAnswers(child, map, path);
       })
     }
     path.pop();

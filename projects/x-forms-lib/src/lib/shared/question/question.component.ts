@@ -18,7 +18,6 @@ import {Flow} from "../../models/flow";
 export class QuestionComponent {
   @Input() question: Question<any>;
   @Output() changed: EventEmitter<any> = new EventEmitter();
-  @Output() moveTo: EventEmitter<Flow> = new EventEmitter();
   protected readonly VariableType = VariableType;
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
@@ -29,19 +28,12 @@ export class QuestionComponent {
   protected onChanged(response: any): void {
     this.question.valid = this.validate(response);
     this.question.valid ? this.changed.emit(response) : this.changed.emit(null);
-    if (this.question.flows) {
-      const flow: Flow = this.question.flows.find(this.checkFlow);
-      if (flow) {
-        this.moveTo.emit(flow);
-      }
-    }
   }
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {
       return false;
     }
     if (this.question.answerType === AnswerType.MULTIPLE_SELECTION) {
-      debugger
       if (!this.question.children.some(child => MultiCheckboxComponent.checkDeepAnswer(child as Answer))) {
         return false;
       }
@@ -53,11 +45,6 @@ export class QuestionComponent {
     if (regex) {
       return regex.test(response);
     }
-    return true;
-  }
-
-  private checkFlow(flow: Flow): boolean {
-
     return true;
   }
   protected readonly console: Console = console;

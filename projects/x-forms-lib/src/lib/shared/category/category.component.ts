@@ -4,6 +4,7 @@ import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
 import {Group} from "../../models/group";
 import {FormElementComponent} from "../form-element/form-element.component";
+import {Condition} from "../../models/condition";
 
 @Component({
   selector: 'biit-category',
@@ -22,6 +23,7 @@ export class CategoryComponent {
   protected category: Category;
 
 
+  //TODO(jnavalon): This method looks complex, probably I can implement a workaround to display the proper nodes depending the flow.
   private enableElements(items: FormItem[]): boolean {
     if (items.length === 0) {
       return true;
@@ -48,11 +50,11 @@ export class CategoryComponent {
     }
     if (item instanceof Question) {
       if (item.flows){
-        // If the target item is unknown. This item is displayed but not the next ones.
-        if(!this.checkFlow(item)){
-          item.display = true;
-          return false;
-        }
+        item.display = true;
+        // We need to stop the process if there is a flow, because it could be a node jump.
+        this.checkFlow(item);
+        // TODO(jnavalon): this should be false to stop the process. Let on true to show the complete form.
+        return true;
       }
     }
     item.display = true;
@@ -70,13 +72,27 @@ export class CategoryComponent {
     return false;
   }
 
-  private checkFlow(item: Question<any>): boolean {
+  private checkFlow(item: Question<any>): void {
+    const validation: boolean = true;
+    //If return false, process will stop to set display to true
     if (item.flows) {
-      for(let flow of item.flows) {
-        return false;
+      for (let flow of item.flows) {
+        if(flow.condition && flow.destiny) {
+          const conditions: Condition[] = flow.condition;
+          flow.destiny.display = conditions.some(condition => this.checkCondition(condition, item));
+          if (flow.destiny.display) {
+            console.log(flow.destiny);
+          }
+        }
       }
     }
-    return true;
+  }
+
+  private checkCondition(condition: Condition, item: Question<any>): boolean {
+    if (condition.linkedAnswer) {
+      return !!condition.linkedAnswer.selected;
+    }
+    return false;
   }
 
   // When received a form event we need to check the complete form to check the complete category status
@@ -94,7 +110,6 @@ export class CategoryComponent {
   }
 
   public static isCompleted(item: FormItem): boolean {
-    debugger;
     if (item instanceof Question) {
       if (item.mandatory && !item.valid) {
         return false;
