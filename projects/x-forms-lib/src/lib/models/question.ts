@@ -1,10 +1,9 @@
-import {FormItem} from "./form-item";
 import {AnswerType} from "./answer-type";
 import {VariableType} from "./variable-type";
 import {VariableFormat} from "./variable-format";
-import {Flow} from "./flow";
+import {Directional} from "./directional";
 
-export class Question<T> extends FormItem {
+export class Question<T> extends Directional {
   answerType: AnswerType;
   answerFormat: VariableType;
   answerSubformat: VariableFormat;
@@ -16,7 +15,6 @@ export class Question<T> extends FormItem {
   // Check if question has a valid answer
   valid: boolean = false;
 
-  flows: Flow[];
 
   public static override copy<T>(from: Question<T>, to: Question<T>): void {
     super.copy(from, to);

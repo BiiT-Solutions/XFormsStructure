@@ -59,6 +59,14 @@ export class FormComponent implements OnInit {
           question.flows = [];
         }
         question.flows.push(flow);
+      } else {
+        const text: Text = texts.get(key.join('.'));
+        if (text) {
+          if (!text.flows) {
+            text.flows = [];
+          }
+          text.flows.push(flow);
+        }
       }
     });
     this.form.flows.forEach(flow => {

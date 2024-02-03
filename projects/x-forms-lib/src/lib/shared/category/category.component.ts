@@ -5,6 +5,9 @@ import {Question} from "../../models/question";
 import {Group} from "../../models/group";
 import {FormElementComponent} from "../form-element/form-element.component";
 import {Condition} from "../../models/condition";
+import {Text} from "../../models/text";
+import {Directional} from "../../models/directional";
+import {Flow} from "../../models/flow";
 
 @Component({
   selector: 'biit-category',
@@ -22,81 +25,73 @@ export class CategoryComponent {
   private completionSentinel: boolean = false;
   protected category: Category;
 
-
-  //TODO(jnavalon): This method looks complex, probably I can implement a workaround to display the proper nodes depending the flow.
-  private enableElements(items: FormItem[]): boolean {
-    if (items.length === 0) {
-      return true;
+  private enableElements(items: FormItem[]): void {
+    if (!this.isNestedChildrenDisplayed(items)) {
+      this.displayNodeDown(items[0])
     }
+    this.expandDisplayedChildren(items, false);
+  }
+
+
+  /**
+   * Looks into all nodes from child to parent.
+   * If child has a node displayed it displays his siblings
+   * If found a flow it hides the siblings until found another sibling displayed,
+   * @param items Children
+   * @param display Boolean to tell is displayed or not
+   * @private Returns if found a flow or if displayed
+   */
+  private expandDisplayedChildren(items: FormItem[], display: boolean): boolean {
+    let currentDisplay = display;
     for (let item of items) {
-      if (!this.enableElement(item)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private enableElement(item: FormItem): boolean {
-    if (!item) {
-      return true;
-    }
-    if (item.children) {
-      if(!this.enableElements(item.children)) {
-        if (this.hasChildDisplayed(item)) {
-          item.display = true;
+      if (!(item instanceof Question) && item.children && item.children.length) {
+        currentDisplay = this.expandDisplayedChildren(item.children, currentDisplay);
+        item.display = item.children.some(child => child.display);
+      } else {
+        if (!item.display){
+          item.display = currentDisplay;
+        } else {
+          currentDisplay = item.display;
         }
-        return false;
-      }
-    }
-    if (item instanceof Question) {
-      if (item.flows){
-        item.display = true;
-        // We need to stop the process if there is a flow, because it could be a node jump.
-        this.checkFlow(item);
-        // TODO(jnavalon): this should be false to stop the process. Let on true to show the complete form.
-        return true;
-      }
-    }
-    item.display = true;
-    return true;
-  }
-
-  private hasChildDisplayed(item: FormItem)  {
-    if (item.children) {
-      for(let child of item.children) {
-        if (child.display) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  private checkFlow(item: Question<any>): void {
-    const validation: boolean = true;
-    //If return false, process will stop to set display to true
-    if (item.flows) {
-      for (let flow of item.flows) {
-        if(flow.condition && flow.destiny) {
-          const conditions: Condition[] = flow.condition;
-          flow.destiny.display = conditions.some(condition => this.checkCondition(condition, item));
-          if (flow.destiny.display) {
-            console.log(flow.destiny);
+        if (item.display) {
+          if (item instanceof Directional) {
+            if (item.flows && item.flows.length) {
+              currentDisplay = false;
+            }
           }
         }
       }
     }
+    return currentDisplay;
   }
 
-  private checkCondition(condition: Condition, item: Question<any>): boolean {
-    if (condition.linkedAnswer) {
-      return !!condition.linkedAnswer.selected;
+  private displayNodeDown(item: FormItem): void {
+    item.display = true;
+    if (item.children && item.children.length) {
+      this.displayNodeDown(item.children[0]);
     }
-    return false;
+  }
+
+  /**
+   * Checks if a nested child is displayed
+   * @param items children nodes
+   * @private true if a nested child is displayed or false otherwise
+   */
+  private isNestedChildrenDisplayed(items: FormItem[]): boolean {
+    return items.some(child => {
+      if (child.display) {
+        return true;
+      }
+      if (child.children) {
+        return this.isNestedChildrenDisplayed(child.children);
+      }
+      return false;
+    })
   }
 
   // When received a form event we need to check the complete form to check the complete category status
-  protected onFormChanged(): void {
+  protected onFormChanged(question: Question<any>): void {
+    this.validateFlows(question);
     this.enableElements(this.category.children);
     if (CategoryComponent.isCompleted(this.category)) {
       this.completed.emit(true);
@@ -105,6 +100,24 @@ export class CategoryComponent {
       if (this.completionSentinel) {
         this.completed.emit(false);
         this.completionSentinel = false;
+      }
+    }
+  }
+
+  // TODO(jnavalon): implement validate Flows and set display and disabled
+  private validateFlows(question: Question<any>): void {
+    if (!question) {
+      return;
+    }
+    const flows: Flow[] = question.flows;
+    if (flows && flows.length) {
+      /*flows[0].destiny.display = true;
+      flows[0].destiny.disabled = false;*/
+      for (const flow of flows){
+        if (flow.destiny) {
+          flow.destiny.display = true;
+          flow.destiny.disabled = false;
+        }
       }
     }
   }

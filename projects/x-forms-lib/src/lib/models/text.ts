@@ -1,6 +1,6 @@
-import {FormItem} from "./form-item";
+import {Directional} from "./directional";
 
-export class Text extends FormItem {
+export class Text extends Directional {
 
   description: string;
 

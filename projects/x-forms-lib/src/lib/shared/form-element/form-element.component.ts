@@ -12,7 +12,7 @@ import {Text} from "../../models/text";
 export class FormElementComponent {
 
   @Input() element: FormItem;
-  @Output() changed: EventEmitter<any> = new EventEmitter();
+  @Output() changed: EventEmitter<Question<any>> = new EventEmitter();
   @Output() duplicated: EventEmitter<Group> = new EventEmitter();
   @Output() removed: EventEmitter<Group> = new EventEmitter();
 
