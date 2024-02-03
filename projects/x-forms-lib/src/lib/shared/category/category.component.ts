@@ -8,6 +8,8 @@ import {Condition} from "../../models/condition";
 import {Text} from "../../models/text";
 import {Directional} from "../../models/directional";
 import {Flow} from "../../models/flow";
+import {fakeAsync} from "@angular/core/testing";
+import {Answer} from "../../models/answer";
 
 @Component({
   selector: 'biit-category',
@@ -27,7 +29,7 @@ export class CategoryComponent {
 
   private enableElements(items: FormItem[]): void {
     if (!this.isNestedChildrenDisplayed(items)) {
-      this.displayNodeDown(items[0])
+      this.displayNodeDown(items[0], true)
     }
     this.expandDisplayedChildren(items, false);
   }
@@ -65,10 +67,14 @@ export class CategoryComponent {
     return currentDisplay;
   }
 
-  private displayNodeDown(item: FormItem): void {
+  private displayNodeDown(item: FormItem, firstChild: boolean = false): void {
     item.display = true;
     if (item.children && item.children.length) {
-      this.displayNodeDown(item.children[0]);
+      if (firstChild) {
+        this.displayNodeDown(item.children[0]);
+      } else {
+        item.children.forEach(child => this.displayNodeDown(child));
+      }
     }
   }
 
@@ -90,7 +96,7 @@ export class CategoryComponent {
   }
 
   // When received a form event we need to check the complete form to check the complete category status
-  protected onFormChanged(question: Question<any>): void {
+  protected onFormChanged(question?: Question<any>): void {
     this.validateFlows(question);
     this.enableElements(this.category.children);
     if (CategoryComponent.isCompleted(this.category)) {
@@ -143,8 +149,24 @@ export class CategoryComponent {
     return true;
   }
 
+  private clearResponse(formItem: FormItem): void {
+    if (formItem.children) {
+      formItem.children.forEach(child => this.clearResponse(child));
+    }
+    if (formItem instanceof Question) {
+      formItem.response = null;
+      formItem.valid = false;
+    }
+    if (formItem instanceof Answer) {
+      formItem.selected = false;
+    }
+  }
+
   protected onDuplicated(group: Group, children: FormItem[]): void {
+    this.clearResponse(group);
+    this.displayNodeDown(group);
     FormElementComponent.insertDuplicated(group, children);
+    this.onFormChanged();
   }
   protected onRemoved(group: Group, children: FormItem[]): void {
     FormElementComponent.removeDuplicated(group, children);
