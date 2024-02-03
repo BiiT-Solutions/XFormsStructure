@@ -104,7 +104,7 @@ export class CategoryComponent {
     }
   }
 
-  // TODO(jnavalon): implement validate Flows and set display and disabled
+  // TODO(jnavalon): implement validate Flows and set display and disabled. Currently all flows are running to check flow functionality
   private validateFlows(question: Question<any>): void {
     if (!question) {
       return;
