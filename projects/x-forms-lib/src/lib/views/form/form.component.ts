@@ -13,6 +13,9 @@ import {Text} from "../../models/text";
 import {Answer} from "../../models/answer";
 import {Flow} from "../../models/flow";
 import {Condition} from "../../models/condition";
+import {TokenComparationAnswer} from "../../models/token-comparation-answer";
+import {TokenIn} from "../../models/token-in";
+import {TokenComparationValue} from "../../models/token-comparation-value";
 
 @Component({
   selector: 'biit-x-form',
@@ -83,24 +86,39 @@ export class FormComponent implements OnInit {
       if (!flow.destiny) {
         flow.destiny = texts.get(destinyKey);
       }
-      this.linkFlowAnswersToAnswers(flow, answers);
+      this.linkFlowConditionsAnswersToAnswers(flow, answers);
+      this.linkFlowConditionQuestionsToQuestions(flow, questions);
     });
   }
 
-  private linkFlowAnswersToAnswers(flow: Flow, answers: Map<string, Answer>): void {
-    //TODO(jnavalon): Continue implementing this method is not linking properly answers.
+  private linkFlowConditionQuestionsToQuestions(flow: Flow, questions: Map<string, Question<any>>): void {
     const conditions: Condition[] = flow.condition;
     conditions.forEach(condition => {
-      if (condition.answer_id) {
-        condition.linkedAnswer = answers.get(condition.answer_id.join('.'));
+      if (condition instanceof TokenComparationAnswer || condition instanceof TokenIn
+        || condition instanceof TokenComparationValue){
+        if (condition.question_id) {
+          condition.linkedQuestion = questions.get(condition.question_id.join('.'));
+        }
       }
-      if (condition.values) {
-        condition.linkedValues = [];
-        condition.values.forEach(value => {
-          if (value.answer_id) {
-            condition.linkedValues.push(answers.get(value.answer_id.join('.')));
-          }
-        })
+    });
+  }
+
+  private linkFlowConditionsAnswersToAnswers(flow: Flow, answers: Map<string, Answer>): void {
+    const conditions: Condition[] = flow.condition;
+    conditions.forEach(condition => {
+      if (condition instanceof TokenComparationAnswer){
+        if (condition.answer_id) {
+          condition.linkedAnswer = answers.get(condition.answer_id.join('.'));
+        }
+      }
+      if (condition instanceof TokenIn) {
+        if (condition.values) {
+          condition.values.forEach(value => {
+            if (value.answer_id) {
+              value.linkedAnswer =answers.get(value.answer_id.join('.'));
+            }
+          })
+        }
       }
     });
   }
