@@ -1,15 +1,20 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Category} from "../../models/category";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
 import {Group} from "../../models/group";
 import {FormElementComponent} from "../form-element/form-element.component";
 import {Condition} from "../../models/condition";
-import {Text} from "../../models/text";
 import {Directional} from "../../models/directional";
 import {Flow} from "../../models/flow";
-import {fakeAsync} from "@angular/core/testing";
 import {Answer} from "../../models/answer";
+import {Token} from "../../models/token";
+import {TokenParser} from "../../utils/token-parser";
+import {TokenComparationAnswer} from "../../models/token-comparation-answer";
+import {TokenType} from "../../models/token-type";
+import {TokenIn} from "../../models/token-in";
+import {TokenComparationValue} from "../../models/token-comparation-value";
+import {TokenBetween} from "../../models/token-between";
 
 @Component({
   selector: 'biit-category',
@@ -117,15 +122,59 @@ export class CategoryComponent {
     }
     const flows: Flow[] = question.flows;
     if (flows && flows.length) {
-      /*flows[0].destiny.display = true;
-      flows[0].destiny.disabled = false;*/
-      for (const flow of flows){
-        if (flow.destiny) {
-          flow.destiny.display = true;
-          flow.destiny.disabled = false;
+      for (const flow of flows) {
+        if (this.validateConditions(flow.condition)){
+          if (flow.destiny) {
+            flow.destiny.display = true;
+            flow.destiny.disabled = false;
+          }
+        } else {
+          flow.destiny.display = false;
+          flow.destiny.disabled = true;
+          // TODO(jnavalon): set display and disabled in cascade
         }
       }
     }
+  }
+
+  private validateConditions(conditions: Condition[]): boolean {
+    const statementParts: string[] = [];
+    conditions.forEach(condition => {
+      if (condition instanceof Token) {
+        statementParts.push(TokenParser.parse(condition));
+      } else {
+        statementParts.push(this.validateCondition(condition) ? 'true' : 'false');
+      }
+    });
+    const statement: string = statementParts.join(' ');
+    console.log ('Evaluating:', statement, 'Result:', eval(statement));
+    return eval(statement);
+  }
+
+  private validateCondition(condition: Condition): boolean {
+    if (condition instanceof TokenComparationValue) {
+      if (condition.type === TokenType.EMPTY) {
+        return condition.value && condition.value.length === 0;
+      }
+      return eval(`${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`);
+    }
+
+    if (condition instanceof TokenComparationAnswer) {
+      if (condition.type == TokenType.EQ) {
+        return condition.linkedAnswer?.selected;
+      }
+      if (condition.type == TokenType.NE) {
+        return !(condition.linkedAnswer?.selected);
+      }
+    }
+
+    if (condition instanceof TokenIn) {
+      return condition.values.some(value => value.linkedAnswer?.selected);
+    }
+    if (condition instanceof TokenBetween) {
+      return eval(`${condition.valueStart} < ${condition.linkedQuestion?.response} && ${condition.linkedQuestion?.response} < ${condition.valueEnd}`);
+    }
+    return true;
   }
 
   public static isCompleted(item: FormItem): boolean {

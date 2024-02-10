@@ -8,6 +8,7 @@ import {Token} from "./token";
 import {TokenComparationAnswer} from "./token-comparation-answer";
 import {TokenComparationValue} from "./token-comparation-value";
 import {TokenIn} from "./token-in";
+import {TokenBetween} from "./token-between";
 
 export class Flow extends Item {
   public originId: string[];
@@ -42,6 +43,8 @@ export class Flow extends Item {
       return TokenComparationValue.clone(condition as TokenComparationValue);
     } else if (className.endsWith(`.${Constants.ITEM_CLASSES.TOKEN_IN}`)) {
       return TokenIn.clone(condition as TokenIn);
+    } else if (className.endsWith(`.${Constants.ITEM_CLASSES.TOKEN_BETWEEN}`)) {
+      return TokenBetween.clone(condition as TokenBetween);
     } else {
       return Condition.clone(condition);
     }
