@@ -22,6 +22,7 @@ export class MultiRadioComponent {
       console.error(`Node "${value}" not found and this should exist.`);
       return;
     }
+    //TODO(jnavalon): On this components radio buttons are not marked as selected properly and it is not detected. It should be fixed.
     (node as Answer).selected = true;
     if (node.children && node.children.length) {
       this.selectedAnswer = node;
