@@ -10,6 +10,7 @@ import { PreviousPipe } from './previous.pipe';
 import { CheckDatePipe } from './check-date.pipe';
 import { CheckAnswersPipe } from './check-answers.pipe';
 import { AsGroupPipe } from './as-group.pipe';
+import { NestedAnswersPipe } from './nested-answers.pipe';
 
 
 
@@ -24,7 +25,8 @@ import { AsGroupPipe } from './as-group.pipe';
     PreviousPipe,
     CheckDatePipe,
     CheckAnswersPipe,
-    AsGroupPipe
+    AsGroupPipe,
+    NestedAnswersPipe
   ],
   imports: [
     CommonModule
@@ -38,13 +40,15 @@ import { AsGroupPipe } from './as-group.pipe';
     PreviousPipe,
     CheckDatePipe,
     CheckAnswersPipe,
-    AsGroupPipe
+    AsGroupPipe,
+    NestedAnswersPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,
     PreviousPipe,
     CheckDatePipe,
-    GetRegexPipe
+    GetRegexPipe,
+    NestedAnswersPipe
   ]
 })
 export class UtilsModule { }
