@@ -27,11 +27,7 @@ export class QuestionComponent {
 
   protected onChanged(response: any): void {
     this.question.valid = this.validate(response)
-    if (!this.question.valid) {
-      this.changed.emit(null);
-    } else {
-      this.changed.emit(this.question);
-    }
+    this.changed.emit(this.question);
   }
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {

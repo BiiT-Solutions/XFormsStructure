@@ -15,6 +15,7 @@ import {TokenType} from "../../models/token-type";
 import {TokenIn} from "../../models/token-in";
 import {TokenComparationValue} from "../../models/token-comparation-value";
 import {TokenBetween} from "../../models/token-between";
+import {FlowType} from "../../models/flow-type";
 
 @Component({
   selector: 'biit-category',
@@ -122,16 +123,58 @@ export class CategoryComponent {
     }
     const flows: Flow[] = question.flows;
     if (flows && flows.length) {
+      let defaultFlow: Flow;
+      let pathFound: boolean = false;
       for (const flow of flows) {
-        if (this.validateConditions(flow.condition)){
-          if (flow.destiny) {
-            flow.destiny.display = true;
-            flow.destiny.disabled = false;
-          }
+        debugger
+        if (flow.others) {
+          defaultFlow = flow;
         } else {
-          flow.destiny.display = false;
-          flow.destiny.disabled = true;
-          // TODO(jnavalon): set display and disabled in cascade
+          if (this.validateConditions(flow.condition)){
+            if (flow.destiny) {
+              pathFound = true;
+              flow.destiny.display = true;
+              flow.destiny.disabled = false;
+            }
+          } else {
+            if (flow.destiny) {
+              flow.destiny.display = false;
+              flow.destiny.disabled = true;
+              this.disableDeep(flow.destiny)
+            }
+            // TODO(jnavalon): set display and disabled in cascade
+          }
+        }
+      }
+      if (defaultFlow && defaultFlow.flowType !== FlowType.END_FORM) {
+        if (pathFound) {
+          defaultFlow.destiny.display = false;
+          defaultFlow.destiny.disabled = true;
+        } else {
+            defaultFlow.destiny.display = true;
+            defaultFlow.destiny.disabled = false;
+        }
+      }
+    }
+  }
+
+  private disableDeep(item: FormItem) {
+    if (!item ) {
+      return;
+    }
+    if (item instanceof Directional) {
+      if (!item.flows || !item.flows.length) {
+        return;
+      }
+      let activatedFlow: Flow = item.flows.find(flow => flow.destiny && flow.destiny.display == true);
+      if (!activatedFlow) {
+        activatedFlow = item.flows.find(flow => flow.others);
+      }
+      if (activatedFlow) {
+        if (activatedFlow.destiny) {
+          activatedFlow.destiny.disabled = true;
+          activatedFlow.destiny.display = false;
+          this.disableDeep(activatedFlow.destiny)
         }
       }
     }
@@ -156,7 +199,11 @@ export class CategoryComponent {
       if (condition.type === TokenType.EMPTY) {
         return condition.value && condition.value.length === 0;
       }
-      return eval(`${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`);
+      if (!condition.linkedQuestion || !condition.linkedQuestion.response || !condition.linkedQuestion.response.length) {
+        return false;
+      }
+      console.log('Evaluating:', `${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`);
+      return eval(`'${condition.linkedQuestion?.response}' ${TokenParser.parse(condition)} '${condition.value}'`);
     }
 
     if (condition instanceof TokenComparationAnswer) {
@@ -172,7 +219,10 @@ export class CategoryComponent {
       return condition.values.some(value => value.linkedAnswer?.selected);
     }
     if (condition instanceof TokenBetween) {
-      return eval(`${condition.valueStart} < ${condition.linkedQuestion?.response} && ${condition.linkedQuestion?.response} < ${condition.valueEnd}`);
+      if (!condition.linkedQuestion || !condition.linkedQuestion.response || !condition.linkedQuestion.response.length) {
+        return false;
+      }
+      return eval(`${condition.valueStart} < ${condition.linkedQuestion.response} && ${condition.linkedQuestion.response} < ${condition.valueEnd}`);
     }
     return true;
   }

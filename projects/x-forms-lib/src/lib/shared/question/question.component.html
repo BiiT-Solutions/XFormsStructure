@@ -41,27 +41,12 @@
 ></biit-textarea>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_RADIO">
   <label [required]="question.mandatory" [value]="question.response">{{question.label}}</label>
-  <div *ngIf="(question | nestedAnswers) < 2">
-    <biit-radio-button *ngFor="let child of question.children"
-                       [required]="question.mandatory"
-                       [(ngModel)]="question.response"
-                       (ngModelChange)="onChanged($event)"
-                       [id]="child.id.toString()"
-                       [name]="child.id.toString()"
-                       [value]="child.name"
-    >
-      {{child.label}}
-    </biit-radio-button>
-  </div>
-  <div *ngIf="(question | nestedAnswers) > 1">
     <biit-multi-radio
       [required]="question.mandatory"
       [label]="question.label"
       [answers]="question.children"
       (selected)="question.response = $event; onChanged($event);"
     ></biit-multi-radio>
-  </div>
-
 </div>
 
 <biit-multi-checkbox *ngIf="question.answerType === AnswerType.MULTIPLE_SELECTION"
