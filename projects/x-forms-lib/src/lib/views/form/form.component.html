@@ -4,7 +4,7 @@
          [class.hidden]="!group.display" [class.disabled]="group.disabled">{{group.label}}</div>
   </div>
   <div>
-    <biit-category *ngIf="category" [category]="category" (completed)="onCategoryCompleted($event)"></biit-category>
+    <biit-category *ngIf="category" [form]="form" [category]="category" (completed)="onCategoryCompleted($event)"></biit-category>
     <div class="buttons">
       <button biit-button secondary
               (click)="onPrevious()"

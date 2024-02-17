@@ -4,11 +4,11 @@ import {VariableType} from "../../models/variable-type";
 import {Type} from "biit-ui/inputs";
 import {AnswerType} from "../../models/answer-type";
 import {CheckDatePipe} from "../../utils/check-date.pipe";
-import {VariableFormat} from "../../models/variable-format";
 import {GetRegexPipe} from "../../utils/get-regex.pipe";
 import {Answer} from "../../models/answer";
 import {MultiCheckboxComponent} from "../multi-checkbox/multi-checkbox.component";
-import {Flow} from "../../models/flow";
+import {NestedAnswersPipe} from "../../utils/nested-answers.pipe";
+import {MultiRadioComponent} from "../multi-radio/multi-radio.component";
 
 @Component({
   selector: 'biit-question',
@@ -22,16 +22,12 @@ export class QuestionComponent {
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
 
-  constructor(private checkDate: CheckDatePipe, private getRegex: GetRegexPipe) {
+  constructor(private checkDate: CheckDatePipe, private getRegex: GetRegexPipe, private nestedAnswers: NestedAnswersPipe) {
   }
 
   protected onChanged(response: any): void {
     this.question.valid = this.validate(response)
-    if (!this.question.valid) {
-      this.changed.emit(null);
-    } else {
-      this.changed.emit(this.question);
-    }
+    this.changed.emit(this.question);
   }
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {
@@ -39,6 +35,11 @@ export class QuestionComponent {
     }
     if (this.question.answerType === AnswerType.MULTIPLE_SELECTION) {
       if (!this.question.children.some(child => MultiCheckboxComponent.checkDeepAnswer(child as Answer))) {
+        return false;
+      }
+    }
+    if (this.question.answerType === AnswerType.SINGLE_SELECTION_RADIO && this.nestedAnswers.transform(this.question) > 1) {
+      if (!this.question.children.some(child => MultiRadioComponent.checkDeepAnswer(child as Answer))) {
         return false;
       }
     }

@@ -1,5 +1,3 @@
-<div *ngIf="label">{{label}}</div>
-
 <biit-radio-button *ngFor="let answer of answers"
                    [(ngModel)]="response"
                    (ngModelChange)="onSelected($event)"
@@ -11,6 +9,7 @@
   {{answer.label}}
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"
                     [answers]="selectedAnswer.children"
+                    (selected)="childSelected($event)"
   ></biit-multi-radio>
 </biit-radio-button>
 

@@ -35,8 +35,7 @@ export class MultiCheckboxComponent {
 
   public static checkDeepAnswer(answer: Answer): boolean {
     if (answer.children && answer.children.length) {
-      const returned: boolean = (answer.children as Answer[]).some(MultiCheckboxComponent.checkDeepAnswer);
-      return returned;
+      return (answer.children as Answer[]).some(MultiCheckboxComponent.checkDeepAnswer);
     }
     return answer.selected;
   }

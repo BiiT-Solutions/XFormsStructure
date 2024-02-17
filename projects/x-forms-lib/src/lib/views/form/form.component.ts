@@ -16,6 +16,7 @@ import {Condition} from "../../models/condition";
 import {TokenComparationAnswer} from "../../models/token-comparation-answer";
 import {TokenIn} from "../../models/token-in";
 import {TokenComparationValue} from "../../models/token-comparation-value";
+import {TokenBetween} from "../../models/token-between";
 
 @Component({
   selector: 'biit-x-form',
@@ -95,7 +96,7 @@ export class FormComponent implements OnInit {
     const conditions: Condition[] = flow.condition;
     conditions.forEach(condition => {
       if (condition instanceof TokenComparationAnswer || condition instanceof TokenIn
-        || condition instanceof TokenComparationValue){
+        || condition instanceof TokenComparationValue || condition instanceof TokenBetween){
         if (condition.question_id) {
           condition.linkedQuestion = questions.get(condition.question_id.join('.'));
         }

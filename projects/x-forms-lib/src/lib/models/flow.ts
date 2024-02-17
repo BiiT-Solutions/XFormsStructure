@@ -9,13 +9,14 @@ import {TokenComparationAnswer} from "./token-comparation-answer";
 import {TokenComparationValue} from "./token-comparation-value";
 import {TokenIn} from "./token-in";
 import {TokenBetween} from "./token-between";
+import {Directional} from "./directional";
 
 export class Flow extends Item {
   public originId: string[];
-  public origin: FormItem;
+  public origin: Directional;
   public flowType: FlowType;
   public destinyId: string[];
-  public destiny: FormItem;
+  public destiny: Directional;
   public others: boolean;
   public condition: Condition[];
 

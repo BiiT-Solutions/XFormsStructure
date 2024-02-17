@@ -15,6 +15,9 @@ import {TokenType} from "../../models/token-type";
 import {TokenIn} from "../../models/token-in";
 import {TokenComparationValue} from "../../models/token-comparation-value";
 import {TokenBetween} from "../../models/token-between";
+import {FlowType} from "../../models/flow-type";
+import {Form} from "../../models/form";
+import {Structure} from "../../utils/structure";
 
 @Component({
   selector: 'biit-category',
@@ -28,6 +31,7 @@ export class CategoryComponent {
       this.enableElements(this.category.children);
     }
   }
+  @Input() form: Form;
   @Output() completed: EventEmitter<boolean> = new EventEmitter<boolean>();
   private completionSentinel: boolean = false;
   protected category: Category;
@@ -116,25 +120,127 @@ export class CategoryComponent {
   }
 
   // TODO(jnavalon): implement validate Flows and set display and disabled. Currently all flows are running to check flow functionality
-  private validateFlows(question: Question<any>): void {
-    if (!question) {
+  private validateFlows(directional: Directional): void {
+    if (!directional) {
       return;
     }
-    const flows: Flow[] = question.flows;
+    const flows: Flow[] = directional.flows;
     if (flows && flows.length) {
+      if (directional instanceof Question) {
+        if (!directional.valid) {
+          return;
+        }
+      }
+      let defaultFlow: Flow;
+      let pathFound: boolean = false;
       for (const flow of flows) {
-        if (this.validateConditions(flow.condition)){
-          if (flow.destiny) {
-            flow.destiny.display = true;
-            flow.destiny.disabled = false;
-          }
+        if (flow.others) {
+          defaultFlow = flow;
         } else {
-          flow.destiny.display = false;
-          flow.destiny.disabled = true;
-          // TODO(jnavalon): set display and disabled in cascade
+          if (this.validateConditions(flow.condition)){
+            if (flow.destiny) {
+              pathFound = true;
+              flow.destiny.display = true;
+              flow.destiny.disabled = false;
+              if (flow.destiny instanceof Directional) {
+                this.validateFlows(flow.destiny);
+              }
+            }
+          } else {
+            if (flow.destiny) {
+              flow.destiny.display = false;
+              flow.destiny.disabled = true;
+              this.disableDeep(flow.destiny)
+            }
+          }
+        }
+      }
+      if (defaultFlow && defaultFlow.flowType !== FlowType.END_FORM) {
+        if (pathFound) {
+          defaultFlow.destiny.display = false;
+          defaultFlow.destiny.disabled = true;
+        } else {
+          defaultFlow.destiny.display = true;
+          defaultFlow.destiny.disabled = false;
+          if (defaultFlow.destiny instanceof Directional) {
+            if (defaultFlow instanceof Question) {
+              if (defaultFlow.valid) {
+                this.validateFlows(defaultFlow.destiny);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      // Disabled to fix first issue
+      /*if (question instanceof Question) {
+        if (question.valid) {
+          const nextNode: Directional = this.getNextNode(question);
+        }
+      }*/
+    }
+  }
+
+  private disableDeep(item: FormItem) {
+    if (!item ) {
+      return;
+    }
+    if (item instanceof Directional) {
+      if (!item.flows || !item.flows.length) {
+        this.disableNextNode(item);
+        return;
+      }
+      let activatedFlow: Flow = item.flows.find(flow => flow.destiny && flow.destiny.display == true);
+      if (!activatedFlow) {
+        activatedFlow = item.flows.find(flow => flow.others);
+      }
+      if (activatedFlow) {
+        if (activatedFlow.destiny) {
+          activatedFlow.destiny.disabled = true;
+          activatedFlow.destiny.display = false;
+          this.disableDeep(activatedFlow.destiny)
         }
       }
     }
+  }
+
+  private disableNextNode(item: Directional): void {
+    const directionals: Directional[] = Structure.getDirectionals(this.form);
+    const directional: Directional =this.getNextNode(item, directionals);
+    if (directional) {
+      directional.disabled = true;
+      directional.display = false;
+      this.disableDeep(directional);
+    }
+  }
+
+  private getNextNode(item: Directional, directionals: Directional[] = Structure.getDirectionals(this.form)): Directional {
+    if (!item) {
+      return null;
+    }
+    if (item.flows && item.flows.length) {
+      const defeaultFlow: Flow = item.flows.find(flow => flow.others);
+      for (let flow of item.flows){
+        if (!flow.others) {
+          if (this.validateConditions(flow.condition)) {
+            return flow.destiny as Directional;
+          }
+        }
+        if (defeaultFlow){
+          return defeaultFlow.destiny as Directional;
+        }
+      }
+    }
+    let found: boolean = false;
+    for (let directional of directionals) {
+      if (found) {
+        return directional;
+      }
+      if (item === directional) {
+        found = true;
+      }
+    }
+    return null;
   }
 
   private validateConditions(conditions: Condition[]): boolean {
@@ -156,7 +262,12 @@ export class CategoryComponent {
       if (condition.type === TokenType.EMPTY) {
         return condition.value && condition.value.length === 0;
       }
-      return eval(`${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`);
+      if (!condition.linkedQuestion || !condition.linkedQuestion.response || !condition.linkedQuestion.response.length) {
+        return false;
+      }
+      const result: boolean = eval(`'${condition.linkedQuestion.response}' ${TokenParser.parse(condition)} '${condition.value}'`);
+      console.log('Evaluating:', `${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`, result);
+      return result;
     }
 
     if (condition instanceof TokenComparationAnswer) {
@@ -172,7 +283,10 @@ export class CategoryComponent {
       return condition.values.some(value => value.linkedAnswer?.selected);
     }
     if (condition instanceof TokenBetween) {
-      return eval(`${condition.valueStart} < ${condition.linkedQuestion?.response} && ${condition.linkedQuestion?.response} < ${condition.valueEnd}`);
+      if (!condition.linkedQuestion || !condition.linkedQuestion.response || !condition.linkedQuestion.response.length) {
+        return false;
+      }
+      return eval(`${condition.valueStart} < ${condition.linkedQuestion.response} && ${condition.linkedQuestion.response} < ${condition.valueEnd}`);
     }
     return true;
   }
