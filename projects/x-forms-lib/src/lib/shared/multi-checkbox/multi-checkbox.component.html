@@ -4,12 +4,14 @@
                      [(ngModel)]="$any(answer).selected"
                      (ngModelChange)="onSelected(answer)"
                      [id]="answer.id.toString()"
+                     [required]="required"
   >
     {{answer.label}}
   </biit-checkbox>
   <biit-multi-checkbox *ngIf="answer && answer['selected']"
                        class="ident"
                        [answers]="answer.children"
+                       [required]="required"
                        (selected)="onSelected(answer);"
   ></biit-multi-checkbox>
 </div>

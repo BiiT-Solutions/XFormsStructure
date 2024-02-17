@@ -11,25 +11,37 @@ export class MultiRadioComponent {
   @Input() label: string;
   @Input() answers: FormItem[];
   @Input() required: boolean = false;
-  @Output() selected: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selected: EventEmitter<FormItem> = new EventEmitter<FormItem>();
   protected selectedAnswer: FormItem;
   protected response: string;
 
   protected onSelected(value: string): void {
     this.selectedAnswer = null;
+    this.unselectDeep(this.answers);
     const node: FormItem = this.findDeepAnswer(this.answers, value);
     if (!node) {
       console.error(`Node "${value}" not found and this should exist.`);
       return;
     }
-    //TODO(jnavalon): On this components radio buttons are not marked as selected properly and it is not detected. It should be fixed.
     (node as Answer).selected = true;
     if (node.children && node.children.length) {
       this.selectedAnswer = node;
       this.selected.emit(null);
     } else {
-      this.selected.emit(value);
+      this.selected.emit(node);
     }
+  }
+  private unselectDeep(answers: FormItem[]): void {
+    answers.map(answer => answer as Answer).forEach(answer => {
+      answer.selected = false;
+      if (answer.children && answer.children.length) {
+        this.unselectDeep(answer.children);
+      }
+    });
+  }
+
+  protected childSelected(value: FormItem): void {
+    this.selected.emit(value);
   }
 
   protected findDeepAnswer(answers: FormItem[], value: string): FormItem {

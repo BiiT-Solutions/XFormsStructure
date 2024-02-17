@@ -11,7 +11,7 @@
   {{answer.label}}
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"
                     [answers]="selectedAnswer.children"
-                    (selected)="onSelected($event)"
+                    (selected)="childSelected($event)"
   ></biit-multi-radio>
 </biit-radio-button>
 
