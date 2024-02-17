@@ -40,7 +40,6 @@
                (ngModelChange)="onChanged($event)"
 ></biit-textarea>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_RADIO">
-  {{question | nestedAnswers}}
   <label [required]="question.mandatory" [value]="question.response">{{question.label}}</label>
   <div *ngIf="(question | nestedAnswers) < 2">
     <biit-radio-button *ngFor="let child of question.children"
