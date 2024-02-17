@@ -265,7 +265,7 @@ export class CategoryComponent {
       if (!condition.linkedQuestion || !condition.linkedQuestion.response || !condition.linkedQuestion.response.length) {
         return false;
       }
-      const result: boolean = eval(`${condition.linkedQuestion.response} ${TokenParser.parse(condition)} ${condition.value}`);
+      const result: boolean = eval(`'${condition.linkedQuestion.response}' ${TokenParser.parse(condition)} '${condition.value}'`);
       console.log('Evaluating:', `${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`, result);
       return result;
     }
