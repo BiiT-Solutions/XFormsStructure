@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TypeofPipe implements PipeTransform {
 
   transform(value: any): any {
-    debugger;
     return typeof value;
   }
 

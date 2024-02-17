@@ -120,16 +120,20 @@ export class CategoryComponent {
   }
 
   // TODO(jnavalon): implement validate Flows and set display and disabled. Currently all flows are running to check flow functionality
-  private validateFlows(question: Question<any>): void {
-    if (!question) {
+  private validateFlows(directional: Directional): void {
+    if (!directional) {
       return;
     }
-    const flows: Flow[] = question.flows;
+    const flows: Flow[] = directional.flows;
     if (flows && flows.length) {
+      if (directional instanceof Question) {
+        if (!directional.valid) {
+          return;
+        }
+      }
       let defaultFlow: Flow;
       let pathFound: boolean = false;
       for (const flow of flows) {
-        debugger
         if (flow.others) {
           defaultFlow = flow;
         } else {
@@ -138,6 +142,9 @@ export class CategoryComponent {
               pathFound = true;
               flow.destiny.display = true;
               flow.destiny.disabled = false;
+              if (flow.destiny instanceof Directional) {
+                this.validateFlows(flow.destiny);
+              }
             }
           } else {
             if (flow.destiny) {
@@ -145,7 +152,6 @@ export class CategoryComponent {
               flow.destiny.disabled = true;
               this.disableDeep(flow.destiny)
             }
-            // TODO(jnavalon): set display and disabled in cascade
           }
         }
       }
@@ -154,10 +160,24 @@ export class CategoryComponent {
           defaultFlow.destiny.display = false;
           defaultFlow.destiny.disabled = true;
         } else {
-            defaultFlow.destiny.display = true;
-            defaultFlow.destiny.disabled = false;
+          defaultFlow.destiny.display = true;
+          defaultFlow.destiny.disabled = false;
+          if (defaultFlow.destiny instanceof Directional) {
+            if (defaultFlow instanceof Question) {
+              if (defaultFlow.valid) {
+                this.validateFlows(defaultFlow.destiny);
+              }
+            }
+          }
         }
       }
+    } else {
+      // Disabled to fix first issue
+      /*if (question instanceof Question) {
+        if (question.valid) {
+          const nextNode: Directional = this.getNextNode(question);
+        }
+      }*/
     }
   }
 
@@ -245,8 +265,9 @@ export class CategoryComponent {
       if (!condition.linkedQuestion || !condition.linkedQuestion.response || !condition.linkedQuestion.response.length) {
         return false;
       }
-      console.log('Evaluating:', `${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`);
-      return eval(`'${condition.linkedQuestion?.response}' ${TokenParser.parse(condition)} '${condition.value}'`);
+      const result: boolean = eval(`${condition.linkedQuestion.response} ${TokenParser.parse(condition)} ${condition.value}`);
+      console.log('Evaluating:', `${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`, result);
+      return result;
     }
 
     if (condition instanceof TokenComparationAnswer) {
