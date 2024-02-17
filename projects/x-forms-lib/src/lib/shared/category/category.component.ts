@@ -16,6 +16,8 @@ import {TokenIn} from "../../models/token-in";
 import {TokenComparationValue} from "../../models/token-comparation-value";
 import {TokenBetween} from "../../models/token-between";
 import {FlowType} from "../../models/flow-type";
+import {Form} from "../../models/form";
+import {Structure} from "../../utils/structure";
 
 @Component({
   selector: 'biit-category',
@@ -29,6 +31,7 @@ export class CategoryComponent {
       this.enableElements(this.category.children);
     }
   }
+  @Input() form: Form;
   @Output() completed: EventEmitter<boolean> = new EventEmitter<boolean>();
   private completionSentinel: boolean = false;
   protected category: Category;
@@ -164,6 +167,7 @@ export class CategoryComponent {
     }
     if (item instanceof Directional) {
       if (!item.flows || !item.flows.length) {
+        this.disableNextNode(item);
         return;
       }
       let activatedFlow: Flow = item.flows.find(flow => flow.destiny && flow.destiny.display == true);
@@ -178,6 +182,45 @@ export class CategoryComponent {
         }
       }
     }
+  }
+
+  private disableNextNode(item: Directional): void {
+    const directionals: Directional[] = Structure.getDirectionals(this.form);
+    const directional: Directional =this.getNextNode(item, directionals);
+    if (directional) {
+      directional.disabled = true;
+      directional.display = false;
+      this.disableDeep(directional);
+    }
+  }
+
+  private getNextNode(item: Directional, directionals: Directional[] = Structure.getDirectionals(this.form)): Directional {
+    if (!item) {
+      return null;
+    }
+    if (item.flows && item.flows.length) {
+      const defeaultFlow: Flow = item.flows.find(flow => flow.others);
+      for (let flow of item.flows){
+        if (!flow.others) {
+          if (this.validateConditions(flow.condition)) {
+            return flow.destiny as Directional;
+          }
+        }
+        if (defeaultFlow){
+          return defeaultFlow.destiny as Directional;
+        }
+      }
+    }
+    let found: boolean = false;
+    for (let directional of directionals) {
+      if (found) {
+        return directional;
+      }
+      if (item === directional) {
+        found = true;
+      }
+    }
+    return null;
   }
 
   private validateConditions(conditions: Condition[]): boolean {

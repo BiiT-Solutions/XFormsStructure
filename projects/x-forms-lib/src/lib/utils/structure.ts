@@ -2,6 +2,7 @@ import {FormItem} from "../models/form-item";
 import {Question} from "../models/question";
 import {Text} from "../models/text";
 import {Answer} from "../models/answer";
+import {Directional} from "../models/directional";
 
 export class Structure {
   public static extractQuestions(item: FormItem, map:  Map<string, Question<any>>, path?: string[]): void {
@@ -55,5 +56,24 @@ export class Structure {
       })
     }
     path.pop();
+  }
+
+  public static getDirectionals(item: FormItem): Directional[] {
+    const directionals: Directional[] = [];
+    if (item instanceof Directional) {
+      directionals.push(item);
+    } else {
+      if (item.children) {
+        item.children.forEach(child => {
+          if (child instanceof Directional) {
+            directionals.push(child);
+          } else {
+            const childDirectionals: Directional[] = Structure.getDirectionals(child);
+            directionals.push(...childDirectionals);
+          }
+        })
+      }
+    }
+    return directionals;
   }
 }
