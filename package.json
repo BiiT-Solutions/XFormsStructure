@@ -5,11 +5,14 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:library": "ng build x-forms-lib",
     "prepare:docs": "cpx ./README.md ./dist/x-forms && echo \"{\\\"name\\\": \\\"`node -e \"console.log(require('./package.json').name);\"\n`\\\", \\\"version\\\": \\\"`node -e \"console.log(require('./package.json').version);\"\n`\\\"}\" > ./dist/x-forms/package.json",
-    "prepare:publication": "npm run build && npm run prepare:docs",
+    "prepare:publication": "npm run build && npm run prepare:docs && npm run prepare:translations",
     "clean:translations": "del-cli --force ./src/assets/i18n/biit-ui/",
     "prepare:translations": "npm run clean:translations && cpx './node_modules/biit-ui/assets/i18n/**/*.json' './src/assets/i18n/biit-ui/'",
     "publish": "npm run prepare:publication && npm publish ./dist/x-forms",
+    "publish:library": "npm run build:library && npm run prepare:translations && npm publish ./dist/x-forms-lib",
+    "publish:all": "npm run publish && npm run publish:library",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -28,6 +31,7 @@
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
+    "del-cli": "^5.1.0",
     "cpx": "^1.5.0",
     "biit-ui": "latest",
     "biit-icons-collection": "latest",
