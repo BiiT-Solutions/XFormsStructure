@@ -33,6 +33,7 @@ export class CategoryComponent {
   }
   @Input() form: Form;
   @Output() completed: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() changed: EventEmitter<void> = new EventEmitter<void>();
   private completionSentinel: boolean = false;
   protected category: Category;
 
@@ -117,9 +118,9 @@ export class CategoryComponent {
         this.completionSentinel = false;
       }
     }
+    this.changed.emit();
   }
 
-  // TODO(jnavalon): implement validate Flows and set display and disabled. Currently all flows are running to check flow functionality
   private validateFlows(directional: Directional): void {
     if (!directional) {
       return;

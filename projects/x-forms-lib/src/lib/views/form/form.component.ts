@@ -17,6 +17,7 @@ import {TokenComparationAnswer} from "../../models/token-comparation-answer";
 import {TokenIn} from "../../models/token-in";
 import {TokenComparationValue} from "../../models/token-comparation-value";
 import {TokenBetween} from "../../models/token-between";
+import {Directional} from "../../models/directional";
 
 @Component({
   selector: 'biit-x-form',
@@ -27,6 +28,7 @@ export class FormComponent implements OnInit {
 
   @Input() form: Form;
   protected category: Category;
+  protected nextCategory: Category;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe) {
@@ -158,21 +160,41 @@ export class FormComponent implements OnInit {
     }
   }
 
-  protected onNext() {
+  protected onNext() : void {
     if (this.category){
       const nextCategory: Category = this.next.transform(this.form.children, 'id', this.category.id);
       if (nextCategory) {
         this.category = nextCategory;
       }
     }
+    this.nextCategory = this.next.transform(this.form.children, 'id', this.category.id);
   }
 
-  protected onPrevious() {
+  protected onPrevious() : void {
     if (this.category) {
       const previousCategory: Category = this.previous.transform(this.form.children, 'id', this.category.id);
       if (previousCategory) {
         this.category = previousCategory;
       }
     }
+    this.nextCategory =this.next.transform(this.form.children, 'id', this.category.id);
+  }
+
+  protected onFormChanged(): void {
+    //TODO(jnavalon): We need to implement to disable category if category has not reached by the flow
+    const visibleCategories: FormItem[] = this.form.children.filter(child => this.containsDisplayedDirectionals(child));
+    visibleCategories.forEach(child => {
+      child.display = true;
+    });
+    this.nextCategory =this.next.transform(this.form.children, 'id', this.category.id);
+  }
+  private containsDisplayedDirectionals(formItem: FormItem): boolean {
+    if (formItem instanceof Directional && formItem.display) {
+      return true;
+    }
+    if (formItem.children) {
+      return formItem.children.some(child => this.containsDisplayedDirectionals(child));
+    }
+    return false;
   }
 }

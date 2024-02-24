@@ -4,17 +4,18 @@
          [class.hidden]="!group.display" [class.disabled]="group.disabled">{{group.label}}</div>
   </div>
   <div>
-    <biit-category *ngIf="category" [form]="form" [category]="category" (completed)="onCategoryCompleted($event)"></biit-category>
+    <biit-category *ngIf="category" [form]="form" [category]="category" (completed)="onCategoryCompleted($event)" (changed)="onFormChanged()"></biit-category>
     <div class="buttons">
+      {{nextCategory?.name}}
       <button biit-button secondary
               (click)="onPrevious()"
               [disabled]="!(form.children | previous : 'id': this.category.id)">Previous</button>
       <button biit-button primary
-              *ngIf="(form.children | next : 'id': this.category.id)"
+              *ngIf="nextCategory"
               (click)="onNext()"
-              [disabled]="(form.children | next : 'id': this.category.id)?.disabled">Next</button>
+              [disabled]="nextCategory?.disabled">Next</button>
       <button biit-button primary
-              *ngIf="!(form.children | next : 'id': this.category.id)"
+              *ngIf="!nextCategory"
               (click)="onNext()"
               [disabled]="!(form | checkAnswers)">Submit</button>
     </div>
