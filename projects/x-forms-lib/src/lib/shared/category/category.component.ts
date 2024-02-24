@@ -163,8 +163,8 @@ export class CategoryComponent {
           defaultFlow.destiny.display = true;
           defaultFlow.destiny.disabled = false;
           if (defaultFlow.destiny instanceof Directional) {
-            if (defaultFlow instanceof Question) {
-              if (defaultFlow.valid) {
+            if (defaultFlow.destiny instanceof Question) {
+              if (defaultFlow.destiny.valid) {
                 this.validateFlows(defaultFlow.destiny);
               }
             }
@@ -173,11 +173,16 @@ export class CategoryComponent {
       }
     } else {
       // Disabled to fix first issue
-      /*if (question instanceof Question) {
-        if (question.valid) {
-          const nextNode: Directional = this.getNextNode(question);
+      if (directional instanceof Question) {
+        if (directional.valid) {
+          const nextNode: Directional = this.getNextNode(directional);
+          if (nextNode) {
+            nextNode.display = true;
+            nextNode.disabled = false;
+            this.validateFlows(nextNode);
+          }
         }
-      }*/
+      }
     }
   }
 
