@@ -1,15 +1,27 @@
-<biit-radio-button *ngFor="let answer of answers"
-                   [(ngModel)]="response"
-                   (ngModelChange)="onSelected($event)"
-                   [id]="answer.id.toString()"
-                   [name]="answer.id.toString()"
-                   [value]="answer.name"
-                   [required]="required"
->
-  {{answer.label}}
+<div class="radio" *ngFor="let answer of answers">
+  <div style="display: flex">
+    <biit-radio-button
+      [(ngModel)]="response"
+      (ngModelChange)="onSelected($event)"
+      [id]="answer.id.toString()"
+      [name]="answer.id.toString()"
+      [value]="answer.name"
+      [required]="required"
+    >
+      {{answer.label}}
+    </biit-radio-button>
+    <biit-tooltip-icon
+      *ngIf="(answer | instanceof : Answer) && $any(answer).description"
+      inline=""
+      [text]="$any(answer).description">
+    </biit-tooltip-icon>
+  </div>
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"
                     [answers]="selectedAnswer.children"
                     (selected)="childSelected($event)"
+                    class="ident"
   ></biit-multi-radio>
-</biit-radio-button>
+</div>
+
+
 

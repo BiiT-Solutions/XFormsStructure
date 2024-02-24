@@ -13,6 +13,7 @@ import {UtilsModule} from "../../utils/utils.module";
 import {MultiRadioModule} from "../multi-radio/multi-radio.module";
 import {RequiredLabelModule} from "../required-label/required-label.module";
 import {MultiCheckboxModule} from "../multi-checkbox/multi-checkbox.module";
+import {BiitTooltipIconModule, BiitTooltipModule} from "biit-ui/info";
 
 
 
@@ -35,7 +36,9 @@ import {MultiCheckboxModule} from "../multi-checkbox/multi-checkbox.module";
     MultiRadioModule,
     BiitDropdownModule,
     RequiredLabelModule,
-    MultiCheckboxModule
+    MultiCheckboxModule,
+    BiitTooltipModule,
+    BiitTooltipIconModule
   ]
 })
 export class QuestionModule { }

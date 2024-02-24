@@ -1,13 +1,23 @@
-<label *ngIf="label" [required]="required" [value]="answered">{{label}}</label>
+<div style="display: flex">
+  <label *ngIf="label" [required]="required" [value]="answered">{{label}}</label>
+  <biit-tooltip-icon *ngIf="info && info.length" inline [text]="info"></biit-tooltip-icon>
+</div>
 <div class="checklist" *ngFor="let answer of answers">
-  <biit-checkbox
-                     [(ngModel)]="$any(answer).selected"
-                     (ngModelChange)="onSelected(answer)"
-                     [id]="answer.id.toString()"
-                     [required]="required"
-  >
-    {{answer.label}}
-  </biit-checkbox>
+  <div style="display: flex">
+    <biit-checkbox
+                       [(ngModel)]="$any(answer).selected"
+                       (ngModelChange)="onSelected(answer)"
+                       [id]="answer.id.toString()"
+                       [required]="required"
+    >
+      {{answer.label}}
+    </biit-checkbox>
+    <biit-tooltip-icon
+                       *ngIf="(answer | instanceof : Answer) && $any(answer).description"
+                       inline=""
+                       [text]="$any(answer).description">
+    </biit-tooltip-icon>
+  </div>
   <biit-multi-checkbox *ngIf="answer && answer['selected']"
                        class="ident"
                        [answers]="answer.children"

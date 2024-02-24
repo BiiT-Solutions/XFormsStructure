@@ -10,6 +10,7 @@ import {Answer} from "../../models/answer";
 export class MultiRadioComponent {
   @Input() label: string;
   @Input() answers: FormItem[];
+  @Input() info: string;
   @Input() required: boolean = false;
   @Output() selected: EventEmitter<FormItem> = new EventEmitter<FormItem>();
   protected selectedAnswer: FormItem;
@@ -65,4 +66,6 @@ export class MultiRadioComponent {
     }
     return answer.selected;
   }
+
+  protected readonly Answer = Answer;
 }
