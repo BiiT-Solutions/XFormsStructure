@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormItem} from "../../models/form-item";
 import {Group} from "../../models/group";
 import {Question} from "../../models/question";
@@ -51,7 +51,15 @@ export class FormElementComponent {
       return;
     }
     group.id = this.increaseSubId(group.id);
+    FormElementComponent.deepDisplay(group);
     children.splice(index + 1, 0, group);
+  }
+
+  private static deepDisplay(item: FormItem): void {
+    item.display = true;
+    if (item.children) {
+      item.children.forEach(FormElementComponent.deepDisplay)
+    }
   }
 
   public static removeDuplicated(group: Group, children: FormItem[]): void {
