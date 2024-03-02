@@ -1,8 +1,9 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormItem} from "../../models/form-item";
 import {Group} from "../../models/group";
 import {Question} from "../../models/question";
 import {Text} from "../../models/text";
+import {Answer} from "../../models/answer";
 
 @Component({
   selector: 'biit-form-element',
@@ -37,10 +38,12 @@ export class FormElementComponent {
 
   protected onDuplicated(group: Group, children: FormItem[]) {
     FormElementComponent.insertDuplicated(group, children);
+    this.changed.emit(null);
   }
 
   protected onRemoved(group: Group, children: FormItem[]) {
     FormElementComponent.removeDuplicated(group, children);
+    this.changed.emit(null);
   }
 
   public static insertDuplicated(group: Group, children: FormItem[]): void {
@@ -52,6 +55,7 @@ export class FormElementComponent {
     }
     group.id = this.increaseSubId(group.id);
     FormElementComponent.deepDisplay(group);
+    FormElementComponent.deepClean(group);
     children.splice(index + 1, 0, group);
   }
 
@@ -59,6 +63,17 @@ export class FormElementComponent {
     item.display = true;
     if (item.children) {
       item.children.forEach(FormElementComponent.deepDisplay)
+    }
+  }
+  private static deepClean(item: FormItem): void {
+    if (item instanceof Question) {
+      item.response = null;
+      item.valid = false;
+    } else if (item instanceof Answer) {
+      item.selected = false;
+    }
+    if (item.children) {
+      item.children.forEach(FormElementComponent.deepClean)
     }
   }
 
