@@ -40,7 +40,7 @@ export class Form extends FormItem {
   public static cloneFormItem(item: FormItem): FormItem {
     const className: string = item.class;
     if (className.endsWith(`.${Constants.ITEM_CLASSES.CATEGORY}`)) {
-      return Category.clone(item);
+      return Category.clone(item as Category);
     } else if(className.endsWith(`.${Constants.ITEM_CLASSES.TEXT}`)) {
       return Text.clone(item as Text);
     } else if (className.endsWith(`.${Constants.ITEM_CLASSES.GROUP}`)) {

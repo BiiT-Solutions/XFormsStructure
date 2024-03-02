@@ -39,7 +39,7 @@ export class FormComponent implements OnInit {
     if (category.disabled) {
       return;
     }
-    this.category = category;
+    this.category = category as Category;
   }
 
   ngOnInit(): void {
@@ -141,43 +141,62 @@ export class FormComponent implements OnInit {
     this.form.children.forEach( (child, index) => {
       if (!child.display) {
         child.display = this.isVisible.transform(index < 1 ? null : this.form.children[index - 1] , child.id);
+        if (child.display) {
+          (child as Category).displayedByDefault = true;
+        }
       }
     });
   }
 
   private startForm(): void {
-    const firstNode: Category = this.form.children[0];
+    const firstNode: Category = this.form.children[0] as Category;
     firstNode.disabled = false;
     this.onCategory(firstNode);
   }
 
   protected onCategoryCompleted(completed: boolean): void {
     if (this.category) {
-      const nextCategory: Category = this.next.transform(this.form.children, 'id', this.category.id);
+      const nextCategory: Category = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       if (nextCategory) {
         nextCategory.disabled = !completed;
       }
     }
   }
 
+  private enableFirstQuestion(item: FormItem): boolean {
+    if (item instanceof Directional) {
+      item.display = true;
+      return true;
+    } else {
+      if (item.children) {
+        for (let child of item.children) {
+          if (this.enableFirstQuestion(child)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   protected onNext() : void {
     if (this.category){
-      const nextCategory: Category = this.next.transform(this.form.children, 'id', this.category.id);
+      const nextCategory: Category = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       if (nextCategory) {
         this.category = nextCategory;
       }
     }
-    this.nextCategory = this.next.transform(this.form.children, 'id', this.category.id);
+    this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
   }
 
   protected onPrevious() : void {
     if (this.category) {
-      const previousCategory: Category = this.previous.transform(this.form.children, 'id', this.category.id);
+      const previousCategory: Category = this.previous.transform(this.form.children as Category[], 'id', this.category.id);
       if (previousCategory) {
         this.category = previousCategory;
       }
     }
-    this.nextCategory =this.next.transform(this.form.children, 'id', this.category.id);
+    this.nextCategory =this.next.transform(this.form.children as Category[], 'id', this.category.id);
   }
 
   protected onFormChanged(): void {
@@ -185,8 +204,16 @@ export class FormComponent implements OnInit {
     const visibleCategories: FormItem[] = this.form.children.filter(child => this.containsDisplayedDirectionals(child));
     visibleCategories.forEach(child => {
       child.display = true;
+      child.disabled = false;
     });
-    this.nextCategory =this.next.transform(this.form.children, 'id', this.category.id);
+    const hidedCategories: Category[] = this.form.children.filter(child => !this.containsDisplayedDirectionals(child)) as Category[];
+    hidedCategories.forEach(child => {
+      if (!child.displayedByDefault) {
+        child.display = false;
+      }
+      child.disabled = true;
+    })
+    this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
   }
   private containsDisplayedDirectionals(formItem: FormItem): boolean {
     if (formItem instanceof Directional && formItem.display) {

@@ -175,13 +175,20 @@ export class CategoryComponent {
     } else {
       // Disabled to fix first issue
       if (directional instanceof Question) {
-        if (directional.valid) {
+        if (directional.valid || !directional.mandatory) {
           const nextNode: Directional = this.getNextNode(directional);
           if (nextNode) {
             nextNode.display = true;
             nextNode.disabled = false;
             this.validateFlows(nextNode);
           }
+        }
+      } else {
+        const nextNode: Directional = this.getNextNode(directional);
+        if (nextNode) {
+          nextNode.display = true;
+          nextNode.disabled = false;
+          this.validateFlows(nextNode);
         }
       }
     }
