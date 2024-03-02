@@ -1,5 +1,4 @@
 <div *ngIf="question.flows" (click)="console.log(question.flows)">Contains Flow</div>
-{{question.valid}} - {{question.response}}
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
   <biit-input-text *ngSwitchCase="VariableType.TEXT"
                    [placeholder]="question.label"
