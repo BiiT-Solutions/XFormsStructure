@@ -200,7 +200,6 @@ export class FormComponent implements OnInit {
   }
 
   protected onFormChanged(): void {
-    //TODO(jnavalon): We need to implement to disable category if category has not reached by the flow
     const visibleCategories: FormItem[] = this.form.children.filter(child => this.containsDisplayedDirectionals(child));
     visibleCategories.forEach(child => {
       child.display = true;

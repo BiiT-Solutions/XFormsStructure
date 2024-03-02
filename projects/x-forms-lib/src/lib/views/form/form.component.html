@@ -6,14 +6,14 @@
   <div>
     <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" ></biit-category>
     <div class="buttons">
-      {{nextCategory?.name}}
+      {{nextCategory?.name}} - {{category.completed}}
       <button biit-button secondary
               (click)="onPrevious()"
               [disabled]="!(form.children | previous : 'id': this.category.id)">Previous</button>
       <button biit-button primary
               *ngIf="nextCategory"
               (click)="onNext()"
-              [disabled]="nextCategory?.disabled">Next</button>
+              [disabled]="nextCategory?.disabled || !category.completed">Next</button>
       <button biit-button primary
               *ngIf="!nextCategory"
               (click)="onNext()"

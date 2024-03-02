@@ -110,10 +110,12 @@ export class CategoryComponent {
     this.validateFlows(question);
     this.enableElements(this.category.children);
     if (CategoryComponent.isCompleted(this.category)) {
+      this.category.completed = true;
       this.completed.emit(true);
       this.completionSentinel = true;
     } else {
       if (this.completionSentinel) {
+        this.category.completed = false;
         this.completed.emit(false);
         this.completionSentinel = false;
       }
