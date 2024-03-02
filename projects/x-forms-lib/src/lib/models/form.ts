@@ -7,6 +7,7 @@ import {VariableType} from "./variable-type";
 import {Question} from "./question";
 import {Text} from "./text";
 import {Answer} from "./answer";
+import {SystemField} from "./system-field";
 
 export class Form extends FormItem {
   version: number;
@@ -45,6 +46,8 @@ export class Form extends FormItem {
       return Text.clone(item as Text);
     } else if (className.endsWith(`.${Constants.ITEM_CLASSES.GROUP}`)) {
       return Group.clone(item as Group);
+    } else if (className.endsWith(`.${Constants.ITEM_CLASSES.SYSTEM_FIELD}`)) {
+      return SystemField.clone(item as SystemField);
     } else if (className.endsWith(`.${Constants.ITEM_CLASSES.QUESTION}`)) {
       const type: VariableType = (item as Question<any>).answerFormat;
       switch (type) {
