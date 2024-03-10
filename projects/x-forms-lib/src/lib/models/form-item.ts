@@ -17,6 +17,10 @@ export class FormItem extends Item {
     to.name = from.name;
     to.label = from.label;
     to.hidden = from.hidden;
+    if (to.hidden) {
+      to.display = false;
+      to.disabled = true;
+    }
     to.children = from.children ? from.children.map(Form.cloneFormItem) : [];
   }
   public static override clone(from: FormItem): FormItem {

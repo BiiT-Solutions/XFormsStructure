@@ -1,14 +1,17 @@
 <div class="form-view">
   <div>
-    <div class="category" *ngFor="let group of form.children" (click)="onCategory(group)"
-         [class.hidden]="!group.display" [class.disabled]="group.disabled">{{group.label}}</div>
-  </div>
+    <div class="category" *ngFor="let category of form.children">
+      <div *ngIf="!category.hidden && category.display" (click)="onCategory(category)"
+           [class.disabled]="category.disabled">{{category.label}}</div>
+    </div>
+    </div>
+
   <div>
     <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" ></biit-category>
-    <div class="buttons">
+    <div class="buttons" *ngIf="category" >
       <button biit-button secondary
               (click)="onPrevious()"
-              [disabled]="!(form.children | previous : 'id': this.category.id)">Previous</button>
+              [disabled]="!previousCategory">Previous</button>
       <button biit-button primary
               *ngIf="nextCategory"
               (click)="onNext()"

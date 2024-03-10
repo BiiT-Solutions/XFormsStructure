@@ -12,7 +12,7 @@ export class Structure {
       path.push(item.name)
     }
     if (item.children) {
-      item.children.forEach(child => {
+      item.children.filter(child => !child.hidden).forEach(child => {
         if (child instanceof Question) {
           map.set([...path, child.name].join('.'), child);
         } else {
@@ -26,10 +26,12 @@ export class Structure {
     if (!path) {
       path = [];
     } else {
-      path.push(item.name)
+      if (!item.hidden) {
+        path.push(item.name)
+      }
     }
     if (item.children) {
-      item.children.forEach(child => {
+      item.children.filter(child => !child.hidden).forEach(child => {
         if (child instanceof Text) {
           map.set([...path, child.name].join('.'), child);
         } else {
@@ -44,10 +46,12 @@ export class Structure {
     if (!path) {
       path = [];
     } else {
-      path.push(item.name)
+      if (!item.hidden) {
+        path.push(item.name)
+      }
     }
     if (item.children) {
-      item.children.forEach(child => {
+      item.children.filter(child => !child.hidden).forEach(child => {
         if (child instanceof Answer) {
           map.set([...path, child.name].join('.'), child);
         }
@@ -64,7 +68,7 @@ export class Structure {
       directionals.push(item);
     } else {
       if (item.children) {
-        item.children.forEach(child => {
+        item.children.filter(child => !child.hidden).forEach(child => {
           if (child instanceof Directional) {
             directionals.push(child);
           } else {
@@ -74,6 +78,6 @@ export class Structure {
         })
       }
     }
-    return directionals;
+    return directionals.filter(directionals => !directionals.hidden);
   }
 }

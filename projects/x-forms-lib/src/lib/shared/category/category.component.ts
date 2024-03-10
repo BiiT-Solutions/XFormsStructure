@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Category} from "../../models/category";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
@@ -24,11 +24,15 @@ import {Structure} from "../../utils/structure";
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit{
+  ngOnInit(): void {
+    this.onFormChanged();
+  }
   @Input('category') set _category(category: Category) {
     this.category = category;
-    if (this.category && this.category.children) {
-      this.enableElements(this.category.children);
+    const visibleChildren: FormItem[] = this.category.children.filter(child => !child.hidden);
+    if (visibleChildren.length) {
+      this.enableElements(visibleChildren);
     }
   }
   @Input() form: Form;
@@ -61,7 +65,7 @@ export class CategoryComponent {
         item.display = item.children.some(child => child.display);
       } else {
         if (!item.display){
-          item.display = currentDisplay;
+          item.display = currentDisplay && !item.hidden;
         } else {
           currentDisplay = item.display;
         }
@@ -78,12 +82,15 @@ export class CategoryComponent {
   }
 
   private displayNodeDown(item: FormItem, firstChild: boolean = false): void {
-    item.display = true;
-    if (item.children && item.children.length) {
+    if (!item.hidden) {
+      item.display = true;
+    }
+    const visibleChildren = item.children.filter(child => !child.hidden);
+    if (visibleChildren.length) {
       if (firstChild) {
-        this.displayNodeDown(item.children[0]);
+        this.displayNodeDown(visibleChildren[0]);
       } else {
-        item.children.forEach(child => this.displayNodeDown(child));
+        visibleChildren.forEach(child => this.displayNodeDown(child));
       }
     }
   }
@@ -108,7 +115,7 @@ export class CategoryComponent {
   // When received a form event we need to check the complete form to check the complete category status
   protected onFormChanged(question?: Question<any>): void {
     this.validateFlows(question);
-    this.enableElements(this.category.children);
+    this.enableElements(this.category.children.filter(items => !items.hidden));
     if (CategoryComponent.isCompleted(this.category)) {
       this.category.completed = true;
       this.completed.emit(true);
@@ -247,7 +254,7 @@ export class CategoryComponent {
       }
     }
     let found: boolean = false;
-    for (let directional of directionals) {
+    for (let directional of directionals.filter(directional => !directional.hidden)) {
       if (found) {
         return directional;
       }
@@ -307,24 +314,16 @@ export class CategoryComponent {
   }
 
   public static isCompleted(item: FormItem): boolean {
-    if (item instanceof Question) {
-      if (item.mandatory && !item.valid) {
-        return false;
-      }
-      if (item.mandatory && !item.response) {
-        return false;
-      }
-    }
-    if (item.children) {
-      const displayedChildren: FormItem[] = item.children.filter(child => child.display);
-      for(let child
-        of displayedChildren) {
-        if (!CategoryComponent.isCompleted(child)) {
-          return false;
+    const directionals: Directional[] = Structure.getDirectionals(item);
+    let completed: boolean = true;
+    directionals.filter(directional => !directional.hidden && directional.display).forEach(directional => {
+      if (directional instanceof Question) {
+        if (directional.mandatory && (!directional.valid || !directional.response)) {
+          completed = false;
         }
       }
-    }
-    return true;
+    })
+    return completed;
   }
 
   private clearResponse(formItem: FormItem): void {

@@ -60,6 +60,9 @@ export class FormElementComponent {
   }
 
   private static deepDisplay(item: FormItem): void {
+    if (item.hidden) {
+      return;
+    }
     item.display = true;
     if (item.children) {
       item.children.forEach(FormElementComponent.deepDisplay)

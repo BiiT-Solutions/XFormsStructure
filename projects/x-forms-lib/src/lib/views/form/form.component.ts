@@ -29,6 +29,7 @@ export class FormComponent implements OnInit {
   @Input() form: Form;
   protected category: Category;
   protected nextCategory: Category;
+  protected previousCategory: Category;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe) {
@@ -40,14 +41,28 @@ export class FormComponent implements OnInit {
       return;
     }
     this.category = category as Category;
+    this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
+    this.previousCategory = this.previous.transform(this.form.children as Category[], "id", this.category.id);
   }
 
   ngOnInit(): void {
     this.linkQuestionToFlow();
     this.generateIdPath(this.form);
     this.displayChildren();
+    this.hideByHiddenElements(this.form);
     this.startForm();
     console.log(this.form);
+  }
+
+  private hideByHiddenElements(formItem: FormItem): void {
+    if (formItem.children) {
+      formItem.children.forEach(child => this.hideByHiddenElements(child));
+      if (formItem.children && formItem.children.length&& formItem.children.every(child => child.hidden)) {
+        formItem.hidden = true;
+        formItem.disabled = true;
+        formItem.display = false;
+      }
+    }
   }
 
   private linkQuestionToFlow(): void {
@@ -59,14 +74,14 @@ export class FormComponent implements OnInit {
     Structure.extractAnswers(this.form, answers);
     this.form.flows.forEach(flow => {
       const key: string[] = flow.originId;
-      const question: Question<any> = questions.get(key.join('.'));
+      const question: Question<any> = key ? questions.get(key.join('.')) : null;
       if (question) {
         if (!question.flows) {
           question.flows = [];
         }
         question.flows.push(flow);
       } else {
-        const text: Text = texts.get(key.join('.'));
+        const text: Text = key ? texts.get(key.join('.')) : null;
         if (text) {
           if (!text.flows) {
             text.flows = [];
@@ -138,9 +153,10 @@ export class FormComponent implements OnInit {
   }
 
   private displayChildren(): void {
-    this.form.children.forEach( (child, index) => {
+    const visibleCategories: FormItem[] = this.form.children.filter(child => !child.hidden);
+    visibleCategories.forEach( (child, index) => {
       if (!child.display) {
-        child.display = this.isVisible.transform(index < 1 ? null : this.form.children[index - 1] , child.id);
+        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1] , child.id);
         if (child.display) {
           (child as Category).displayedByDefault = true;
         }
@@ -149,7 +165,7 @@ export class FormComponent implements OnInit {
   }
 
   private startForm(): void {
-    const firstNode: Category = this.form.children[0] as Category;
+    const firstNode: Category = this.form.children.filter(child => !child.hidden)[0] as Category;
     firstNode.disabled = false;
     this.onCategory(firstNode);
   }
@@ -163,40 +179,25 @@ export class FormComponent implements OnInit {
     }
   }
 
-  private enableFirstQuestion(item: FormItem): boolean {
-    if (item instanceof Directional) {
-      item.display = true;
-      return true;
-    } else {
-      if (item.children) {
-        for (let child of item.children) {
-          if (this.enableFirstQuestion(child)) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
   protected onNext() : void {
     if (this.category){
       const nextCategory: Category = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       if (nextCategory) {
+        this.previousCategory = this.category;
         this.category = nextCategory;
+        this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       }
     }
-    this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
   }
 
   protected onPrevious() : void {
     if (this.category) {
-      const previousCategory: Category = this.previous.transform(this.form.children as Category[], 'id', this.category.id);
-      if (previousCategory) {
-        this.category = previousCategory;
+      if (this.previousCategory) {
+        this.nextCategory = this.category;
+        this.category = this.previousCategory;
+        this.previousCategory = this.previous.transform(this.form.children as Category[], "id", this.category.id);
       }
     }
-    this.nextCategory =this.next.transform(this.form.children as Category[], 'id', this.category.id);
   }
 
   protected onFormChanged(): void {
@@ -223,4 +224,6 @@ export class FormComponent implements OnInit {
     }
     return false;
   }
+
+  protected readonly console = console;
 }
