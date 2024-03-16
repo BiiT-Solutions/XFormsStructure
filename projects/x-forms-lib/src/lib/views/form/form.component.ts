@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Form} from "../../models/form";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
@@ -27,9 +27,11 @@ import {Directional} from "../../models/directional";
 export class FormComponent implements OnInit {
 
   @Input() form: Form;
+  @Output() closed = new EventEmitter<any>();
   protected category: Category;
   protected nextCategory: Category;
   protected previousCategory: Category;
+  protected submitted: boolean = false;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe) {
@@ -188,6 +190,10 @@ export class FormComponent implements OnInit {
         this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       }
     }
+  }
+  protected onSubmit(): void {
+    //TODO(jnavalon): Implement the submit form
+    this.submitted = true;
   }
 
   protected onPrevious() : void {

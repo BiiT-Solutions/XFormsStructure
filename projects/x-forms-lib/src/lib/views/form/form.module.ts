@@ -4,6 +4,7 @@ import { FormComponent } from './form.component';
 import {UtilsModule} from "../../utils/utils.module";
 import {CategoryModule} from "../../shared/category/category.module";
 import {BiitButtonModule} from "biit-ui/button";
+import {SubmittedModule} from "../submitted/submitted.module";
 
 
 
@@ -15,7 +16,8 @@ import {BiitButtonModule} from "biit-ui/button";
         CommonModule,
         UtilsModule,
         CategoryModule,
-        BiitButtonModule
+        BiitButtonModule,
+        SubmittedModule
     ],
   exports: [
     FormComponent

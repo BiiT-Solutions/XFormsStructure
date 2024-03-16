@@ -1,4 +1,4 @@
-<div class="form-view">
+<div class="form-view" *ngIf="!submitted">
   <div>
     <div class="category" *ngFor="let category of form.children">
       <div *ngIf="!category.hidden && category.display" (click)="onCategory(category)"
@@ -18,8 +18,9 @@
               [disabled]="nextCategory?.disabled || !category.completed">Next</button>
       <button biit-button primary
               *ngIf="!nextCategory"
-              (click)="onNext()"
+              (click)="onSubmit()"
               [disabled]="!(form | checkAnswers)">Submit</button>
     </div>
   </div>
 </div>
+<biit-submitted *ngIf="submitted" (onReturn)="closed.emit()"></biit-submitted>
