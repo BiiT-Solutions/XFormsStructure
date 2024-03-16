@@ -11,6 +11,7 @@ export class MultiRadioComponent {
   @Input() label: string;
   @Input() answers: FormItem[];
   @Input() info: string;
+  @Input() disabled: boolean = false;
   @Input() required: boolean = false;
   @Output() selected: EventEmitter<FormItem> = new EventEmitter<FormItem>();
   protected selectedAnswer: FormItem;

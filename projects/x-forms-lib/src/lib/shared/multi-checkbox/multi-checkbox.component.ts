@@ -12,6 +12,7 @@ export class MultiCheckboxComponent {
   @Input() answers: FormItem[];
   @Input() required: boolean = false;
   @Input() info: string;
+  @Input() disabled: boolean = false;
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();
   protected answered: boolean;
   protected readonly Answer: typeof Answer = Answer;

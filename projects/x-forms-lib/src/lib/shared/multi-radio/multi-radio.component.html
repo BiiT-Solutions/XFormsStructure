@@ -7,6 +7,7 @@
       [name]="answer.id.toString()"
       [value]="answer.name"
       [required]="required"
+      [disabled]="disabled"
     >
       {{answer.label}}
     </biit-radio-button>
@@ -18,6 +19,7 @@
   </div>
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"
                     [answers]="selectedAnswer.children"
+                    [disabled]="disabled"
                     (selected)="childSelected($event)"
                     class="ident"
   ></biit-multi-radio>

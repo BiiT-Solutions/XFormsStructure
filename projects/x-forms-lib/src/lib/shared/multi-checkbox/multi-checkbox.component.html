@@ -8,6 +8,7 @@
                        [(ngModel)]="$any(answer).selected"
                        (ngModelChange)="onSelected(answer)"
                        [id]="answer.id.toString()"
+                       [disabled]="disabled"
                        [required]="required"
     >
       {{answer.label}}
@@ -22,6 +23,7 @@
                        class="ident"
                        [answers]="answer.children"
                        [required]="required"
+                       [disabled]="disabled"
                        (selected)="onSelected(answer);"
   ></biit-multi-checkbox>
 </div>
