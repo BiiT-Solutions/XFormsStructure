@@ -20,7 +20,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
       this.route.queryParams.subscribe(params => {
         if (params['form']) {
-          this.http.get(`${Constants.FORM_PATH}/${params['form']}.json`)
+          const path = `${Constants.FORM_PATH}/${params['form']}.json`
+          this.http.get(path)
             .subscribe((form: any) => {
               this.form = Form.clone(form);
               window['form'] = this.form;

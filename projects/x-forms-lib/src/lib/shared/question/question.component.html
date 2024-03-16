@@ -35,6 +35,17 @@
                    [error]="(question.response | checkDate : question.answerSubformat)"
   ></biit-datepicker>
 </div>
+<biit-slider *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER"
+  [(ngModel)]="question.response"
+  (ngModelChange)="onSliderSelected($event); onChanged($event)"
+  [min]="1"
+  [labels]="question | answerLabelExtractor"
+  [max]="(question | answerLabelExtractor).length"
+  [step]="1"
+  [ticks]="(question | answerLabelExtractor).length"
+>
+
+</biit-slider>
 <biit-textarea *ngIf="question.answerType === AnswerType.TEXT_AREA"
                [placeholder]="question.label"
                [required]="question.mandatory"

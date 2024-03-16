@@ -9,7 +9,6 @@ import { Form } from 'projects/x-forms-lib/src/lib/models/form';
 export class FormViewComponent {
 
   @Input() form: Form;
-  public test;
   constructor() {
   }
 }

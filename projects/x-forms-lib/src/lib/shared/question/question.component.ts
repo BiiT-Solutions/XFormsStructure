@@ -22,6 +22,7 @@ export class QuestionComponent {
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
 
+
   constructor(private checkDate: CheckDatePipe, private getRegex: GetRegexPipe, private nestedAnswers: NestedAnswersPipe) {
   }
 
@@ -29,9 +30,20 @@ export class QuestionComponent {
     this.question.valid = this.validate(response)
     this.changed.emit(this.question);
   }
+  protected onSliderSelected(response: number): void {
+    if (this.question.children && this.question.children.length >= response) {
+      this.question.children.forEach(child => (child as Answer).selected = false);
+      (this.question.children[response - 1] as Answer).selected = true;
+    }
+  }
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {
       return false;
+    }
+    if (this.question.answerType === AnswerType.SINGLE_SELECTION_SLIDER) {
+      if (!this.question.children.some(child => (child as Answer).selected)) {
+        return false;
+      }
     }
     if (this.question.answerType === AnswerType.MULTIPLE_SELECTION) {
       if (!this.question.children.some(child => MultiCheckboxComponent.checkDeepAnswer(child as Answer))) {

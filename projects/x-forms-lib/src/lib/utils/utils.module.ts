@@ -11,6 +11,7 @@ import { CheckDatePipe } from './check-date.pipe';
 import { CheckAnswersPipe } from './check-answers.pipe';
 import { AsGroupPipe } from './as-group.pipe';
 import { NestedAnswersPipe } from './nested-answers.pipe';
+import { AnswerLabelExtractorPipe } from './answer-label-extractor.pipe';
 
 
 
@@ -26,7 +27,8 @@ import { NestedAnswersPipe } from './nested-answers.pipe';
     CheckDatePipe,
     CheckAnswersPipe,
     AsGroupPipe,
-    NestedAnswersPipe
+    NestedAnswersPipe,
+    AnswerLabelExtractorPipe
   ],
   imports: [
     CommonModule
@@ -41,7 +43,8 @@ import { NestedAnswersPipe } from './nested-answers.pipe';
     CheckDatePipe,
     CheckAnswersPipe,
     AsGroupPipe,
-    NestedAnswersPipe
+    NestedAnswersPipe,
+    AnswerLabelExtractorPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,
