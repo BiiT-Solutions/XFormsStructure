@@ -7,6 +7,7 @@ export class Constants {
     public static readonly GROUP: string = "Group";
     public static readonly QUESTION: string = "Question";
     public static readonly ANSWER: string = "Answer";
+    public static readonly DYNAMIC_ANSWER: string = "DynamicAnswer";
     public static readonly SYSTEM_FIELD: string = "SystemField";
     public static readonly TEXT: string = "Text";
     public static readonly TOKEN: string = "Token";

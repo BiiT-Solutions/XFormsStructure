@@ -4,6 +4,7 @@ import {Group} from "../../models/group";
 import {Question} from "../../models/question";
 import {Text} from "../../models/text";
 import {Answer} from "../../models/answer";
+import {DataStoreService} from "../../utils/data-store.service";
 
 @Component({
   selector: 'biit-form-element',
@@ -20,6 +21,11 @@ export class FormElementComponent {
   protected readonly Group = Group;
   protected readonly Question = Question;
   protected readonly Text = Text;
+
+
+  constructor(protected dataStoreService: DataStoreService) {
+  }
+
   protected duplicate(): void {
     if (!(this.element instanceof Group)) {
       return;

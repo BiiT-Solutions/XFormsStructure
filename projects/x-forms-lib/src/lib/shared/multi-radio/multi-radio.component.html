@@ -9,7 +9,13 @@
       [required]="required"
       [disabled]="disabled"
     >
-      {{answer.label}}
+      <div *ngIf="!(answer | instanceof: DynamicAnswer)">
+        {{answer.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}
+      </div>
+      <div *ngIf="answer | instanceof: DynamicAnswer">
+        {{ '${' + $any(answer).referencePath +'}' | varFormat: dataStoreService: dataStoreService.fingerPrint: answer.label}}
+      </div>
+
     </biit-radio-button>
     <biit-tooltip-icon
       *ngIf="(answer | instanceof : Answer) && $any(answer).description"

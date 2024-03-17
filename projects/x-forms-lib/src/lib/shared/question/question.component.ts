@@ -9,6 +9,7 @@ import {Answer} from "../../models/answer";
 import {MultiCheckboxComponent} from "../multi-checkbox/multi-checkbox.component";
 import {NestedAnswersPipe} from "../../utils/nested-answers.pipe";
 import {MultiRadioComponent} from "../multi-radio/multi-radio.component";
+import {DataStoreService} from "../../utils/data-store.service";
 
 @Component({
   selector: 'biit-question',
@@ -23,11 +24,19 @@ export class QuestionComponent {
   protected readonly AnswerType = AnswerType;
 
 
-  constructor(private checkDate: CheckDatePipe, private getRegex: GetRegexPipe, private nestedAnswers: NestedAnswersPipe) {
+  constructor(private checkDate: CheckDatePipe,
+              protected dataStoreService: DataStoreService,
+              private getRegex: GetRegexPipe,
+              private nestedAnswers: NestedAnswersPipe) {
   }
 
   protected onChanged(response: any): void {
-    this.question.valid = this.validate(response)
+    this.question.valid = this.validate(response);
+    if (!response) {
+      this.dataStoreService.removeValue(this.question.pathName);
+    } else {
+      this.dataStoreService.setValue(this.question.pathName, response);
+    }
     this.changed.emit(this.question);
   }
   protected onSliderSelected(response: number): void {

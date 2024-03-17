@@ -1,7 +1,6 @@
-<div *ngIf="question.flows" (click)="console.log(question.flows)">Contains Flow</div>
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
   <biit-input-text *ngSwitchCase="VariableType.TEXT"
-                   [placeholder]="question.label"
+                   [placeholder]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                    [required]="question.mandatory"
                    [regEx]="question.answerSubformat | getRegex"
                    [info]="question.description"
@@ -10,7 +9,7 @@
                    (ngModelChange)="onChanged($event)"
   ></biit-input-text>
   <biit-input-text *ngSwitchCase="VariableType.POSTAL_CODE"
-                   [placeholder]="question.label"
+                   [placeholder]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                    [required]="question.mandatory"
                    [regEx]="question.answerSubformat | getRegex"
                    [info]="question.description"
@@ -19,7 +18,7 @@
                    (ngModelChange)="onChanged($event)"
   ></biit-input-text>
   <biit-input-text *ngSwitchCase="VariableType.NUMBER"
-                   [placeholder]="question.label"
+                   [placeholder]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                    [required]="question.mandatory"
                    [type]="Type.NUMBER"
                    [disabled]="question.editionDisabled"
@@ -30,7 +29,7 @@
   ></biit-input-text>
   <biit-datepicker *ngSwitchCase="VariableType.DATE"
                    [required]="question.mandatory"
-                   [placeholder]="question.label"
+                   [placeholder]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                    [disabled]="question.editionDisabled"
                    [min]="question.answerSubformat | getDate : 'min'"
                    [max]="question.answerSubformat | getDate : 'max'"
@@ -52,7 +51,7 @@
 
 </biit-slider>
 <biit-textarea *ngIf="question.answerType === AnswerType.TEXT_AREA"
-               [placeholder]="question.label"
+               [placeholder]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                [required]="question.mandatory"
                [info]="question.description"
                [(ngModel)]="question.response"
@@ -61,13 +60,14 @@
 ></biit-textarea>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_RADIO">
   <div style="display: flex">
-    <label [required]="question.mandatory" [value]="question.response">{{ question.label }}</label>
+    <label [required]="question.mandatory" [value]="question.response">
+      {{ question.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}</label>
     <biit-tooltip-icon *ngIf="question.description && question.description.length" inline
                        [text]="question.description"></biit-tooltip-icon>
   </div>
   <biit-multi-radio
     [required]="question.mandatory"
-    [label]="question.label"
+    [label]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
     [disabled]="question.editionDisabled"
     [answers]="question.children"
     [info]="question.description"
@@ -76,7 +76,7 @@
 </div>
 
 <biit-multi-checkbox *ngIf="question.answerType === AnswerType.MULTIPLE_SELECTION"
-                     [label]="question.label"
+                     [label]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                      [answers]="question.children"
                      [required]="question.mandatory"
                      [disabled]="question.editionDisabled"
@@ -85,9 +85,9 @@
 ></biit-multi-checkbox>
 
 <biit-dropdown *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_LIST"
-               [data]="question.children"
+               [data]="question.children | varFormatAnswers: dataStoreService: dataStoreService.fingerPrint"
                label="label"
-               [title]="question.label"
+               [title]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                value="name"
                [required]="question.mandatory"
                [(ngModel)]="question.response"

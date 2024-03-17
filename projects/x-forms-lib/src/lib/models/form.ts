@@ -8,6 +8,7 @@ import {Question} from "./question";
 import {Text} from "./text";
 import {Answer} from "./answer";
 import {SystemField} from "./system-field";
+import {DynamicAnswer} from "./dynamic-answer";
 
 export class Form extends FormItem {
   version: number;
@@ -58,6 +59,9 @@ export class Form extends FormItem {
         default:
           return Question.clone(item as Question<string>);
       }
+    } else if (className.endsWith(`.${Constants.ITEM_CLASSES.DYNAMIC_ANSWER}`)) {
+      return DynamicAnswer.clone(item as DynamicAnswer);
+
     } else if (className.endsWith(`.${Constants.ITEM_CLASSES.ANSWER}`)) {
       return Answer.clone(item as Answer);
     } else {

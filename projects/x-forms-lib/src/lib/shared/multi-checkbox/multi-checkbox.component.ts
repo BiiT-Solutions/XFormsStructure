@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormItem} from "../../models/form-item";
 import {Answer} from "../../models/answer";
+import {DynamicAnswer} from "../../models/dynamic-answer";
+import {DataStoreService} from "../../utils/data-store.service";
 
 @Component({
   selector: 'biit-multi-checkbox',
@@ -16,6 +18,9 @@ export class MultiCheckboxComponent {
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();
   protected answered: boolean;
   protected readonly Answer: typeof Answer = Answer;
+
+
+  constructor(protected dataStoreService: DataStoreService) {}
 
   protected onSelected(selected: FormItem): void {
     if (!(selected as Answer).selected) {
@@ -42,4 +47,6 @@ export class MultiCheckboxComponent {
     }
     return answer.selected;
   }
+
+    protected readonly DynamicAnswer = DynamicAnswer;
 }

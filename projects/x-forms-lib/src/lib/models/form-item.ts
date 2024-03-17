@@ -9,6 +9,7 @@ export class FormItem extends Item {
   // display means the item is reachable from the current node path, but user still has not reached the node.
   display: boolean;
   path: number[];
+  pathName: string;
   // if item is disabled, item can not be shown because node path can not reach it by all its possible paths.
   disabled: boolean = true;
 

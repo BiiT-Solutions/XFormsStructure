@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormItem} from "../../models/form-item";
 import {Answer} from "../../models/answer";
+import {DynamicAnswer} from "../../models/dynamic-answer";
+import {DataStoreService} from "../../utils/data-store.service";
 
 @Component({
   selector: 'biit-multi-radio',
@@ -16,6 +18,8 @@ export class MultiRadioComponent {
   @Output() selected: EventEmitter<FormItem> = new EventEmitter<FormItem>();
   protected selectedAnswer: FormItem;
   protected response: string;
+
+  constructor(protected dataStoreService: DataStoreService) {}
 
   protected onSelected(value: string): void {
     this.selectedAnswer = null;
@@ -69,4 +73,5 @@ export class MultiRadioComponent {
   }
 
   protected readonly Answer = Answer;
+  protected readonly DynamicAnswer = DynamicAnswer;
 }

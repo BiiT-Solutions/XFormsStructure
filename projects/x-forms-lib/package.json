@@ -5,7 +5,8 @@
     "@angular/common": "v15-lts",
     "@angular/core": "v15-lts",
     "biit-ui": "latest",
-    "biit-icons-collection": "latest"
+    "biit-icons-collection": "latest",
+    "uuid": "^9.0.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"

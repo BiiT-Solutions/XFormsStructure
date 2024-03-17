@@ -50,6 +50,7 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     this.linkQuestionToFlow();
     this.generateIdPath(this.form);
+    this.generatePathName(this.form);
     this.displayChildren();
     this.hideByHiddenElements(this.form);
     this.startForm();
@@ -150,6 +151,15 @@ export class FormComponent implements OnInit {
     if (formItem.children) {
       formItem.children.forEach(child => {
         this.generateIdPath(child, path.concat([child.id]))
+      });
+    }
+  }
+
+  private generatePathName(formItem: FormItem, namePath: string[] = []): void {
+    formItem.pathName = namePath.join('/');
+    if (formItem.children) {
+      formItem.children.forEach(child => {
+        this.generatePathName(child, namePath.concat([child.name]))
       });
     }
   }

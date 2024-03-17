@@ -12,6 +12,8 @@ import { CheckAnswersPipe } from './check-answers.pipe';
 import { AsGroupPipe } from './as-group.pipe';
 import { NestedAnswersPipe } from './nested-answers.pipe';
 import { AnswerLabelExtractorPipe } from './answer-label-extractor.pipe';
+import { VarFormatPipe } from './var-format.pipe';
+import { VarFormatAnswersPipe } from './var-format-answers.pipe';
 
 
 
@@ -28,7 +30,9 @@ import { AnswerLabelExtractorPipe } from './answer-label-extractor.pipe';
     CheckAnswersPipe,
     AsGroupPipe,
     NestedAnswersPipe,
-    AnswerLabelExtractorPipe
+    AnswerLabelExtractorPipe,
+    VarFormatPipe,
+    VarFormatAnswersPipe
   ],
   imports: [
     CommonModule
@@ -44,13 +48,16 @@ import { AnswerLabelExtractorPipe } from './answer-label-extractor.pipe';
     CheckAnswersPipe,
     AsGroupPipe,
     NestedAnswersPipe,
-    AnswerLabelExtractorPipe
+    AnswerLabelExtractorPipe,
+    VarFormatPipe,
+    VarFormatAnswersPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,
     PreviousPipe,
     CheckDatePipe,
     GetRegexPipe,
+    VarFormatPipe,
     NestedAnswersPipe
   ]
 })
