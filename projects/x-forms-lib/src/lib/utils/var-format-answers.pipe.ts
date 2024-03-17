@@ -13,7 +13,6 @@ export class VarFormatAnswersPipe implements PipeTransform {
   }
 
   transform<T>(value: T[], dataStoreService: DataStoreService, reactivityID: string): Answer[] {
-    //TODO(jnavalon): this method is not working as expected. Needs to be fixed
     const answers: Answer[] = value.filter(answer => answer instanceof Answer).map(answer => answer as Answer);
     answers.forEach(answer => {
       if (answer instanceof DynamicAnswer) {
