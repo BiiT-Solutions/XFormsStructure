@@ -21,7 +21,6 @@ export class VarFormatAnswersPipe implements PipeTransform {
         this.varFormatPipe.transform(answer.label, dataStoreService, reactivityID);
       }
     })
-    debugger
     return answers;
   }
 
