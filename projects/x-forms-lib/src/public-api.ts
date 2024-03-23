@@ -11,5 +11,7 @@ export * from './lib/models/group';
 export * from './lib/models/category';
 export * from './lib/models/answer-type';
 
+export * from './lib/utils/constants';
+
 export * from './lib/views/form/form.component';
 export * from './lib/views/form/form.module';
