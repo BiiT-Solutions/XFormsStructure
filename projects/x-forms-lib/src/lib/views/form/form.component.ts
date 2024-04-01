@@ -18,6 +18,8 @@ import {TokenIn} from "../../models/token-in";
 import {TokenComparationValue} from "../../models/token-comparation-value";
 import {TokenBetween} from "../../models/token-between";
 import {Directional} from "../../models/directional";
+import {FormConverter} from "../../utils/form-converter";
+import {FormResult} from "../../models/form/form-result";
 
 @Component({
   selector: 'biit-x-form',
@@ -202,7 +204,9 @@ export class FormComponent implements OnInit {
     }
   }
   protected onSubmit(): void {
-    //TODO(jnavalon): Implement the submit form
+    const formResult: FormResult = FormConverter.convert(this.form);
+    //TODO(jnavalon): Send FormResult
+    console.log('Formatted Form', formResult);
     this.submitted = true;
   }
 
