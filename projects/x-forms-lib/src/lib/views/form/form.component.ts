@@ -30,6 +30,7 @@ export class FormComponent implements OnInit {
 
   @Input() form: Form;
   @Output() completed: EventEmitter<FormResult> = new EventEmitter<FormResult>();
+  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
   @Input() submitted: boolean = false;
   protected category: Category;
   protected nextCategory: Category;
