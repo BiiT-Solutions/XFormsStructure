@@ -29,11 +29,11 @@ import {FormResult} from "../../models/form/form-result";
 export class FormComponent implements OnInit {
 
   @Input() form: Form;
-  @Output() closed = new EventEmitter<any>();
+  @Output() completed: EventEmitter<FormResult> = new EventEmitter<FormResult>();
+  @Input() submitted: boolean = false;
   protected category: Category;
   protected nextCategory: Category;
   protected previousCategory: Category;
-  protected submitted: boolean = false;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe) {
@@ -205,9 +205,7 @@ export class FormComponent implements OnInit {
   }
   protected onSubmit(): void {
     const formResult: FormResult = FormConverter.convert(this.form);
-    //TODO(jnavalon): Send FormResult
-    console.log('Formatted Form', formResult);
-    this.submitted = true;
+    this.completed.emit(formResult);
   }
 
   protected onPrevious() : void {
