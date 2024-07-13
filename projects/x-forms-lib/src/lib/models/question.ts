@@ -17,6 +17,7 @@ export class Question<T> extends Directional {
   // Check if question has a valid answer
   valid: boolean = false;
   editionDisabled: boolean = false;
+  maxAnswersSelected: number = -1;
 
 
   public static override copy<T>(from: Question<T>, to: Question<T>): void {
@@ -29,6 +30,7 @@ export class Question<T> extends Directional {
     to.description = from.description;
     to.response = from.response;
     to.editionDisabled = from.editionDisabled;
+    to.maxAnswersSelected = from.maxAnswersSelected;
     Question.setDefaultValues(from, to);
   }
   public static override clone<T>(from: Question<T>): Question<T> {

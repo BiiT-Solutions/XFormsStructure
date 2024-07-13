@@ -31,14 +31,14 @@
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
-    "del-cli": "^5.1.0",
-    "cpx": "^1.5.0",
-    "biit-ui": "latest",
-    "biit-icons-collection": "latest",
     "@angular-devkit/build-angular": "v15-lts",
     "@angular/cli": "v15-lts",
     "@angular/compiler-cli": "v15-lts",
     "@types/jasmine": "~4.3.0",
+    "biit-icons-collection": "latest",
+    "biit-ui": "^0.0.226",
+    "cpx": "^1.5.0",
+    "del-cli": "^5.1.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

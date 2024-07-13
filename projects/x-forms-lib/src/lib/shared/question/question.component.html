@@ -80,6 +80,7 @@
                      [answers]="question.children"
                      [required]="question.mandatory"
                      [disabled]="question.editionDisabled"
+                     [alert]="exceeded"
                      [info]="question.description"
                      (selected)="question.response = $event; onChanged($event);"
 ></biit-multi-checkbox>

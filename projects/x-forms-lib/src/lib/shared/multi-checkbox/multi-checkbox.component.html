@@ -1,4 +1,5 @@
-<div style="display: flex">
+<div style="display: flex; align-items: center">
+  <biit-icon *ngIf="alert" name="exclamation" style="width: 0.8rem; height: 0.8rem; display: block;"/>
   <label *ngIf="label" [required]="required" [value]="answered">{{label}}</label>
   <biit-tooltip-icon *ngIf="info && info.length" inline [text]="info"></biit-tooltip-icon>
 </div>

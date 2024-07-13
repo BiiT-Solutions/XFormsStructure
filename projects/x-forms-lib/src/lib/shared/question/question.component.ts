@@ -22,6 +22,7 @@ export class QuestionComponent {
   protected readonly VariableType = VariableType;
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
+  protected exceeded: boolean = false;
 
 
   constructor(private checkDate: CheckDatePipe,
@@ -48,6 +49,14 @@ export class QuestionComponent {
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {
       return false;
+    }
+    if (this.question.maxAnswersSelected > 0) {
+      if (this.question.children.filter(child => (child as Answer).selected).length > this.question.maxAnswersSelected) {
+        this.exceeded = true;
+        return false;
+      } else {
+        this.exceeded = false;
+      }
     }
     if (this.question.answerType === AnswerType.SINGLE_SELECTION_SLIDER) {
       if (!this.question.children.some(child => (child as Answer).selected)) {
