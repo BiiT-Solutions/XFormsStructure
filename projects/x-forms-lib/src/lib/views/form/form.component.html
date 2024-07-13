@@ -1,8 +1,11 @@
 <div class="form-view" *ngIf="!submitted">
   <div>
-    <div class="category" *ngFor="let category of form.children">
-      <div *ngIf="!category.hidden && category.display" (click)="onCategory(category)"
-           [class.disabled]="category.disabled">{{category.label}}</div>
+    <div class="category-title">CATEGORIES</div>
+    <div>
+      <div class="category" *ngFor="let iCategory of form.children" [class.display-none]="iCategory.hidden || !iCategory.display" [class.selected]="iCategory.pathName === category.pathName">
+        <div *ngIf="!iCategory.hidden && iCategory.display" (click)="onCategory(iCategory)"
+             [class.disabled]="iCategory.disabled">{{iCategory.label}}</div>
+      </div>
     </div>
     </div>
 

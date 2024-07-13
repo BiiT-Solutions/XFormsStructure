@@ -4,7 +4,7 @@
   height: 100%;
 }
 .form-view > div:first-child {
-  min-width: 10vw;
+  min-width: 15vw;
 }
 .form-view > div:last-child {
   flex-grow: 1;
