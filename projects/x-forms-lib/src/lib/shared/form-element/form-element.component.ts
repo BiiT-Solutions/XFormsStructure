@@ -5,6 +5,7 @@ import {Question} from "../../models/question";
 import {Text} from "../../models/text";
 import {Answer} from "../../models/answer";
 import {DataStoreService} from "../../utils/data-store.service";
+import {group} from "@angular/animations";
 
 @Component({
   selector: 'biit-form-element',
@@ -14,6 +15,7 @@ import {DataStoreService} from "../../utils/data-store.service";
 export class FormElementComponent {
 
   @Input() element: FormItem;
+  @Input() maxAccValue: number;
   @Output() changed: EventEmitter<Question<any>> = new EventEmitter();
   @Output() duplicated: EventEmitter<Group> = new EventEmitter();
   @Output() removed: EventEmitter<Group> = new EventEmitter();
@@ -45,6 +47,17 @@ export class FormElementComponent {
   protected onDuplicated(group: Group, children: FormItem[]) {
     FormElementComponent.insertDuplicated(group, children);
     this.changed.emit(null);
+  }
+
+  protected onFormElementChanged(question: Question<any>) {
+    if (this.element instanceof Group) {
+      const group: Group = this.element as Group;
+      if (group.totalAnswersValue !== undefined) {
+        this.element._accValue = Group.calcAccValue(group);
+      }
+
+    }
+    this.changed.emit(question);
   }
 
   protected onRemoved(group: Group, children: FormItem[]) {
@@ -103,4 +116,6 @@ export class FormElementComponent {
 
 
   protected readonly console = console;
+  protected readonly isNaN = isNaN;
+  protected readonly group = group;
 }

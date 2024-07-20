@@ -127,7 +127,18 @@ export class CategoryComponent implements OnInit{
         this.completionSentinel = false;
       }
     }
+    this.calculateGroupAccValue();
     this.changed.emit();
+  }
+
+  private calculateGroupAccValue(): void {
+    const groups: Map<string, Group> = new Map<string, Group>();
+    Structure.extractGroups(this.form, groups);
+    groups.forEach(group => {
+      if (group.totalAnswersValue !== undefined) {
+        group._accValue = Group.calcAccValue(group);
+      }
+    });
   }
 
   private validateFlows(directional: Directional): void {
@@ -138,6 +149,13 @@ export class CategoryComponent implements OnInit{
     if (flows && flows.length) {
       if (directional instanceof Question) {
         if (!directional.valid) {
+          for (const flow of flows) {
+            if (flow.destiny) {
+              flow.destiny.display = false;
+              flow.destiny.disabled = true;
+              this.disableDeep(flow.destiny);
+            }
+          }
           return;
         }
       }
@@ -323,6 +341,18 @@ export class CategoryComponent implements OnInit{
         }
       }
     })
+    const groups: Map<string, Group> = new Map<string, Group>();
+    Structure.extractGroups(item, groups);
+    for (let group of groups.values()) {
+      if (group.totalAnswersValue !== undefined) {
+        if (group._accValue === undefined) {
+          completed = false;
+        }
+        if (group._accValue > group.totalAnswersValue) {
+          completed = false;
+        }
+      }
+    }
     return completed;
   }
 

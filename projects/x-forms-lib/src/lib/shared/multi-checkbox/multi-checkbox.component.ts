@@ -13,7 +13,7 @@ export class MultiCheckboxComponent {
   @Input() label: string;
   @Input() answers: FormItem[];
   @Input() required: boolean = false;
-  @Input() alert: boolean = false;
+  @Input() alert: string;
   @Input() info: string;
   @Input() disabled: boolean = false;
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();

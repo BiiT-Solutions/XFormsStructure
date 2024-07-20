@@ -147,8 +147,6 @@ export class FormComponent implements OnInit {
     });
   }
 
-
-
   private generateIdPath(formItem: FormItem, path: number[] = []): void {
     formItem.path = path;
     if (formItem.children) {
@@ -234,6 +232,7 @@ export class FormComponent implements OnInit {
     })
     this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
   }
+
   private containsDisplayedDirectionals(formItem: FormItem): boolean {
     if (formItem instanceof Directional && formItem.display) {
       return true;
@@ -244,5 +243,5 @@ export class FormComponent implements OnInit {
     return false;
   }
 
-  protected readonly console = console;
+  protected readonly console: Console = console;
 }

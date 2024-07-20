@@ -26,6 +26,7 @@
     "@angular/platform-browser": "v15-lts",
     "@angular/platform-browser-dynamic": "v15-lts",
     "@angular/router": "v15-lts",
+    "@ngneat/transloco-locale": "^5.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -40,6 +41,8 @@
     "cpx": "^1.5.0",
     "del-cli": "^5.1.0",
     "jasmine-core": "~4.5.0",
+    "@ngneat/transloco": "^4.2.2",
+    "@ngneat/transloco-scoped-libs": "^3.0.4",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",

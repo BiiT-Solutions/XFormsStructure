@@ -6,6 +6,7 @@
     "@angular/core": "v15-lts",
     "biit-ui": "latest",
     "biit-icons-collection": "latest",
+    "@ngneat/transloco": "^4.2.2",
     "uuid": "^9.0.1"
   },
   "dependencies": {

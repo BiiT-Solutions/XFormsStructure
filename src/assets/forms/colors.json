@@ -1646,7 +1646,7 @@
           "repeatable": false,
           "isTable": false,
           "numberOfColumn": 1,
-          "totalAnswersValue": 100
+          "totalAnswersValue": 10
         }
       ]
     }

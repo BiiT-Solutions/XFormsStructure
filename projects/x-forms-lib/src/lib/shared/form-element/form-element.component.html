@@ -1,7 +1,7 @@
 <fieldset *ngIf="(element | instanceof: Group) && element.display">
   <legend>
     <div class="legend">
-      <div>{{element.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}</div>
+      <div>{{element.label | varFormat: dataStoreService: dataStoreService.fingerPrint}} - {{element['_accValue']}}</div>
       <div class="legend-right">
         <div *ngIf="(element | asGroup)?.repeatable && !(element | asGroup)?.duplicated" (click)="duplicate()"
              class="legend-button clickable">
@@ -25,7 +25,9 @@
     </div>
   </legend>
   <biit-form-element *ngFor="let child of element.children" [element]="child"
-                     (changed)="changed.emit($event)"
+                     [maxAccValue]="((element | instanceof: Group) && !isNaN((element | asGroup)?.totalAnswersValue))
+                      ? (element | asGroup).totalAnswersValue : undefined"
+                     (changed)="onFormElementChanged($event)"
                      (duplicated)="onDuplicated($event, element.children)"
                      (removed)="onRemoved($event, element.children)"
   ></biit-form-element>

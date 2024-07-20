@@ -10,11 +10,19 @@ import {MultiCheckboxComponent} from "../multi-checkbox/multi-checkbox.component
 import {NestedAnswersPipe} from "../../utils/nested-answers.pipe";
 import {MultiRadioComponent} from "../multi-radio/multi-radio.component";
 import {DataStoreService} from "../../utils/data-store.service";
+import {TRANSLOCO_SCOPE, TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'biit-question',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css']
+  styleUrls: ['./question.component.css'],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      multi:true,
+      useValue: {scope: 'xforms', alias: 'xforms'}
+    }
+  ]
 })
 export class QuestionComponent {
   @Input() question: Question<any>;
@@ -22,12 +30,13 @@ export class QuestionComponent {
   protected readonly VariableType = VariableType;
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
-  protected exceeded: boolean = false;
+  protected exceeded: string;
 
 
   constructor(private checkDate: CheckDatePipe,
               protected dataStoreService: DataStoreService,
               private getRegex: GetRegexPipe,
+              private transloco: TranslocoService,
               private nestedAnswers: NestedAnswersPipe) {
   }
 
@@ -52,10 +61,10 @@ export class QuestionComponent {
     }
     if (this.question.maxAnswersSelected > 0) {
       if (this.question.children.filter(child => (child as Answer).selected).length > this.question.maxAnswersSelected) {
-        this.exceeded = true;
+        this.exceeded = this.transloco.translate('xforms.error-max-selected').replace('{0}', this.question.maxAnswersSelected.toString());
         return false;
       } else {
-        this.exceeded = false;
+        this.exceeded = null;
       }
     }
     if (this.question.answerType === AnswerType.SINGLE_SELECTION_SLIDER) {

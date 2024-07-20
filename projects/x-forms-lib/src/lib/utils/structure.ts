@@ -3,8 +3,30 @@ import {Question} from "../models/question";
 import {Text} from "../models/text";
 import {Answer} from "../models/answer";
 import {Directional} from "../models/directional";
+import {by} from "ng-packagr/lib/graph/select";
+import {Form} from "../models/form";
+import {Group} from "../models/group";
 
 export class Structure {
+
+  public static extractGroups(item: FormItem, map:  Map<string, Group>, path?: string[]): void {
+    if (!path) {
+      path = [];
+    } else {
+      path.push(item.name)
+    }
+    if (item.children) {
+      item.children.filter(child => !child.hidden).forEach(child => {
+        if (child instanceof Group) {
+          map.set([...path, child.name].join('.'), child);
+        } else {
+          Structure.extractGroups(child, map, path)
+        }
+      })
+    }
+    path.pop();
+  }
+
   public static extractQuestions(item: FormItem, map:  Map<string, Question<any>>, path?: string[]): void {
     if (!path) {
       path = [];
@@ -79,5 +101,27 @@ export class Structure {
       }
     }
     return directionals.filter(directionals => !directionals.hidden);
+  }
+
+  public static getParent(item: FormItem, root: FormItem): FormItem {
+    if (!item) {
+      return null;
+    }
+    let parent = root;
+    if (item.path === root.path) {
+      return null;
+    }
+    for (let child of root.children) {
+      if (child.path === item.path) {
+        return root;
+      }
+      if (child.children) {
+        parent = Structure.getParent(item, child);
+        if (parent) {
+          return parent;
+        }
+      }
+    }
+    return null;
   }
 }
