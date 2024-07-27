@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
           const path = `${Constants.FORM_PATH}/${params['form']}.json`
           this.http.get(path)
             .subscribe((form: any) => {
-              this.form = Form.clone(form);
+              this.form = Form.import(form);
               window['form'] = this.form;
             });
         }
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   }
 
   private loadForm(form: string): void {
-    this.form = Form.clone(JSON.parse(form));
+    this.form = Form.import(JSON.parse(form));
     window['form'] = this.form;
   }
 }

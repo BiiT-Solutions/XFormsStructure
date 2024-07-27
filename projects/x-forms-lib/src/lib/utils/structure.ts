@@ -6,6 +6,7 @@ import {Directional} from "../models/directional";
 import {by} from "ng-packagr/lib/graph/select";
 import {Form} from "../models/form";
 import {Group} from "../models/group";
+import {SystemField} from "../models/system-field";
 
 export class Structure {
 
@@ -21,6 +22,24 @@ export class Structure {
           map.set([...path, child.name].join('.'), child);
         } else {
           Structure.extractGroups(child, map, path)
+        }
+      })
+    }
+    path.pop();
+  }
+
+  public static extractSystemFields(item: FormItem, map:  Map<string, SystemField>, path?: string[]): void {
+    if (!path) {
+      path = [];
+    } else {
+      path.push(item.name)
+    }
+    if (item.children) {
+      item.children.filter(child => !child.hidden).forEach(child => {
+        if (child instanceof SystemField) {
+          map.set([...path, child.name].join('.'), child);
+        } else {
+          Structure.extractSystemFields(child, map, path)
         }
       })
     }
