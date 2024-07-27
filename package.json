@@ -3,7 +3,7 @@
   "version": "0.0.25",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run prepare:translations && ng serve",
     "build": "ng build",
     "build:library": "ng build x-forms-lib",
     "prepare:docs": "cpx ./README.md ./dist/x-forms && echo \"{\\\"name\\\": \\\"`node -e \"console.log(require('./package.json').name);\"\n`\\\", \\\"version\\\": \\\"`node -e \"console.log(require('./package.json').version);\"\n`\\\"}\" > ./dist/x-forms/package.json",

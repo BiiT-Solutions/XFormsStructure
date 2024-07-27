@@ -37,7 +37,7 @@ export class FormConverter {
       } else if (child instanceof Group) {
         formItemResults.push(FormConverter.convertGroup(child, path));
       } else if (child instanceof Question) {
-        formItemResults.push(FormConverter.convertQuestion(child, path));
+        formItemResults.push(FormConverter.convertQuestion(child));
       }
     })
     return formItemResults;
@@ -56,30 +56,35 @@ export class FormConverter {
     groupResult.children = FormConverter.convertChildren(group.children, [...path, group.name]);
     return groupResult;
   }
-  private static convertQuestion(question: Question<any>, path: string[] = []): QuestionWithValueResult {
+  private static convertQuestion(question: Question<any>): QuestionWithValueResult {
     const questionResult: QuestionWithValueResult = new QuestionWithValueResult();
     this.setFormItemResult(question, questionResult);
-    if (question.children && question.children.length){
-      questionResult.answerLabels = FormConverter.getAnswerLabels(question.children, path);
-    } else {
+    questionResult.answerLabels = FormConverter.getAnswerLabels(question);
+    if (!question.children || !question.children.length){
       questionResult.values = [question.response];
     }
     return questionResult;
   }
 
-  private static getAnswerLabels(children: FormItem[], path: string[] = []): string[] {
+  private static getAnswerLabels(child: FormItem): string[] {
     const answerLabels: string[] = [];
-    children.forEach(child => {
-      if (child instanceof Answer) {
-        if (child.selected) {
-          answerLabels.push(path.join('/') + '/' + child.name);
-        }
-        if (child.children) {
-          const childLabels: string[] = this.getAnswerLabels(child.children, [...path, child.name]);
-          if (childLabels && childLabels.length > 0) {
-            answerLabels.push(...childLabels);
-          }
-        }
+    if (child instanceof Question) {
+      if ((!child.children || !child.children.length) && child.response) {
+        return [child.response];
+      }
+    }
+
+    if (child instanceof Answer && child.selected && (!child.children || !child.children.length)) {
+      return [child.label];
+    }
+    if (!child.children || !child.children.length) {
+      return [];
+    }
+    child.children.filter(child => child instanceof Answer).map(child => child as Answer)
+      .filter(child => child.selected).forEach(child => {
+      const childLabels: string[] = this.getAnswerLabels(child);
+      if (childLabels && childLabels.length) {
+        answerLabels.push(...childLabels);
       }
     })
     return answerLabels;
