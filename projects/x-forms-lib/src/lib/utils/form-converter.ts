@@ -62,9 +62,36 @@ export class FormConverter {
     questionResult.answerLabels = FormConverter.getAnswerLabels(question);
     if (!question.children || !question.children.length){
       questionResult.values = [question.response];
+    } else {
+      questionResult.values = FormConverter.getAnswerValues(question);
     }
     return questionResult;
   }
+
+  private static getAnswerValues(child: FormItem): string[] {
+    const answerLabels: string[] = [];
+    if (child instanceof Question) {
+      if ((!child.children || !child.children.length) && child.response) {
+        return [child.response];
+      }
+    }
+
+    if (child instanceof Answer && child.selected && (!child.children || !child.children.length)) {
+      return [child.name];
+    }
+    if (!child.children || !child.children.length) {
+      return [];
+    }
+    child.children.filter(child => child instanceof Answer).map(child => child as Answer)
+      .filter(child => child.selected).forEach(child => {
+      const childValues: any[] = this.getAnswerValues(child);
+      if (childValues && childValues.length) {
+        answerLabels.push(...childValues);
+      }
+    })
+    return answerLabels;
+  }
+
 
   private static getAnswerLabels(child: FormItem): string[] {
     const answerLabels: string[] = [];
