@@ -1,6 +1,6 @@
 {
   "name": "x-forms",
-  "version": "0.0.26",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "npm run prepare:translations && ng serve",
@@ -36,8 +36,8 @@
     "@angular/cli": "v15-lts",
     "@angular/compiler-cli": "v15-lts",
     "@types/jasmine": "~4.3.0",
-    "biit-icons-collection": "^1.0.31",
-    "biit-ui": "^0.0.243",
+    "biit-icons-collection": "latest",
+    "biit-ui": "latest",
     "cpx": "^1.5.0",
     "del-cli": "^5.1.0",
     "jasmine-core": "~4.5.0",
