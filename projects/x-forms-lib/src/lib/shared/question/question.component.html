@@ -41,6 +41,7 @@
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER">
   <label *ngIf="question.label && question.label.length">{{question.label}}</label>
   <biit-slider
+               *ngIf="question.horizontal"
                [(ngModel)]="question.response"
                (ngModelChange)="onSliderSelected($event); onChanged($event)"
                [min]="1"
@@ -50,6 +51,14 @@
                [ticks]="(question | answerLabelExtractor).length"
                [disabled]="question.editionDisabled"
   />
+  <biit-slider-option-vertical *ngIf="!question.horizontal"
+                               [(ngModel)]="question.response"
+                               (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
+                               [inverted]="question.inverseAnswerOrder"
+                               [data]="question.children  | sliderConverter"
+                               [showDescription]="question.description_always_visible"
+  />
+
 </div>
 
 <biit-textarea *ngIf="question.answerType === AnswerType.TEXT_AREA"

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestionComponent } from './question.component';
 import {
-    BiitDatePickerModule, BiitDropdownModule,
-    BiitInputTextModule,
-    BiitMultiselectModule,
-    BiitRadioButtonModule, BiitSliderModule,
-    BiitTextareaModule
+  BiitDatePickerModule, BiitDropdownModule,
+  BiitInputTextModule,
+  BiitMultiselectModule,
+  BiitRadioButtonModule, BiitSliderModule, BiitSliderOptionVerticalModule,
+  BiitTextareaModule
 } from "biit-ui/inputs";
 import {FormsModule} from "@angular/forms";
 import {UtilsModule} from "../../utils/utils.module";
@@ -24,22 +24,23 @@ import {BiitTooltipIconModule, BiitTooltipModule} from "biit-ui/info";
   exports: [
     QuestionComponent
   ],
-    imports: [
-        CommonModule,
-        BiitInputTextModule,
-        FormsModule,
-        UtilsModule,
-        BiitDatePickerModule,
-        BiitTextareaModule,
-        BiitRadioButtonModule,
-        BiitMultiselectModule,
-        MultiRadioModule,
-        BiitDropdownModule,
-        RequiredLabelModule,
-        MultiCheckboxModule,
-        BiitTooltipModule,
-        BiitTooltipIconModule,
-        BiitSliderModule
-    ]
+  imports: [
+    CommonModule,
+    BiitInputTextModule,
+    FormsModule,
+    UtilsModule,
+    BiitDatePickerModule,
+    BiitTextareaModule,
+    BiitRadioButtonModule,
+    BiitMultiselectModule,
+    MultiRadioModule,
+    BiitDropdownModule,
+    RequiredLabelModule,
+    MultiCheckboxModule,
+    BiitTooltipModule,
+    BiitTooltipIconModule,
+    BiitSliderModule,
+    BiitSliderOptionVerticalModule
+  ]
 })
 export class QuestionModule { }

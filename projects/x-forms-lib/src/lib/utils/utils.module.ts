@@ -14,6 +14,7 @@ import { NestedAnswersPipe } from './nested-answers.pipe';
 import { AnswerLabelExtractorPipe } from './answer-label-extractor.pipe';
 import { VarFormatPipe } from './var-format.pipe';
 import { VarFormatAnswersPipe } from './var-format-answers.pipe';
+import { SliderConverterPipe } from './slider-converter.pipe';
 
 
 
@@ -32,7 +33,8 @@ import { VarFormatAnswersPipe } from './var-format-answers.pipe';
     NestedAnswersPipe,
     AnswerLabelExtractorPipe,
     VarFormatPipe,
-    VarFormatAnswersPipe
+    VarFormatAnswersPipe,
+    SliderConverterPipe
   ],
   imports: [
     CommonModule
@@ -50,7 +52,8 @@ import { VarFormatAnswersPipe } from './var-format-answers.pipe';
     NestedAnswersPipe,
     AnswerLabelExtractorPipe,
     VarFormatPipe,
-    VarFormatAnswersPipe
+    VarFormatAnswersPipe,
+    SliderConverterPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,

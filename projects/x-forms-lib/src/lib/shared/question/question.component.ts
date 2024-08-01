@@ -55,6 +55,15 @@ export class QuestionComponent {
       (this.question.children[response - 1] as Answer).selected = true;
     }
   }
+
+  protected onSliderOptionSelected(response: string | number): void {
+    if (this.question.children) {
+      this.question.children.forEach(child => (child as Answer).selected = false);
+      this.question.children.filter(child => child.name == response)
+        .map(child => child as Answer).forEach(answer => answer.selected = true);
+    }
+  }
+
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {
       return false;
@@ -93,4 +102,5 @@ export class QuestionComponent {
   }
 
   protected readonly console: Console = console;
+  protected readonly Answer = Answer;
 }

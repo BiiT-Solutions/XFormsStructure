@@ -11,7 +11,9 @@ export class Question<T> extends Directional {
   answerSubformat: VariableFormat;
   mandatory: boolean;
   horizontal: boolean;
+  inverseAnswerOrder: boolean;
   description: string;
+  description_always_visible: boolean;
   // Question answer
   response: T;
   // Check if question has a valid answer
@@ -29,6 +31,8 @@ export class Question<T> extends Directional {
     to.horizontal = from.horizontal;
     to.description = from.description;
     to.response = from.response;
+    to.inverseAnswerOrder = from.inverseAnswerOrder;
+    to.description_always_visible = from.description_always_visible;
     to.editionDisabled = from.editionDisabled;
     to.maxAnswersSelected = from.maxAnswersSelected;
     Question.setDefaultValues(from, to);

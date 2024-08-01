@@ -3,10 +3,13 @@ import {FormItem} from "./form-item";
 export class Answer extends FormItem {
   selected: boolean = false;
   description: string;
+  description_always_visible: boolean;
+
   public static override copy(from: Answer, to: Answer): void {
     super.copy(from, to);
     to.selected = from.selected;
     to.description = from.description;
+    to.description_always_visible = from.description_always_visible;
   }
   public static override clone(from: Answer): Answer {
     const to: Answer = new Answer();
