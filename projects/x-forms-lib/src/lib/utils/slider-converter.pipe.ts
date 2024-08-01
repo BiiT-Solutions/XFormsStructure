@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {FormItem, Question} from "x-forms-lib";
 import {Answer} from "../models/answer";
+import {FormItem} from "../models/form-item";
 
 @Pipe({
   name: 'sliderConverter'
