@@ -4,6 +4,7 @@
   height: 100%;
   margin-right: 3.5rem;
   & > div:first-child {
+    max-width: 25vw;
     height: fit-content;
     margin: 3.5rem;
     & > div:last-child {

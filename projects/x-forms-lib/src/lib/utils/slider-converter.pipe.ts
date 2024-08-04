@@ -11,10 +11,12 @@ export class SliderConverterPipe implements PipeTransform {
     if (!answers || !answers.length) {
       return [];
     }
-    return answers.filter(answer => answer instanceof Answer).map(answer => answer as Answer)
+    const values = answers.filter(answer => answer instanceof Answer).map(answer => answer as Answer)
       .map(answer => {
-        return {value: answer.name, label: answer.label, description: answer.description_always_visible ? answer.description : undefined}
+        return {value: answer.name, label: answer.label, description: answer.descriptionAlwaysVisible ? answer.description : undefined}
       });
+
+    return values;
   }
 
 }
