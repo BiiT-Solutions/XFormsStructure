@@ -51,7 +51,7 @@
                [ticks]="(question | answerLabelExtractor).length"
                [disabled]="question.editionDisabled"
   />
-  <biit-slider-option-vertical style="display: block; width: 65ch"
+  <biit-slider-option-vertical style="display: block; width: 65ch; min-height: 30em"
     *ngIf="!question.horizontal"
                                [(ngModel)]="question.response"
                                (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
