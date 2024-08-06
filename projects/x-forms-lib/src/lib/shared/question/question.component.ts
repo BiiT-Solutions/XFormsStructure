@@ -15,7 +15,7 @@ import {TRANSLOCO_SCOPE, TranslocoService} from "@ngneat/transloco";
 @Component({
   selector: 'biit-question',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css'],
+  styleUrls: ['./question.component.scss'],
   providers: [
     {
       provide: TRANSLOCO_SCOPE,
