@@ -45,7 +45,6 @@
                       (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
                       [inverted]="question.inverseAnswerOrder"
                       [data]="question.children  | sliderConverter"
-                      [showDescription]="question.descriptionAlwaysVisible"
   />
   <biit-slider-option-vertical style="display: flex; width: 65ch; min-height: 25em"
                                *ngIf="!question.horizontal"
