@@ -1,0 +1,18 @@
+::ng-deep biit-slider-option, ::ng-deep biit-slider-option-vertical {
+  .tooltip-slider {
+    position: absolute;
+    bottom: 4.7em;
+    transition: opacity .2s ease-in-out;
+    pointer-events: none;
+
+    span {
+      font-size: 1em;
+      background: white;
+      padding: 0.1em 0.2em;
+      border: 1px solid #262626;
+      display: block;
+      position: relative;
+      min-width: max-content;
+    }
+  }
+}
