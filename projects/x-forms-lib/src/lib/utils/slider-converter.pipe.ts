@@ -13,7 +13,7 @@ export class SliderConverterPipe implements PipeTransform {
     }
     const values = answers.filter(answer => answer instanceof Answer).map(answer => answer as Answer)
       .map(answer => {
-        return {value: answer.name, label: answer.label, description: answer.descriptionAlwaysVisible ? answer.description : undefined}
+        return {value: answer.name, label: answer.label, description: answer.description ?? undefined}
       });
 
     return values;
