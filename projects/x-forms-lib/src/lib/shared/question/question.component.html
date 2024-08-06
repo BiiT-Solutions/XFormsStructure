@@ -40,19 +40,15 @@
 </div>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER">
   <label *ngIf="question.label && question.label.length">{{question.label}}</label>
-  <biit-slider
-               *ngIf="question.horizontal"
-               [(ngModel)]="question.response"
-               (ngModelChange)="onSliderSelected($event); onChanged($event)"
-               [min]="1"
-               [labels]="question | answerLabelExtractor"
-               [max]="(question | answerLabelExtractor).length"
-               [step]="1"
-               [ticks]="(question | answerLabelExtractor).length"
-               [disabled]="question.editionDisabled"
+  <biit-slider-option *ngIf="question.horizontal"
+                      [(ngModel)]="question.response"
+                      (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
+                      [inverted]="question.inverseAnswerOrder"
+                      [data]="question.children  | sliderConverter"
+                      [showDescription]="question.descriptionAlwaysVisible"
   />
   <biit-slider-option-vertical style="display: flex; width: 65ch; min-height: 25em"
-    *ngIf="!question.horizontal"
+                               *ngIf="!question.horizontal"
                                [(ngModel)]="question.response"
                                (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
                                [inverted]="question.inverseAnswerOrder"
