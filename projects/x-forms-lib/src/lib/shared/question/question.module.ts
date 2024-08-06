@@ -5,7 +5,7 @@ import {
   BiitDatePickerModule, BiitDropdownModule,
   BiitInputTextModule,
   BiitMultiselectModule,
-  BiitRadioButtonModule, BiitSliderModule, BiitSliderOptionVerticalModule,
+  BiitRadioButtonModule, BiitSliderOptionModule, BiitSliderOptionVerticalModule,
   BiitTextareaModule
 } from "biit-ui/inputs";
 import {FormsModule} from "@angular/forms";
@@ -39,7 +39,7 @@ import {BiitTooltipIconModule, BiitTooltipModule} from "biit-ui/info";
     MultiCheckboxModule,
     BiitTooltipModule,
     BiitTooltipIconModule,
-    BiitSliderModule,
+    BiitSliderOptionModule,
     BiitSliderOptionVerticalModule
   ]
 })
