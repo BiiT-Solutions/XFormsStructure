@@ -44,7 +44,7 @@ export class Question<T> extends Directional {
   }
 
   // This method is a workaround to merge all the default values
-  private static setDefaultValues<T>(from: any, to: Question<T>): void {
+  private static setDefaultValues(from: any, to: Question<any>): void {
     if (from['defaultValueString']) {
       to.response = from['defaultValueString'];
       to.valid = true;
@@ -55,10 +55,10 @@ export class Question<T> extends Directional {
         answer.selected = true;
         to.valid = true;
       }
-      to.response = answer as T;
+      to.response = to.answerType === AnswerType.SINGLE_SELECTION_SLIDER ? answer.name : answer;
     }
     if (from['defaultValueTime']) {
-      to.response = new Date(from['defaultValueTime']) as T;
+      to.response = new Date(from['defaultValueTime']);
       to.valid = true;
     }
   }
