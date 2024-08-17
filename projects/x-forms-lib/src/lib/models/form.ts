@@ -10,6 +10,7 @@ import {Answer} from "./answer";
 import {SystemField} from "./system-field";
 import {DynamicAnswer} from "./dynamic-answer";
 import {Structure} from "../utils/structure";
+import {AnswerType} from "./answer-type";
 
 export class Form extends FormItem {
   version: number;
@@ -47,6 +48,28 @@ export class Form extends FormItem {
       const property: any = properties.get(sf.name);
       if (property !== undefined) {
         sf.value = property;
+      }
+    });
+    const questions: Map<string, Question<any>> = new Map();
+    Structure.extractQuestions(form, questions);
+    Array.from(questions.values()).forEach(q => {
+      if (q.answerType !== AnswerType.SINGLE_SELECTION_SLIDER
+        && q.children && q.children.length) {
+        if (!q.response) {
+          q.response = [];
+        }
+        q.children.forEach(child => {
+          const childProperty: any = properties.get(child.name);
+          if (childProperty !== undefined) {
+            (child as Answer).selected = true;
+            q.response.add(child);
+          }
+        });
+      } else {
+        const property: any = properties.get(q.name);
+        if (property !== undefined) {
+          q.response = property;
+        }
       }
     });
     return form;
