@@ -34,6 +34,7 @@ export class CategoryComponent implements OnInit{
     if (visibleChildren.length) {
       this.enableElements(visibleChildren);
     }
+    this.onFormChanged();
   }
   @Input() form: Form;
   @Output() completed: EventEmitter<boolean> = new EventEmitter<boolean>();
