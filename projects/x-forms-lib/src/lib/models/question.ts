@@ -14,6 +14,7 @@ export class Question<T> extends Directional {
   inverseAnswerOrder: boolean;
   description: string;
   descriptionAlwaysVisible: boolean;
+  answerDescriptionAlwaysVisible: boolean;
   // Question answer
   response: T;
   // Check if question has a valid answer
@@ -33,6 +34,7 @@ export class Question<T> extends Directional {
     to.response = from.response;
     to.inverseAnswerOrder = from.inverseAnswerOrder;
     to.descriptionAlwaysVisible = from.descriptionAlwaysVisible;
+    to.answerDescriptionAlwaysVisible = from.answerDescriptionAlwaysVisible;
     to.editionDisabled = from.editionDisabled;
     to.maxAnswersSelected = from.maxAnswersSelected;
     Question.setDefaultValues(from, to);
