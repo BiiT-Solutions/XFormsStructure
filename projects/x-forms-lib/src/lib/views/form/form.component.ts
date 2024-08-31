@@ -36,6 +36,8 @@ export class FormComponent implements OnInit {
   protected nextCategory: Category;
   protected previousCategory: Category;
 
+  protected hiddenMenu: boolean = true;
+
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe) {
     iconService.registerIcons(completeIconSet);
