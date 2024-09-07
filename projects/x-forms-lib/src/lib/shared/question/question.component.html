@@ -1,4 +1,5 @@
 <biit-form-image
+  *ngIf="question && question.image"
   [data]="question.image.data"
   [imageUrl]="question.image.imageUrl"
   [width]="question.image.width"

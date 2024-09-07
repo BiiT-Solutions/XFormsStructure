@@ -1,4 +1,5 @@
 <biit-form-image
+  *ngIf="category && category.image"
   [data]="category.image.data"
   [imageUrl]="category.image.imageUrl"
   [width]="category.image.width"
