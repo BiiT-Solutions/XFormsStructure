@@ -204,6 +204,9 @@ export class FormComponent implements OnInit {
       }
     }
   }
+  protected reload(): void {
+    window.location.reload();
+  }
   protected onSubmit(): void {
     const formResult: FormResult = FormConverter.convert(this.form);
     this.completed.emit(formResult);
