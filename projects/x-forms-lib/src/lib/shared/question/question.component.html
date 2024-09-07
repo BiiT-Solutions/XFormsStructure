@@ -1,3 +1,11 @@
+<biit-form-image
+  [data]="question.image.data"
+  [imageUrl]="question.image.imageUrl"
+  [width]="question.image.width"
+  [height]="question.image.height"
+  [label]="question.label"
+/>
+
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
   <biit-input-text *ngSwitchCase="VariableType.TEXT"
                    [placeholder]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
@@ -112,4 +120,3 @@
                [disabled]="question.editionDisabled"
                (ngModelChange)="onChanged($event)"
 ></biit-dropdown>
-
