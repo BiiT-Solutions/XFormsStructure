@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {Question} from "../../models/question";
 import {VariableType} from "../../models/variable-type";
 import {Type} from "biit-ui/inputs";
@@ -22,7 +22,8 @@ import {TRANSLOCO_SCOPE, TranslocoService} from "@ngneat/transloco";
       multi:true,
       useValue: {scope: 'xforms', alias: 'xforms'}
     }
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class QuestionComponent {
   @Input() question: Question<any>;
