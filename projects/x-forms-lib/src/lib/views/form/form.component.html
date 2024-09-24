@@ -1,7 +1,13 @@
 <div class="form-view" *ngIf="!submitted">
-  <div>
-    <div class="category-title">CATEGORIES</div>
-    <div>
+  <div class="categories" [class.hidden-menu]="hiddenMenu">
+    <div style="display: flex; gap: 1rem">
+      <div class="category-title" [class.hidden]="hiddenMenu">CATEGORIES</div>
+      <div class="category-title-button" [class.hidden-menu]="hiddenMenu"
+           (click)="hiddenMenu=!hiddenMenu" style="height: 1rem">
+        <biit-icon [name]="hiddenMenu ? 'column_selection' : 'cross_wide'"></biit-icon>
+      </div>
+    </div>
+    <div [class.hidden]="hiddenMenu">
       <div class="category" *ngFor="let iCategory of form.children" [class.display-none]="iCategory.hidden || !iCategory.display" [class.selected]="iCategory.pathName === category.pathName">
         <div *ngIf="!iCategory.hidden && iCategory.display" (click)="onCategory(iCategory)"
              [class.disabled]="iCategory.disabled">{{iCategory.label}}</div>
@@ -9,7 +15,7 @@
     </div>
     </div>
 
-  <div>
+  <div (click)="hiddenMenu = true">
     <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" ></biit-category>
     <div class="buttons" *ngIf="category" >
       <button biit-button secondary
@@ -26,4 +32,4 @@
     </div>
   </div>
 </div>
-<biit-submitted *ngIf="submitted" (onReturn)="closed.emit()"></biit-submitted>
+<biit-submitted *ngIf="submitted" (onReturn)="reload()"></biit-submitted>

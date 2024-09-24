@@ -1,0 +1,16 @@
+<div class="image">
+  <img *ngIf="imageUrl"
+       [style]="
+       {
+        'width': width + 'px',
+        'height': height + 'px'
+       }"
+       [src]="imageUrl" [alt]="label"/>
+  <img *ngIf="data"
+       [style]="
+       {
+         'width': width + 'px',
+         'height': height + 'px'
+       }"
+       [src]="'data:image/*;base64,' + data" [alt]="label">
+</div>

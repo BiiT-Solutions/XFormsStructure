@@ -87,7 +87,7 @@ export class Form extends FormItem {
     const className: string = item.class;
     if (className.endsWith(`.${Constants.ITEM_CLASSES.CATEGORY}`)) {
       return Category.clone(item as Category);
-    } else if(className.endsWith(`.${Constants.ITEM_CLASSES.TEXT}`)) {
+    } else if (className.endsWith(`.${Constants.ITEM_CLASSES.TEXT}`)) {
       return Text.clone(item as Text);
     } else if (className.endsWith(`.${Constants.ITEM_CLASSES.GROUP}`)) {
       return Group.clone(item as Group);

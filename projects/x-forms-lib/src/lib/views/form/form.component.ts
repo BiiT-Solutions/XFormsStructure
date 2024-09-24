@@ -36,6 +36,8 @@ export class FormComponent implements OnInit {
   protected nextCategory: Category;
   protected previousCategory: Category;
 
+  protected hiddenMenu: boolean = true;
+
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe) {
     iconService.registerIcons(completeIconSet);
@@ -201,6 +203,9 @@ export class FormComponent implements OnInit {
         this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       }
     }
+  }
+  protected reload(): void {
+    window.location.reload();
   }
   protected onSubmit(): void {
     const formResult: FormResult = FormConverter.convert(this.form);

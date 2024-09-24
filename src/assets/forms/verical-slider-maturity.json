@@ -45,7 +45,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-        "descriptionAlwaysVisible" : true
+        "answerDescriptionAlwaysVisible" : true
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45785,
@@ -59,7 +59,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45786,
@@ -73,7 +73,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45787,
@@ -87,7 +87,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45788,
@@ -101,7 +101,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45789,
@@ -115,7 +115,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-        "descriptionAlwaysVisible" : true
+        "answerDescriptionAlwaysVisible" : true
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45790,
@@ -129,7 +129,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45791,
@@ -143,7 +143,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45792,
@@ -157,7 +157,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45793,
@@ -171,7 +171,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45794,
@@ -185,7 +185,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-        "descriptionAlwaysVisible" : true
+        "answerDescriptionAlwaysVisible" : true
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45795,
@@ -199,7 +199,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45796,
@@ -213,7 +213,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45797,
@@ -227,7 +227,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45798,
@@ -241,7 +241,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45799,
@@ -255,7 +255,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-        "descriptionAlwaysVisible" : true
+        "answerDescriptionAlwaysVisible" : true
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45800,
@@ -269,7 +269,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45801,
@@ -283,7 +283,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45802,
@@ -297,7 +297,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45803,
@@ -311,7 +311,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "",
-        "descriptionAlwaysVisible" : false
+        "answerDescriptionAlwaysVisible" : false
       }, {
         "class" : "com.biit.webforms.persistence.entity.Answer",
         "id" : 45804,
@@ -325,7 +325,7 @@
         "hidden" : false,
         "children" : [ ],
         "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination discussion phase departments are autonomous without coordination",
-        "descriptionAlwaysVisible" : true
+        "answerDescriptionAlwaysVisible" : true
       } ],
       "abbreviation" : "",
       "alias" : "",
@@ -334,7 +334,7 @@
       "consecutiveAnswers" : false,
       "horizontal" : false,
       "inverseAnswerOrder" : false,
-      "descriptionAlwaysVisible" : true,
+      "answerDescriptionAlwaysVisible" : true,
       "description" : "",
       "defaultValueString" : null
     } ]
@@ -397,7 +397,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-          "descriptionAlwaysVisible" : true
+          "answerDescriptionAlwaysVisible" : true
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45785,
@@ -411,7 +411,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45786,
@@ -425,7 +425,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45787,
@@ -439,7 +439,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45788,
@@ -453,7 +453,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45789,
@@ -467,7 +467,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-          "descriptionAlwaysVisible" : true
+          "answerDescriptionAlwaysVisible" : true
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45790,
@@ -481,7 +481,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45791,
@@ -495,7 +495,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45792,
@@ -509,7 +509,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45793,
@@ -523,7 +523,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45794,
@@ -537,7 +537,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-          "descriptionAlwaysVisible" : true
+          "answerDescriptionAlwaysVisible" : true
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45795,
@@ -551,7 +551,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45796,
@@ -565,7 +565,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45797,
@@ -579,7 +579,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45798,
@@ -593,7 +593,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45799,
@@ -607,7 +607,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination",
-          "descriptionAlwaysVisible" : true
+          "answerDescriptionAlwaysVisible" : true
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45800,
@@ -621,7 +621,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45801,
@@ -635,7 +635,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45802,
@@ -649,7 +649,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45803,
@@ -663,7 +663,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "",
-          "descriptionAlwaysVisible" : false
+          "answerDescriptionAlwaysVisible" : false
         }, {
           "class" : "com.biit.webforms.persistence.entity.Answer",
           "id" : 45804,
@@ -677,7 +677,7 @@
           "hidden" : false,
           "children" : [ ],
           "description" : "Not been defined or only in the discussion phase departments are autonomous without coordination discussion phase departments are autonomous without coordination",
-          "descriptionAlwaysVisible" : true
+          "answerDescriptionAlwaysVisible" : true
         } ],
         "abbreviation" : "",
         "alias" : "",
@@ -686,7 +686,7 @@
         "consecutiveAnswers" : false,
         "horizontal" : false,
         "inverseAnswerOrder" : false,
-        "descriptionAlwaysVisible" : true,
+        "answerDescriptionAlwaysVisible" : true,
         "description" : "",
         "defaultValueString" : null
       } ]

@@ -1,3 +1,12 @@
+<biit-form-image
+  *ngIf="question && question.image"
+  [data]="question.image.data"
+  [imageUrl]="question.image.imageUrl"
+  [width]="question.image.width"
+  [height]="question.image.height"
+  [label]="question.label"
+/>
+
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
   <biit-input-text *ngSwitchCase="VariableType.TEXT"
                    [placeholder]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
@@ -43,6 +52,11 @@
 </div>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER">
   <label *ngIf="question.label && question.label.length">{{question.label}}</label>
+  <div *ngIf="question.descriptionAlwaysVisible
+              && question.description
+              && question.description.length"
+        class="question-description"
+  >{{question.description}}</div>
   <biit-slider-option *ngIf="question.horizontal"
                       [(ngModel)]="question.response"
                       (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
@@ -55,7 +69,7 @@
                                (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
                                [inverted]="question.inverseAnswerOrder"
                                [data]="question.children  | sliderConverter"
-                               [showDescription]="question.descriptionAlwaysVisible"
+                               [showDescription]="question.answerDescriptionAlwaysVisible"
   />
 
 </div>
@@ -73,7 +87,12 @@
   <div style="display: flex">
     <label [required]="question.mandatory" [value]="question.response">
       {{ question.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}</label>
-    <biit-tooltip-icon *ngIf="question.description && question.description.length" inline
+    <div *ngIf="question.descriptionAlwaysVisible
+              && question.description
+              && question.description.length"
+         class="question-description"
+    >{{question.description}}</div>
+    <biit-tooltip-icon *ngIf="!question.descriptionAlwaysVisible && question.description && question.description.length" inline
                        [text]="question.description"></biit-tooltip-icon>
   </div>
   <biit-multi-radio
@@ -107,4 +126,3 @@
                [disabled]="question.editionDisabled"
                (ngModelChange)="onChanged($event)"
 ></biit-dropdown>
-

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Category} from "../../models/category";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
@@ -18,11 +18,15 @@ import {TokenBetween} from "../../models/token-between";
 import {FlowType} from "../../models/flow-type";
 import {Form} from "../../models/form";
 import {Structure} from "../../utils/structure";
+import {ViewportScroller} from "@angular/common";
 
 @Component({
   selector: 'biit-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.css'],
+  providers: [
+    { provide: Window, useValue: window }
+  ]
 })
 export class CategoryComponent implements OnInit{
   ngOnInit(): void {
@@ -34,10 +38,17 @@ export class CategoryComponent implements OnInit{
     if (visibleChildren.length) {
       this.enableElements(visibleChildren);
     }
+    this.onFormChanged();
+    this.scrollToTop();
   }
   @Input() form: Form;
   @Output() completed: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() changed: EventEmitter<void> = new EventEmitter<void>();
+
+  @ViewChild("categoryViewport") categoryViewPort : ElementRef;
+
+  constructor( private viewportScroller: ViewportScroller) { }
+
   private completionSentinel: boolean = false;
   protected category: Category;
 
@@ -46,6 +57,10 @@ export class CategoryComponent implements OnInit{
       this.displayNodeDown(items[0], true)
     }
     this.expandDisplayedChildren(items, false);
+  }
+
+  protected scrollToTop() {
+    this.viewportScroller.scrollToPosition([0, 0])
   }
 
 

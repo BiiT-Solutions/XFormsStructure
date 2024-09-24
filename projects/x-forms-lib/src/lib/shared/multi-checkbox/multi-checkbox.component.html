@@ -25,6 +25,14 @@
                        inline=""
                        [text]="$any(answer).description">
     </biit-tooltip-icon>
+    <biit-form-image
+      *ngIf="(answer | instanceof : Answer) && $any(answer).image"
+      [data]="$any(answer).image.data"
+      [imageUrl]="$any(answer).image.imageUrl"
+      [width]="$any(answer).image.width"
+      [height]="$any(answer).image.height"
+      [label]="$any(answer).label"
+    />
   </div>
   <biit-multi-checkbox *ngIf="answer && answer['selected']"
                        class="ident"

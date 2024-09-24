@@ -7,6 +7,7 @@ import {RequiredLabelModule} from "../required-label/required-label.module";
 import {UtilsModule} from "../../utils/utils.module";
 import {BiitTooltipIconModule} from "biit-ui/info";
 import {BiitIconModule} from "biit-ui/icon";
+import {ImageModule} from "../image/image.module";
 
 
 
@@ -17,15 +18,16 @@ import {BiitIconModule} from "biit-ui/icon";
   exports: [
     MultiCheckboxComponent
   ],
-  imports: [
-    CommonModule,
-    BiitRadioButtonModule,
-    FormsModule,
-    BiitCheckboxModule,
-    RequiredLabelModule,
-    UtilsModule,
-    BiitTooltipIconModule,
-    BiitIconModule
-  ]
+    imports: [
+        CommonModule,
+        BiitRadioButtonModule,
+        FormsModule,
+        BiitCheckboxModule,
+        RequiredLabelModule,
+        UtilsModule,
+        BiitTooltipIconModule,
+        BiitIconModule,
+        ImageModule
+    ]
 })
 export class MultiCheckboxModule { }
