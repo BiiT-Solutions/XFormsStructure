@@ -121,7 +121,7 @@
                [title]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
                value="name"
                [required]="question.mandatory"
-               [description]="question.descriptionAlwaysVisible ? question.description : undefined"
+               [description]="question.descriptionAlwaysVisible ? 'description' : undefined"
                [(ngModel)]="question.response"
                [disabled]="question.editionDisabled"
                (ngModelChange)="onChanged($event)"
