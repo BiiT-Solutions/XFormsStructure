@@ -8,7 +8,8 @@
       [value]="answer.name"
       [required]="required"
       [disabled]="disabled"
-      [description]="(answer | instanceof : Answer) && $any(answer).description && $any(answer).answerDescriptionAlwaysVisible"
+      [description]="(answer | instanceof : Answer) && $any(answer).description"
+      [showAlwaysDescription]="showAnswersDescription"
     >
       <div *ngIf="!(answer | instanceof: DynamicAnswer)">
         {{answer.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}
@@ -35,6 +36,7 @@
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"
                     [answers]="selectedAnswer.children"
                     [disabled]="disabled"
+                    [showAnswersDescription]="$any(selectedAnswer).answerDescriptionAlwaysVisible"
                     (selected)="childSelected($event)"
                     class="ident"
   ></biit-multi-radio>

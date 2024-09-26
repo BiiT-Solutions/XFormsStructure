@@ -12,6 +12,8 @@ import {DataStoreService} from "../../utils/data-store.service";
 export class MultiCheckboxComponent {
   @Input() label: string;
   @Input() answers: FormItem[];
+  @Input() showQuestionDescription: boolean = false;
+  @Input() showAnswersDescription: boolean = false;
   @Input() required: boolean = false;
   @Input() alert: string;
   @Input() info: string;
@@ -49,5 +51,9 @@ export class MultiCheckboxComponent {
     return answer.selected;
   }
 
-    protected readonly DynamicAnswer = DynamicAnswer;
+  log(event: unknown) {
+    console.log('DEVELOPMENT LOG: ', event);
+  }
+
+  protected readonly DynamicAnswer = DynamicAnswer;
 }

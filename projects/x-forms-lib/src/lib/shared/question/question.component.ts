@@ -102,6 +102,10 @@ export class QuestionComponent {
     return true;
   }
 
+  log(event: unknown) {
+    console.log('DEVELOPMENT LOG: ', event);
+  }
+
   protected readonly console: Console = console;
   protected readonly Answer = Answer;
 }

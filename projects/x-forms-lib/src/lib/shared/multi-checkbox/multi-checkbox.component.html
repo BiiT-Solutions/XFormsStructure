@@ -1,8 +1,13 @@
-<div style="display: flex; align-items: center">
-  <biit-icon *ngIf="alert" name="exclamation" style="width: 0.8rem; height: 0.8rem; display: block;"/>
-  <label *ngIf="label" [required]="required" [value]="answered">{{label}}</label>
-  <label *ngIf="alert" class="error-msg">{{alert}}</label>
-  <biit-tooltip-icon *ngIf="info && info.length" inline [text]="info"></biit-tooltip-icon>
+<div style="display: flex; flex-direction: column">
+  <div style="display: flex">
+    <label *ngIf="label" [required]="required" [value]="answered">{{label}}</label>
+    <biit-tooltip-icon *ngIf="info && !showQuestionDescription" inline [text]="info"></biit-tooltip-icon>
+  </div>
+  <span *ngIf="info && showQuestionDescription" class="question-description">{{info}}</span>
+  <div style="display: flex">
+    <biit-icon *ngIf="alert" name="exclamation" style="width: 0.8rem; height: 0.8rem; display: block;"/>
+    <label *ngIf="alert" class="error-msg">{{alert}}</label>
+  </div>
 </div>
 <div class="checklist" *ngFor="let answer of answers">
   <div style="display: flex">
@@ -12,7 +17,8 @@
                        [id]="answer.id.toString()"
                        [disabled]="disabled"
                        [required]="required"
-                       [description]="(answer | instanceof : Answer) && $any(answer).description && $any(answer).answerDescriptionAlwaysVisible"
+                       [description]="(answer | instanceof : Answer) && $any(answer).description"
+                       [showAlwaysDescription]="showAnswersDescription"
     >
       <div *ngIf="!(answer | instanceof: DynamicAnswer)">
         {{answer.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}
@@ -38,6 +44,7 @@
   <biit-multi-checkbox *ngIf="answer && answer['selected']"
                        class="ident"
                        [answers]="answer.children"
+                       [showAnswersDescription]="$any(answer).answerDescriptionAlwaysVisible"
                        [required]="required"
                        [disabled]="disabled"
                        (selected)="onSelected(answer);"
