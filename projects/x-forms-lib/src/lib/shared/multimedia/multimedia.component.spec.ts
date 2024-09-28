@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageComponent } from './image.component';
+import { MultimediaComponent } from './multimedia.component';
 
 describe('ImageComponent', () => {
-  let component: ImageComponent;
-  let fixture: ComponentFixture<ImageComponent>;
+  let component: MultimediaComponent;
+  let fixture: ComponentFixture<MultimediaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ImageComponent ]
+      declarations: [ MultimediaComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ImageComponent);
+    fixture = TestBed.createComponent(MultimediaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

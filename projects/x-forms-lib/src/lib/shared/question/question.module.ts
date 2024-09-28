@@ -14,7 +14,7 @@ import {MultiRadioModule} from "../multi-radio/multi-radio.module";
 import {RequiredLabelModule} from "../required-label/required-label.module";
 import {MultiCheckboxModule} from "../multi-checkbox/multi-checkbox.module";
 import {BiitTooltipIconModule, BiitTooltipModule} from "biit-ui/info";
-import {ImageModule} from "../image/image.module";
+import {MultimediaModule} from "../multimedia/multimedia.module";
 
 
 
@@ -42,7 +42,7 @@ import {ImageModule} from "../image/image.module";
     BiitTooltipIconModule,
     BiitSliderOptionModule,
     BiitSliderOptionVerticalModule,
-    ImageModule
+    MultimediaModule
   ]
 })
 export class QuestionModule { }

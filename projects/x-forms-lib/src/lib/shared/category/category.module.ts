@@ -3,7 +3,7 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { CategoryComponent } from './category.component';
 import {FormElementModule} from "../form-element/form-element.module";
 import {BiitButtonModule} from "biit-ui/button";
-import {ImageModule} from "../image/image.module";
+import {MultimediaModule} from "../multimedia/multimedia.module";
 
 
 
@@ -19,7 +19,7 @@ import {ImageModule} from "../image/image.module";
     FormElementModule,
     BiitButtonModule,
     NgOptimizedImage,
-    ImageModule
+    MultimediaModule
   ]
 })
 export class CategoryModule { }

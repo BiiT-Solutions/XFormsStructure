@@ -1,0 +1,51 @@
+<div *ngIf="type === MultimediaType.IMAGE" class="image">
+  <img *ngIf="url"
+       [style]="
+       {
+        'width': width + 'px',
+        'height': height + 'px'
+       }"
+       [src]="url" [alt]="label"/>
+  <img *ngIf="data"
+       [style]="
+       {
+         'width': width + 'px',
+         'height': height + 'px'
+       }"
+       [src]="'data:image/*;base64,' + data" [alt]="label">
+</div>
+
+<div *ngIf="type === MultimediaType.VIDEO" class="image">
+  <vg-player style="display: contents">
+    <video [vgMedia]="$any(media)" #media [id]="mId" preload="auto" controls crossorigin
+           [width]="width ? width : undefined">
+      <source [src]="url" type="video/mp4">
+    </video>
+  </vg-player>
+</div>
+
+<div *ngIf="type === MultimediaType.AUDIO" class="image">
+  <vg-player style="height: 50px;">
+    <vg-controls>
+      <vg-play-pause></vg-play-pause>
+      <vg-playback-button></vg-playback-button>
+
+      <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+      <vg-scrub-bar>
+        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+      </vg-scrub-bar>
+
+      <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+      <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+      <vg-mute></vg-mute>
+
+    </vg-controls>
+
+    <audio #media [vgMedia]="$any(media)" [id]="mId" preload="auto" crossorigin>
+      <source [src]="url" type="audio/mp3">
+    </audio>
+  </vg-player>
+</div>

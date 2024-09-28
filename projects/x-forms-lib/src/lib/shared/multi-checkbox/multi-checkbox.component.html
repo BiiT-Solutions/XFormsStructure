@@ -32,10 +32,10 @@
                        inline=""
                        [text]="$any(answer).description">
     </biit-tooltip-icon>
-    <biit-form-image
+    <biit-form-multimedia
       *ngIf="(answer | instanceof : Answer) && $any(answer).image"
       [data]="$any(answer).image.data"
-      [imageUrl]="$any(answer).image.imageUrl"
+      [url]="$any(answer).image.imageUrl"
       [width]="$any(answer).image.width"
       [height]="$any(answer).image.height"
       [label]="$any(answer).label"

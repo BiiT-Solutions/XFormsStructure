@@ -1,10 +1,11 @@
-<biit-form-image
+<biit-form-multimedia
   *ngIf="question && question.image"
   [data]="question.image.data"
-  [imageUrl]="question.image.imageUrl"
+  [url]="question.image.imageUrl"
   [width]="question.image.width"
   [height]="question.image.height"
   [label]="question.label"
+  [mId]="question.comparationId"
 />
 
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
