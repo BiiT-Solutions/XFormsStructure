@@ -7,6 +7,7 @@
     "biit-ui": "latest",
     "biit-icons-collection": "latest",
     "@ngneat/transloco": "^4.2.2",
+    "@videogular/ngx-videogular": "^7.0.1",
     "uuid": "^9.0.1"
   },
   "dependencies": {
