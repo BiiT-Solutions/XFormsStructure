@@ -86,7 +86,7 @@
                (ngModelChange)="onChanged($event)"
 ></biit-textarea>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_RADIO">
-  <div style="display: flex; flex-direction: column">
+  <div style="display: flex; flex-direction: column; margin-bottom: 0.5rem">
     <div style="display: flex">
       <label [required]="question.mandatory" [value]="question.response">
         {{ question.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}</label>
@@ -108,7 +108,6 @@
     [showAnswersDescription]="question.answerDescriptionAlwaysVisible"
     (selected)="question.response = $event; onChanged($event);"
   ></biit-multi-radio>
-  <div (click)="log(question)">Test</div>
 </div>
 
 <biit-multi-checkbox *ngIf="question.answerType === AnswerType.MULTIPLE_SELECTION"

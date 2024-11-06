@@ -1,5 +1,5 @@
 <div class="radio" *ngFor="let answer of answers">
-  <div style="display: flex">
+  <div style="display: flex; margin-bottom: 0.5rem">
     <biit-radio-button
       [(ngModel)]="response"
       (ngModelChange)="onSelected($event)"
