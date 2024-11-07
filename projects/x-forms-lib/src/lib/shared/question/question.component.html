@@ -53,26 +53,30 @@
   ></biit-datepicker>
 </div>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER">
-  <label *ngIf="question.label && question.label.length">{{question.label}}</label>
-  <div *ngIf="question.descriptionAlwaysVisible
+  <div  style="margin-bottom: 0.5rem">
+    <label *ngIf="question.label && question.label.length">{{question.label}}</label>
+    <div *ngIf="question.descriptionAlwaysVisible
               && question.description
               && question.description.length"
-        class="question-description"
-  >{{question.description}}</div>
-  <biit-slider-option *ngIf="question.horizontal"
-                      [(ngModel)]="question.response"
-                      (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
-                      [inverted]="question.inverseAnswerOrder"
-                      [data]="question.children  | sliderConverter"
-  />
-  <biit-slider-option-vertical style="display: flex; width: 65ch; min-height: 25em"
-                               *ngIf="!question.horizontal"
-                               [(ngModel)]="question.response"
-                               (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
-                               [inverted]="question.inverseAnswerOrder"
-                               [data]="question.children  | sliderConverter"
-                               [showDescription]="question.answerDescriptionAlwaysVisible"
-  />
+         class="question-description"
+    >{{question.description}}</div>
+  </div>
+  <div>
+    <biit-slider-option *ngIf="question.horizontal"
+                        [(ngModel)]="question.response"
+                        (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
+                        [inverted]="question.inverseAnswerOrder"
+                        [data]="question.children  | sliderConverter"
+    />
+    <biit-slider-option-vertical style="display: flex; width: 65ch; min-height: 25em"
+                                 *ngIf="!question.horizontal"
+                                 [(ngModel)]="question.response"
+                                 (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
+                                 [inverted]="question.inverseAnswerOrder"
+                                 [data]="question.children  | sliderConverter"
+                                 [showDescription]="question.answerDescriptionAlwaysVisible"
+    />
+  </div>
 
 </div>
 
