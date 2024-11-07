@@ -1,6 +1,6 @@
 {
   "name": "x-forms-lib",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "peerDependencies": {
     "@angular/common": "v15-lts",
     "@angular/core": "v15-lts",
