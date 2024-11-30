@@ -16,7 +16,7 @@
     </div>
 
   <div (click)="hiddenMenu = true">
-    <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" ></biit-category>
+    <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" />
     <div class="buttons" *ngIf="category" >
       <button biit-button secondary
               (click)="onPrevious()"
