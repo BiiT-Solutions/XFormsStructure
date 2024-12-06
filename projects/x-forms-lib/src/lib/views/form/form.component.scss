@@ -19,13 +19,18 @@
   }
   & > div:last-child {
     flex-grow: 1;
-    max-width: 38rem;
-    margin-left: 2.5rem;
+    padding-left: 2rem;
+    & > div {
+      max-width: 38rem;
+      margin: 0 auto;
+    }
   }
 }
 .category-title {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
+  line-height: 120%;
+  color: #262626;
   padding-bottom: 1rem;
 }
 .category {

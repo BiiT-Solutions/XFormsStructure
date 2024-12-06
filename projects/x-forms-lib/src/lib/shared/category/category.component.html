@@ -6,8 +6,8 @@
   [height]="category.image.height"
   [label]="category.label"
 />
+<div class="category-label">{{category.label | uppercase}}</div>
 <div *ngFor="let element of category.children">
-  <div>{{category.label | uppercase}}</div>
   <biit-form-element [element]="element" (changed)="onFormChanged($event)"
                      (duplicated)="onDuplicated($event, this.category.children)"
                      (removed)="onRemoved($event, this.category.children)"

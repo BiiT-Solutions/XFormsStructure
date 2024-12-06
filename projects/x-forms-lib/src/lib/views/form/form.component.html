@@ -16,19 +16,21 @@
     </div>
 
   <div (click)="hiddenMenu = true">
-    <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" />
-    <div class="buttons" *ngIf="category" >
-      <button biit-button secondary
-              (click)="onPrevious()"
-              [disabled]="!previousCategory">Previous</button>
-      <button biit-button primary
-              *ngIf="nextCategory"
-              (click)="onNext()"
-              [disabled]="nextCategory?.disabled || !category.completed">Next</button>
-      <button biit-button primary
-              *ngIf="!nextCategory"
-              (click)="onSubmit()"
-              [disabled]="!(form | checkAnswers)">Submit</button>
+    <div>
+      <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" />
+      <div class="buttons" *ngIf="category" >
+        <button biit-button secondary
+                (click)="onPrevious()"
+                [disabled]="!previousCategory">Previous</button>
+        <button biit-button primary
+                *ngIf="nextCategory"
+                (click)="onNext()"
+                [disabled]="nextCategory?.disabled || !category.completed">Next</button>
+        <button biit-button primary
+                *ngIf="!nextCategory"
+                (click)="onSubmit()"
+                [disabled]="!(form | checkAnswers)">Submit</button>
+      </div>
     </div>
   </div>
 </div>
