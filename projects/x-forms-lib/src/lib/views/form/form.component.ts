@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Form} from "../../models/form";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
@@ -20,6 +20,7 @@ import {TokenBetween} from "../../models/token-between";
 import {Directional} from "../../models/directional";
 import {FormConverter} from "../../utils/form-converter";
 import {FormResult} from "../../models/form/form-result";
+import {QuestionsCounted} from "../../utils/questions-counted";
 
 @Component({
   selector: 'biit-x-form',
@@ -35,11 +36,14 @@ export class FormComponent implements OnInit {
   protected category: Category;
   protected nextCategory: Category;
   protected previousCategory: Category;
+  protected questionsCounted: QuestionsCounted;
 
   protected hiddenMenu: boolean = true;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
-              private next: NextPipe, private previous: PreviousPipe) {
+              private next: NextPipe, private previous: PreviousPipe,
+              private changeDetectorRef: ChangeDetectorRef
+  ) {
     iconService.registerIcons(completeIconSet);
   }
 
@@ -58,6 +62,7 @@ export class FormComponent implements OnInit {
     this.generatePathName(this.form);
     this.displayChildren();
     this.hideByHiddenElements(this.form);
+    this.questionsCounted = this.countQuestions(this.form);
     this.startForm();
     console.log(this.form);
   }
@@ -65,7 +70,7 @@ export class FormComponent implements OnInit {
   private hideByHiddenElements(formItem: FormItem): void {
     if (formItem.children) {
       formItem.children.forEach(child => this.hideByHiddenElements(child));
-      if (formItem.children && formItem.children.length&& formItem.children.every(child => child.hidden)) {
+      if (formItem.children && formItem.children.length && formItem.children.every(child => child.hidden)) {
         formItem.hidden = true;
         formItem.disabled = true;
         formItem.display = false;
@@ -121,7 +126,7 @@ export class FormComponent implements OnInit {
     const conditions: Condition[] = flow.condition;
     conditions.forEach(condition => {
       if (condition instanceof TokenComparationAnswer || condition instanceof TokenIn
-        || condition instanceof TokenComparationValue || condition instanceof TokenBetween){
+        || condition instanceof TokenComparationValue || condition instanceof TokenBetween) {
         if (condition.question_id) {
           condition.linkedQuestion = questions.get(condition.question_id.join('.'));
         }
@@ -132,7 +137,7 @@ export class FormComponent implements OnInit {
   private linkFlowConditionsAnswersToAnswers(flow: Flow, answers: Map<string, Answer>): void {
     const conditions: Condition[] = flow.condition;
     conditions.forEach(condition => {
-      if (condition instanceof TokenComparationAnswer){
+      if (condition instanceof TokenComparationAnswer) {
         if (condition.answer_id) {
           condition.linkedAnswer = answers.get(condition.answer_id.join('.'));
         }
@@ -141,7 +146,7 @@ export class FormComponent implements OnInit {
         if (condition.values) {
           condition.values.forEach(value => {
             if (value.answer_id) {
-              value.linkedAnswer =answers.get(value.answer_id.join('.'));
+              value.linkedAnswer = answers.get(value.answer_id.join('.'));
             }
           })
         }
@@ -169,9 +174,9 @@ export class FormComponent implements OnInit {
 
   private displayChildren(): void {
     const visibleCategories: FormItem[] = this.form.children.filter(child => !child.hidden);
-    visibleCategories.forEach( (child, index) => {
+    visibleCategories.forEach((child, index) => {
       if (!child.display) {
-        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1] , child.id);
+        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1], child.id);
         if (child.display) {
           (child as Category).displayedByDefault = true;
         }
@@ -194,8 +199,8 @@ export class FormComponent implements OnInit {
     }
   }
 
-  protected onNext() : void {
-    if (this.category){
+  protected onNext(): void {
+    if (this.category) {
       const nextCategory: Category = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       if (nextCategory) {
         this.previousCategory = this.category;
@@ -204,15 +209,17 @@ export class FormComponent implements OnInit {
       }
     }
   }
+
   protected reload(): void {
     window.location.reload();
   }
+
   protected onSubmit(): void {
     const formResult: FormResult = FormConverter.convert(this.form);
     this.completed.emit(formResult);
   }
 
-  protected onPrevious() : void {
+  protected onPrevious(): void {
     if (this.category) {
       if (this.previousCategory) {
         this.nextCategory = this.category;
@@ -223,6 +230,8 @@ export class FormComponent implements OnInit {
   }
 
   protected onFormChanged(): void {
+    this.changeDetectorRef.detectChanges();
+    this.questionsCounted = this.countQuestions(this.form);
     const visibleCategories: FormItem[] = this.form.children.filter(child => this.containsDisplayedDirectionals(child));
     visibleCategories.forEach(child => {
       child.display = true;
@@ -236,6 +245,19 @@ export class FormComponent implements OnInit {
       child.disabled = true;
     })
     this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
+  }
+
+  private countQuestions(form: Form): QuestionsCounted {
+    const questions: Map<string, Question<any>> = new Map();
+    Structure.extractQuestions(form, questions);
+    const enabledQuestions = Array.from(questions.values()).filter(question => question.display || !question.hidden);
+    const questionsCounted = new QuestionsCounted(0, enabledQuestions.length);
+    enabledQuestions.forEach(question => {
+      if (question.valid) {
+        questionsCounted.answeredQuestions++;
+      }
+    });
+    return questionsCounted;
   }
 
   private containsDisplayedDirectionals(formItem: FormItem): boolean {

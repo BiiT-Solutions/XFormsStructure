@@ -15,27 +15,29 @@ import { AnswerLabelExtractorPipe } from './answer-label-extractor.pipe';
 import { VarFormatPipe } from './var-format.pipe';
 import { VarFormatAnswersPipe } from './var-format-answers.pipe';
 import { SliderConverterPipe } from './slider-converter.pipe';
+import {CountQuestionsPipe} from './count-questions.pipe';
 
 
 
 @NgModule({
-  declarations: [
-    IsVisiblePipe,
-    NextPipe,
-    TypeofPipe,
-    InstanceofPipe,
-    GetRegexPipe,
-    GetDatePipe,
-    PreviousPipe,
-    CheckDatePipe,
-    CheckAnswersPipe,
-    AsGroupPipe,
-    NestedAnswersPipe,
-    AnswerLabelExtractorPipe,
-    VarFormatPipe,
-    VarFormatAnswersPipe,
-    SliderConverterPipe
-  ],
+    declarations: [
+        IsVisiblePipe,
+        NextPipe,
+        TypeofPipe,
+        InstanceofPipe,
+        GetRegexPipe,
+        GetDatePipe,
+        PreviousPipe,
+        CheckDatePipe,
+        CheckAnswersPipe,
+        AsGroupPipe,
+        NestedAnswersPipe,
+        AnswerLabelExtractorPipe,
+        VarFormatPipe,
+        VarFormatAnswersPipe,
+        SliderConverterPipe,
+        CountQuestionsPipe
+    ],
   imports: [
     CommonModule
   ], exports: [
@@ -53,7 +55,8 @@ import { SliderConverterPipe } from './slider-converter.pipe';
     AnswerLabelExtractorPipe,
     VarFormatPipe,
     VarFormatAnswersPipe,
-    SliderConverterPipe
+    SliderConverterPipe,
+    CountQuestionsPipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,
