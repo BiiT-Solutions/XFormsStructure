@@ -41,7 +41,7 @@
       [label]="$any(answer).label"
     />
   </div>
-  <biit-multi-checkbox *ngIf="answer && answer['selected']"
+  <biit-multi-checkbox *ngIf="answer && answer['selected'] && answer.children && answer.children.length"
                        class="ident"
                        [answers]="answer.children"
                        [showAnswersDescription]="$any(answer).answerDescriptionAlwaysVisible"
