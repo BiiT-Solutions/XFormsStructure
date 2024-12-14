@@ -1,3 +1,10 @@
+biit-progress-bar{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
 .form-view {
   display: flex;
   flex-direction: row;
