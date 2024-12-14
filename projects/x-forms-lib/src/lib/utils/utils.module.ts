@@ -16,6 +16,7 @@ import { VarFormatPipe } from './var-format.pipe';
 import { VarFormatAnswersPipe } from './var-format-answers.pipe';
 import { SliderConverterPipe } from './slider-converter.pipe';
 import {CountQuestionsPipe} from './count-questions.pipe';
+import { PercentagePipe } from './percentage.pipe';
 
 
 
@@ -36,7 +37,8 @@ import {CountQuestionsPipe} from './count-questions.pipe';
         VarFormatPipe,
         VarFormatAnswersPipe,
         SliderConverterPipe,
-        CountQuestionsPipe
+        CountQuestionsPipe,
+        PercentagePipe
     ],
   imports: [
     CommonModule
@@ -56,11 +58,13 @@ import {CountQuestionsPipe} from './count-questions.pipe';
     VarFormatPipe,
     VarFormatAnswersPipe,
     SliderConverterPipe,
-    CountQuestionsPipe
+    CountQuestionsPipe,
+    PercentagePipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,
     PreviousPipe,
+    CheckAnswersPipe,
     CheckDatePipe,
     GetRegexPipe,
     VarFormatPipe,

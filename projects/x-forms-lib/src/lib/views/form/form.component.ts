@@ -21,6 +21,8 @@ import {Directional} from "../../models/directional";
 import {FormConverter} from "../../utils/form-converter";
 import {FormResult} from "../../models/form/form-result";
 import {QuestionsCounted} from "../../utils/questions-counted";
+import {CheckAnswersPipe} from "../../utils/check-answers.pipe";
+import {BiitProgressBarType} from "biit-ui/info";
 
 @Component({
   selector: 'biit-x-form',
@@ -42,6 +44,7 @@ export class FormComponent implements OnInit {
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe,
+              private checkAnswers: CheckAnswersPipe,
               private changeDetectorRef: ChangeDetectorRef
   ) {
     iconService.registerIcons(completeIconSet);
@@ -62,8 +65,8 @@ export class FormComponent implements OnInit {
     this.generatePathName(this.form);
     this.displayChildren();
     this.hideByHiddenElements(this.form);
-    this.questionsCounted = this.countQuestions(this.form);
     this.startForm();
+    this.questionsCounted = this.countQuestions(this.form);
     console.log(this.form);
   }
 
@@ -231,7 +234,6 @@ export class FormComponent implements OnInit {
 
   protected onFormChanged(): void {
     this.changeDetectorRef.detectChanges();
-    this.questionsCounted = this.countQuestions(this.form);
     const visibleCategories: FormItem[] = this.form.children.filter(child => this.containsDisplayedDirectionals(child));
     visibleCategories.forEach(child => {
       child.display = true;
@@ -245,19 +247,43 @@ export class FormComponent implements OnInit {
       child.disabled = true;
     })
     this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
+    this.questionsCounted = this.countQuestions(this.form);
   }
 
+  //NOTE: This is an approximation to the real count of questions (it doesn't take into account the flows)
   private countQuestions(form: Form): QuestionsCounted {
     const questions: Map<string, Question<any>> = new Map();
     Structure.extractQuestions(form, questions);
-    const enabledQuestions = Array.from(questions.values()).filter(question => question.display || !question.hidden);
-    const questionsCounted = new QuestionsCounted(0, enabledQuestions.length);
-    enabledQuestions.forEach(question => {
-      if (question.valid) {
-        questionsCounted.answeredQuestions++;
+    const questionArray: Question<any>[] = Array.from(questions.values());
+    const enabledQuestions: Question<any>[] = [];
+    for (let question of questionArray) {
+      enabledQuestions.push(question)
+      if (question.flows && (!question.display || !question.valid) && !this.moreDisplayed(questionArray, question)) {
+        break;
       }
-    });
+    }
+    const questionsCounted = new QuestionsCounted(0, enabledQuestions.length);
+    if (!this.nextCategory && this.checkAnswers.transform(this.form)) {
+      questionsCounted.answeredQuestions = enabledQuestions.length;
+    } else {
+      enabledQuestions.forEach(question => {
+        if (question.valid || question.hidden || !question.mandatory ||
+          (!question.display && this.moreDisplayed(questionArray, question))) {
+          questionsCounted.answeredQuestions++;
+        }
+      });
+    }
     return questionsCounted;
+  }
+
+  private moreDisplayed(questions: Question<any>[], question: Question<any>): boolean {
+    const index = questions.indexOf(question);
+    for (let i = index + 1; i < questions.length; i++) {
+      if (questions[i].display) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private containsDisplayedDirectionals(formItem: FormItem): boolean {
@@ -271,4 +297,5 @@ export class FormComponent implements OnInit {
   }
 
   protected readonly console: Console = console;
+  protected readonly BiitProgressBarType = BiitProgressBarType;
 }

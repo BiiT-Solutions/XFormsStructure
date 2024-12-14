@@ -1,4 +1,7 @@
-{{this.questionsCounted | json }}
+<biit-progress-bar
+  [value]="this.questionsCounted.answeredQuestions | percentage : this.questionsCounted.totalQuestions"
+  [type]="BiitProgressBarType.DETERMINATE"
+/>
 <div class="form-view" *ngIf="!submitted">
   <div class="categories" [class.hidden-menu]="hiddenMenu">
     <div style="display: flex; gap: 1rem">
