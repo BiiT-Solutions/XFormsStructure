@@ -17,13 +17,7 @@
       <div *ngIf="answer | instanceof: DynamicAnswer">
         {{ '${' + $any(answer).referencePath +'}' | varFormat: dataStoreService: dataStoreService.fingerPrint: answer.label}}
       </div>
-
     </biit-radio-button>
-    <biit-tooltip-icon
-      *ngIf="(answer | instanceof : Answer) && $any(answer).description && !$any(answer).answerDescriptionAlwaysVisible"
-      inline=""
-      [text]="$any(answer).description">
-    </biit-tooltip-icon>
     <biit-form-multimedia
       *ngIf="(answer | instanceof : Answer) && $any(answer).image"
       [data]="$any(answer).image.data"
