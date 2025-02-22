@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormItem} from "../../models/form-item";
 import {Answer} from "../../models/answer";
 import {DynamicAnswer} from "../../models/dynamic-answer";
@@ -9,7 +9,7 @@ import {DataStoreService} from "../../utils/data-store.service";
   templateUrl: './multi-radio.component.html',
   styleUrls: ['./multi-radio.component.css']
 })
-export class MultiRadioComponent {
+export class MultiRadioComponent implements OnInit{
   @Input() label: string;
   @Input() answers: FormItem[];
   @Input() info: string;
@@ -21,6 +21,14 @@ export class MultiRadioComponent {
   protected response: string;
 
   constructor(protected dataStoreService: DataStoreService) {}
+
+  ngOnInit() {
+    const selected = this.answers.filter(answer => (answer as Answer).selected);
+    if (selected.length) {
+      this.selectedAnswer = selected[0];
+      this.response = this.selectedAnswer.name;
+    }
+  }
 
   protected onSelected(value: string): void {
     this.selectedAnswer = null;
