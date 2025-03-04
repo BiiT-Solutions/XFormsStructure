@@ -54,7 +54,7 @@
 </div>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER">
   <div  style="margin-bottom: 0.5rem">
-    <label *ngIf="question.label && question.label.length">{{question.label}}</label>
+    <label class="question-label" *ngIf="question.label && question.label.length">{{question.label}}</label>
     <div *ngIf="question.descriptionAlwaysVisible
               && question.description
               && question.description.length"
@@ -92,7 +92,7 @@
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_RADIO">
   <div style="display: flex; flex-direction: column; margin-bottom: 0.5rem">
     <div style="display: flex">
-      <label [required]="question.mandatory" [value]="question.response">
+      <label class="question-label" [required]="question.mandatory" [value]="question.response">
         {{ question.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}</label>
       <biit-tooltip-icon *ngIf="!question.descriptionAlwaysVisible && question.description && question.description.length"
                          [text]="question.description" inline></biit-tooltip-icon>
