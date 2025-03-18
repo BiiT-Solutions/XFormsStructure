@@ -1,11 +1,13 @@
 {
   "name": "x-forms-lib",
-  "version": "0.0.10",
+  "version": "0.1.46",
   "peerDependencies": {
     "@angular/common": "v15-lts",
     "@angular/core": "v15-lts",
     "biit-ui": "latest",
     "biit-icons-collection": "latest",
+    "@ngneat/transloco": "^4.2.2",
+    "@videogular/ngx-videogular": "^7.0.1",
     "uuid": "^9.0.1"
   },
   "dependencies": {

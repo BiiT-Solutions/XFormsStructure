@@ -6,6 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {BiitTooltipIconModule} from "biit-ui/info";
 import {RequiredLabelModule} from "../required-label/required-label.module";
 import {UtilsModule} from "../../utils/utils.module";
+import {MultimediaModule} from "../multimedia/multimedia.module";
 
 
 
@@ -16,13 +17,14 @@ import {UtilsModule} from "../../utils/utils.module";
   exports: [
     MultiRadioComponent
   ],
-  imports: [
-    CommonModule,
-    BiitRadioButtonModule,
-    FormsModule,
-    BiitTooltipIconModule,
-    RequiredLabelModule,
-    UtilsModule
-  ]
+    imports: [
+        CommonModule,
+        BiitRadioButtonModule,
+        FormsModule,
+        BiitTooltipIconModule,
+        RequiredLabelModule,
+        UtilsModule,
+        MultimediaModule
+    ]
 })
 export class MultiRadioModule { }

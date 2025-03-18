@@ -3,10 +3,15 @@
   right: 10vw;
 }
 
+legend {
+  padding: 0 1rem;
+  margin-left: 2.25rem;
+}
+
 .legend {
   display: flex;
   flex-direction: row;
-  width: 100%
+  width: 100%;
 }
 
 .legend-button {
@@ -20,4 +25,10 @@
 
 fieldset {
   margin-top: 0.25rem;
+  border: #EDEDED solid 3px;
 }
+
+biit-form-element {
+  margin: 1rem;
+}
+

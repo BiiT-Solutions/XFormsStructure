@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {Question} from "../../models/question";
 import {VariableType} from "../../models/variable-type";
 import {Type} from "biit-ui/inputs";
@@ -10,11 +10,20 @@ import {MultiCheckboxComponent} from "../multi-checkbox/multi-checkbox.component
 import {NestedAnswersPipe} from "../../utils/nested-answers.pipe";
 import {MultiRadioComponent} from "../multi-radio/multi-radio.component";
 import {DataStoreService} from "../../utils/data-store.service";
+import {TRANSLOCO_SCOPE, TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'biit-question',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css']
+  styleUrls: ['./question.component.scss'],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      multi:true,
+      useValue: {scope: 'xforms', alias: 'xforms'}
+    }
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class QuestionComponent {
   @Input() question: Question<any>;
@@ -22,11 +31,13 @@ export class QuestionComponent {
   protected readonly VariableType = VariableType;
   protected readonly Type = Type;
   protected readonly AnswerType = AnswerType;
+  protected exceeded: string;
 
 
   constructor(private checkDate: CheckDatePipe,
               protected dataStoreService: DataStoreService,
               private getRegex: GetRegexPipe,
+              private transloco: TranslocoService,
               private nestedAnswers: NestedAnswersPipe) {
   }
 
@@ -45,9 +56,26 @@ export class QuestionComponent {
       (this.question.children[response - 1] as Answer).selected = true;
     }
   }
+
+  protected onSliderOptionSelected(response: string | number): void {
+    if (this.question.children) {
+      this.question.children.forEach(child => (child as Answer).selected = false);
+      this.question.children.filter(child => child.name == response)
+        .map(child => child as Answer).forEach(answer => answer.selected = true);
+    }
+  }
+
   private validate(response: any): boolean {
     if (this.question.mandatory && !response) {
       return false;
+    }
+    if (this.question.maxAnswersSelected > 0) {
+      if (this.question.children.filter(child => (child as Answer).selected).length > this.question.maxAnswersSelected) {
+        this.exceeded = this.transloco.translate('xforms.error-max-selected').replace('{0}', this.question.maxAnswersSelected.toString());
+        return false;
+      } else {
+        this.exceeded = null;
+      }
     }
     if (this.question.answerType === AnswerType.SINGLE_SELECTION_SLIDER) {
       if (!this.question.children.some(child => (child as Answer).selected)) {
@@ -74,5 +102,10 @@ export class QuestionComponent {
     return true;
   }
 
+  log(event: unknown) {
+    console.log('DEVELOPMENT LOG: ', event);
+  }
+
   protected readonly console: Console = console;
+  protected readonly Answer = Answer;
 }

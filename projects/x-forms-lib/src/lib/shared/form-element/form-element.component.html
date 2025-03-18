@@ -1,35 +1,18 @@
-<fieldset *ngIf="(element | instanceof: Group) && element.display">
-  <legend>
-    <div class="legend">
-      <div>{{element.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}</div>
-      <div class="legend-right">
-        <div *ngIf="(element | asGroup)?.repeatable && !(element | asGroup)?.duplicated" (click)="duplicate()"
-             class="legend-button clickable">
-          <biit-icon
-            name="plus"
-            [svgStyle]="{'backgroundColor': 'transparent'}"
-            [pathStyle]="{fill: '#000'}"
-            style="width: 12px; height: 12px; display: block;"
-          ></biit-icon> Duplicate
-        </div>
-        <div *ngIf="(element | asGroup)?.duplicated" (click)="remove()"
-             class="legend-button clickable">
-          <biit-icon
-            name="minus"
-            [svgStyle]="{'backgroundColor': 'transparent'}"
-            [pathStyle]="{fill: '#000'}"
-            style="width: 12px; height: 12px; display: block;"
-          ></biit-icon> Remove
-        </div>
-      </div>
-    </div>
-  </legend>
+<biit-group *ngIf="(element | instanceof: Group) && element.display"
+            [legend]="element.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
+            [enablePlus]="(element | asGroup)?.repeatable && !(element | asGroup)?.duplicated"
+            [enableMinus]="(element | asGroup)?.duplicated"
+            (onPlusClick)="duplicate()"
+            (onMinusClick)="remove()"
+>
   <biit-form-element *ngFor="let child of element.children" [element]="child"
-                     (changed)="changed.emit($event)"
+                     [maxAccValue]="((element | instanceof: Group) && !isNaN((element | asGroup)?.totalAnswersValue))
+                      ? (element | asGroup).totalAnswersValue : undefined"
+                     (changed)="onFormElementChanged($event)"
                      (duplicated)="onDuplicated($event, element.children)"
                      (removed)="onRemoved($event, element.children)"
   ></biit-form-element>
-</fieldset>
+</biit-group>
 <div *ngIf="(element | instanceof: Question) && element.display">
   <biit-question [question]="$any(element)" (changed)="changed.emit($event)"></biit-question>
 </div>

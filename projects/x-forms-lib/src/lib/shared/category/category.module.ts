@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { CategoryComponent } from './category.component';
 import {FormElementModule} from "../form-element/form-element.module";
 import {BiitButtonModule} from "biit-ui/button";
+import {MultimediaModule} from "../multimedia/multimedia.module";
 
 
 
@@ -13,10 +14,12 @@ import {BiitButtonModule} from "biit-ui/button";
   exports: [
     CategoryComponent
   ],
-    imports: [
-        CommonModule,
-        FormElementModule,
-        BiitButtonModule
-    ]
+  imports: [
+    CommonModule,
+    FormElementModule,
+    BiitButtonModule,
+    NgOptimizedImage,
+    MultimediaModule
+  ]
 })
 export class CategoryModule { }

@@ -10,6 +10,7 @@ export * from './lib/models/question';
 export * from './lib/models/group';
 export * from './lib/models/category';
 export * from './lib/models/answer-type';
+export * from './lib/models/form/form-result';
 
 export * from './lib/utils/constants';
 

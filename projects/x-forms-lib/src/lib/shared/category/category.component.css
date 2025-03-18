@@ -1,0 +1,9 @@
+biit-form-element {
+  margin: 1rem;
+}
+.image {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

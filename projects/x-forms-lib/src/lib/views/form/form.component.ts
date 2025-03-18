@@ -18,6 +18,8 @@ import {TokenIn} from "../../models/token-in";
 import {TokenComparationValue} from "../../models/token-comparation-value";
 import {TokenBetween} from "../../models/token-between";
 import {Directional} from "../../models/directional";
+import {FormConverter} from "../../utils/form-converter";
+import {FormResult} from "../../models/form/form-result";
 
 @Component({
   selector: 'biit-x-form',
@@ -27,11 +29,14 @@ import {Directional} from "../../models/directional";
 export class FormComponent implements OnInit {
 
   @Input() form: Form;
-  @Output() closed = new EventEmitter<any>();
+  @Output() completed: EventEmitter<FormResult> = new EventEmitter<FormResult>();
+  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
+  @Input() submitted: boolean = false;
   protected category: Category;
   protected nextCategory: Category;
   protected previousCategory: Category;
-  protected submitted: boolean = false;
+
+  protected hiddenMenu: boolean = true;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe) {
@@ -144,8 +149,6 @@ export class FormComponent implements OnInit {
     });
   }
 
-
-
   private generateIdPath(formItem: FormItem, path: number[] = []): void {
     formItem.path = path;
     if (formItem.children) {
@@ -201,9 +204,12 @@ export class FormComponent implements OnInit {
       }
     }
   }
+  protected reload(): void {
+    window.location.reload();
+  }
   protected onSubmit(): void {
-    //TODO(jnavalon): Implement the submit form
-    this.submitted = true;
+    const formResult: FormResult = FormConverter.convert(this.form);
+    this.completed.emit(formResult);
   }
 
   protected onPrevious() : void {
@@ -231,6 +237,7 @@ export class FormComponent implements OnInit {
     })
     this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
   }
+
   private containsDisplayedDirectionals(formItem: FormItem): boolean {
     if (formItem instanceof Directional && formItem.display) {
       return true;
@@ -241,5 +248,5 @@ export class FormComponent implements OnInit {
     return false;
   }
 
-  protected readonly console = console;
+  protected readonly console: Console = console;
 }

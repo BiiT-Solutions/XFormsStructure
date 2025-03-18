@@ -1,5 +1,5 @@
 <div class="radio" *ngFor="let answer of answers">
-  <div style="display: flex">
+  <div style="display: flex; margin-bottom: 0.5rem">
     <biit-radio-button
       [(ngModel)]="response"
       (ngModelChange)="onSelected($event)"
@@ -8,6 +8,8 @@
       [value]="answer.name"
       [required]="required"
       [disabled]="disabled"
+      [description]="(answer | instanceof : Answer) && $any(answer).description"
+      [showAlwaysDescription]="showAnswersDescription"
     >
       <div *ngIf="!(answer | instanceof: DynamicAnswer)">
         {{answer.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}
@@ -15,17 +17,20 @@
       <div *ngIf="answer | instanceof: DynamicAnswer">
         {{ '${' + $any(answer).referencePath +'}' | varFormat: dataStoreService: dataStoreService.fingerPrint: answer.label}}
       </div>
-
     </biit-radio-button>
-    <biit-tooltip-icon
-      *ngIf="(answer | instanceof : Answer) && $any(answer).description"
-      inline=""
-      [text]="$any(answer).description">
-    </biit-tooltip-icon>
+    <biit-form-multimedia
+      *ngIf="(answer | instanceof : Answer) && $any(answer).image"
+      [data]="$any(answer).image.data"
+      [url]="$any(answer).image.imageUrl"
+      [width]="$any(answer).image.width"
+      [height]="$any(answer).image.height"
+      [label]="$any(answer).label"
+    />
   </div>
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"
                     [answers]="selectedAnswer.children"
                     [disabled]="disabled"
+                    [showAnswersDescription]="$any(selectedAnswer).answerDescriptionAlwaysVisible"
                     (selected)="childSelected($event)"
                     class="ident"
   ></biit-multi-radio>

@@ -1,0 +1,26 @@
+biit-slider-option, biit-slider-option-vertical {
+  .tooltip-slider {
+    position: absolute;
+    bottom: 4.7em;
+    transition: opacity .2s ease-in-out;
+    pointer-events: none;
+
+    span {
+      font-size: 1em;
+      background: white;
+      padding: 0.1em 0.2em;
+      border: 1px solid #262626;
+      display: block;
+      position: relative;
+      min-width: max-content;
+    }
+  }
+}
+
+.question-description{
+  font-style: italic;
+  font-size: 0.75em;
+  padding-left: 1em;
+  margin: 1rem 0;
+  color: #808080;
+}

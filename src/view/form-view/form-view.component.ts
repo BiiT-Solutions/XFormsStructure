@@ -11,4 +11,6 @@ export class FormViewComponent {
   @Input() form: Form;
   constructor() {
   }
+
+  protected readonly console = console;
 }
