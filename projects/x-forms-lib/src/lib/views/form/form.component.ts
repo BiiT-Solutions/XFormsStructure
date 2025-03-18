@@ -59,7 +59,7 @@ export class FormComponent implements OnInit {
     this.displayChildren();
     this.hideByHiddenElements(this.form);
     this.startForm();
-    console.log(this.form);
+    console.debug("Form: ", this.form);
   }
 
   private hideByHiddenElements(formItem: FormItem): void {
