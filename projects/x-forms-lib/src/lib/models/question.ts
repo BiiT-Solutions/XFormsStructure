@@ -23,7 +23,7 @@ export class Question<T> extends Directional {
   valid: boolean = false;
   editionDisabled: boolean = false;
   maxAnswersSelected: number = -1;
-  answerValuesOnTooltip: boolean = true;
+  answersValuesOnTooltip: boolean = true;
 
 
   public static override copy<T>(from: Question<T>, to: Question<T>): void {
@@ -41,7 +41,7 @@ export class Question<T> extends Directional {
     to.image = from.image ? Image.clone(from.image) : null;
     to.editionDisabled = from.editionDisabled;
     to.maxAnswersSelected = from.maxAnswersSelected;
-    to.answerValuesOnTooltip = from.answerValuesOnTooltip;
+    to.answersValuesOnTooltip = from.answersValuesOnTooltip;
     Question.setDefaultValues(from, to);
   }
 
