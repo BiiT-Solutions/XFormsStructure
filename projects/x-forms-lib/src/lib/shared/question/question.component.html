@@ -75,6 +75,7 @@
                                  [(ngModel)]="question.response"
                                  (ngModelChange)="onSliderOptionSelected($event); onChanged($event)"
                                  [inverted]="question.inverseAnswerOrder"
+                                 [showTooltip]="question.answerValuesOnTooltip"
                                  [data]="question.children  | sliderConverter"
                                  [showDescription]="question.answerDescriptionAlwaysVisible"
     />
