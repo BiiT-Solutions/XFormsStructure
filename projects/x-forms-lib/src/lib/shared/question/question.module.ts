@@ -15,6 +15,7 @@ import {RequiredLabelModule} from "../required-label/required-label.module";
 import {MultiCheckboxModule} from "../multi-checkbox/multi-checkbox.module";
 import {BiitTooltipIconModule, BiitTooltipModule} from "biit-ui/info";
 import {MultimediaModule} from "../multimedia/multimedia.module";
+import {QuestionTitleModule} from "../question-title/question-title.module";
 
 
 
@@ -25,24 +26,25 @@ import {MultimediaModule} from "../multimedia/multimedia.module";
   exports: [
     QuestionComponent
   ],
-  imports: [
-    CommonModule,
-    BiitInputTextModule,
-    FormsModule,
-    UtilsModule,
-    BiitDatePickerModule,
-    BiitTextareaModule,
-    BiitRadioButtonModule,
-    BiitMultiselectModule,
-    MultiRadioModule,
-    BiitDropdownModule,
-    RequiredLabelModule,
-    MultiCheckboxModule,
-    BiitTooltipModule,
-    BiitTooltipIconModule,
-    BiitSliderOptionModule,
-    BiitSliderOptionVerticalModule,
-    MultimediaModule
-  ]
+    imports: [
+        CommonModule,
+        BiitInputTextModule,
+        FormsModule,
+        UtilsModule,
+        BiitDatePickerModule,
+        BiitTextareaModule,
+        BiitRadioButtonModule,
+        BiitMultiselectModule,
+        MultiRadioModule,
+        BiitDropdownModule,
+        RequiredLabelModule,
+        MultiCheckboxModule,
+        BiitTooltipModule,
+        BiitTooltipIconModule,
+        BiitSliderOptionModule,
+        BiitSliderOptionVerticalModule,
+        MultimediaModule,
+        QuestionTitleModule
+    ]
 })
 export class QuestionModule { }

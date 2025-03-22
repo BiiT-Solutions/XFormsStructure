@@ -1,0 +1,4 @@
+<div style="margin-bottom: 0.5rem;">
+  <label class="question-label" *ngIf="title && title.length">{{ title }}</label>
+  <label *ngIf="required" [style.color]="!completed ? 'red' : 'gray'" style="margin-left: 0.25rem">*</label>
+</div>
