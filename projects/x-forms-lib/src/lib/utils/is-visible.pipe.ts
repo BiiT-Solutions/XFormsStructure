@@ -1,17 +1,18 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {FormItem} from "../models/form-item";
 import {Flow} from "../models/flow";
+import {FlowType} from "../models/flow-type";
 
 @Pipe({
   name: 'isVisible'
 })
 export class IsVisiblePipe implements PipeTransform {
 
-  transform(visible: FormItem,  targetId: number): boolean {
+  transform(visible: FormItem,  targetId: string): boolean {
     return this.isVisible(visible, targetId);
   }
 
-  private isVisible(parent: FormItem,  targetId: number): boolean {
+  private isVisible(parent: FormItem,  targetId: string): boolean {
     // There is no parent, then it is visible (First node)
     if (!parent) {
       return true;
@@ -26,10 +27,11 @@ export class IsVisiblePipe implements PipeTransform {
     return false;
   }
 
-  private allFlowsReachNode(parent: FormItem, targetId: number): boolean {
+  private allFlowsReachNode(parent: FormItem, targetId: string): boolean {
       const flows: Flow[] = [];
       this.extractFlows(parent, flows);
-      return !flows.some(flow => !flow.destinyId.includes(targetId.toString()));
+      // All flows reach node if all flows have as destination the target node or if they have as destination itself and there are no flows ending the form
+      return !flows.some(flow => flow.flowType === FlowType.END_FORM || (!flow.destinyId.includes(targetId.toString()) && !flow.destinyId.includes(parent.pathName)));
   }
   private parentHasFlows(parent: FormItem): boolean {
     if (parent['flows']) {
