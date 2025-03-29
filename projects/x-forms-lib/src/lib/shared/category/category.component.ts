@@ -202,6 +202,7 @@ export class CategoryComponent implements OnInit{
         if (pathFound) {
           defaultFlow.destiny.display = false;
           defaultFlow.destiny.disabled = true;
+          this.disableDeep(defaultFlow.destiny);
         } else {
           defaultFlow.destiny.display = true;
           defaultFlow.destiny.disabled = false;
