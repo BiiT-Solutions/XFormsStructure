@@ -6,6 +6,7 @@ import {CategoryModule} from "../../shared/category/category.module";
 import {BiitButtonModule} from "biit-ui/button";
 import {SubmittedModule} from "../submitted/submitted.module";
 import {BiitIconModule} from "biit-ui/icon";
+import {BiitProgressBarModule} from "biit-ui/info";
 
 
 
@@ -13,14 +14,15 @@ import {BiitIconModule} from "biit-ui/icon";
   declarations: [
     FormComponent
   ],
-    imports: [
-        CommonModule,
-        UtilsModule,
-        CategoryModule,
-        BiitButtonModule,
-        SubmittedModule,
-        BiitIconModule
-    ],
+  imports: [
+    CommonModule,
+    UtilsModule,
+    CategoryModule,
+    BiitButtonModule,
+    SubmittedModule,
+    BiitIconModule,
+    BiitProgressBarModule
+  ],
   exports: [
     FormComponent
   ]

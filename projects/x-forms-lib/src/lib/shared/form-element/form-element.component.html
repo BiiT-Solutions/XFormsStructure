@@ -13,9 +13,9 @@
                      (removed)="onRemoved($event, element.children)"
   ></biit-form-element>
 </biit-group>
-<div *ngIf="(element | instanceof: Question) && element.display">
+<div class="question" *ngIf="(element | instanceof: Question) && element.display">
   <biit-question [question]="$any(element)" (changed)="changed.emit($event)"></biit-question>
 </div>
-<div *ngIf="(element | instanceof: Text) && element.display">
+<div class="text-element" *ngIf="(element | instanceof: Text) && element.display">
   <biit-text [text]="$any(element)"></biit-text>
 </div>
