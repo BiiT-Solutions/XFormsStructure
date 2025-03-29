@@ -23,6 +23,7 @@ export class Question<T> extends Directional {
   valid: boolean = false;
   editionDisabled: boolean = false;
   maxAnswersSelected: number = -1;
+  answersValuesOnTooltip: boolean = true;
 
 
   public static override copy<T>(from: Question<T>, to: Question<T>): void {
@@ -40,8 +41,10 @@ export class Question<T> extends Directional {
     to.image = from.image ? Image.clone(from.image) : null;
     to.editionDisabled = from.editionDisabled;
     to.maxAnswersSelected = from.maxAnswersSelected;
+    to.answersValuesOnTooltip = from.answersValuesOnTooltip;
     Question.setDefaultValues(from, to);
   }
+
   public static override clone<T>(from: Question<T>): Question<T> {
     const to: Question<T> = new Question<T>();
     Question.copy(from, to);

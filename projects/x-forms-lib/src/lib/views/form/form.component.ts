@@ -67,7 +67,7 @@ export class FormComponent implements OnInit {
     this.hideByHiddenElements(this.form);
     this.startForm();
     this.questionsCounted = this.countQuestions(this.form);
-    console.log(this.form);
+    console.debug("Form: ", this.form);
   }
 
   private hideByHiddenElements(formItem: FormItem): void {
@@ -179,7 +179,7 @@ export class FormComponent implements OnInit {
     const visibleCategories: FormItem[] = this.form.children.filter(child => !child.hidden);
     visibleCategories.forEach((child, index) => {
       if (!child.display) {
-        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1], child.id);
+        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1] , child.pathName);
         if (child.display) {
           (child as Category).displayedByDefault = true;
         }
@@ -232,14 +232,19 @@ export class FormComponent implements OnInit {
     }
   }
 
+  /**
+   * This method is called always that the form changes (any question is answered or modified)
+   * @protected
+   */
   protected onFormChanged(): void {
     this.changeDetectorRef.detectChanges();
-    const visibleCategories: FormItem[] = this.form.children.filter(child => this.containsDisplayedDirectionals(child));
+    // Get all visible categories (those categories that have at least one visible question)
+    const visibleCategories: FormItem[] = this.form.children.filter(child => this.containsDisplayedDirectionals(child) || !child.disabled);
     visibleCategories.forEach(child => {
       child.display = true;
       child.disabled = false;
     });
-    const hidedCategories: Category[] = this.form.children.filter(child => !this.containsDisplayedDirectionals(child)) as Category[];
+    const hidedCategories: Category[] = this.form.children.filter(child => !this.containsDisplayedDirectionals(child) && child.disabled) as Category[];
     hidedCategories.forEach(child => {
       if (!child.displayedByDefault) {
         child.display = false;
