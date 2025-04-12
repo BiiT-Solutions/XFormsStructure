@@ -31,10 +31,14 @@ import {BiitProgressBarType} from "biit-ui/info";
 })
 export class FormComponent implements OnInit {
 
-  @Input() form: Form;
+  @Input("form") set _form(form: Form) {
+    this.form = form;
+    this.onFormChanged();
+  }
   @Output() completed: EventEmitter<FormResult> = new EventEmitter<FormResult>();
   @Output() closed: EventEmitter<void> = new EventEmitter<void>();
   @Input() submitted: boolean = false;
+  protected form: Form;
   protected category: Category;
   protected nextCategory: Category;
   protected previousCategory: Category;
