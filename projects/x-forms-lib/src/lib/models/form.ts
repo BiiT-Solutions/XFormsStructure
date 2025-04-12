@@ -16,6 +16,7 @@ export class Form extends FormItem {
   version: number;
   organizationId: number;
   description: string;
+  descriptionTranslations: {[key: string]: string};
   flows: Flow[];
 
   // TODO(jpastor): typify next variables properly
@@ -31,6 +32,12 @@ export class Form extends FormItem {
     to.flows = from.flows ? from.flows.map(Flow.clone) : [];
     to.webserviceCalls = from.webserviceCalls;
     to.linkedFormVersions = from.linkedFormVersions;
+    to.descriptionTranslations = {};
+    if (from.descriptionTranslations) {
+      Object.keys(from.descriptionTranslations).forEach((key: string) => {
+        to.descriptionTranslations[key] = from.descriptionTranslations[key];
+      });
+    }
     to.elementsToHide = from.elementsToHide;
   }
 

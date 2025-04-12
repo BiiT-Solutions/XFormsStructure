@@ -11,12 +11,12 @@ import { CheckDatePipe } from './check-date.pipe';
 import { CheckAnswersPipe } from './check-answers.pipe';
 import { AsGroupPipe } from './as-group.pipe';
 import { NestedAnswersPipe } from './nested-answers.pipe';
-import { AnswerLabelExtractorPipe } from './answer-label-extractor.pipe';
 import { VarFormatPipe } from './var-format.pipe';
 import { VarFormatAnswersPipe } from './var-format-answers.pipe';
 import { SliderConverterPipe } from './slider-converter.pipe';
 import {CountQuestionsPipe} from './count-questions.pipe';
 import { PercentagePipe } from './percentage.pipe';
+import { TranslatePipe } from './translate.pipe';
 
 
 
@@ -33,12 +33,12 @@ import { PercentagePipe } from './percentage.pipe';
         CheckAnswersPipe,
         AsGroupPipe,
         NestedAnswersPipe,
-        AnswerLabelExtractorPipe,
         VarFormatPipe,
         VarFormatAnswersPipe,
         SliderConverterPipe,
         CountQuestionsPipe,
-        PercentagePipe
+        PercentagePipe,
+        TranslatePipe
     ],
   imports: [
     CommonModule
@@ -54,12 +54,12 @@ import { PercentagePipe } from './percentage.pipe';
     CheckAnswersPipe,
     AsGroupPipe,
     NestedAnswersPipe,
-    AnswerLabelExtractorPipe,
     VarFormatPipe,
     VarFormatAnswersPipe,
     SliderConverterPipe,
     CountQuestionsPipe,
-    PercentagePipe
+    PercentagePipe,
+    TranslatePipe
   ], providers: [
     IsVisiblePipe,
     NextPipe,

@@ -4,6 +4,7 @@ import { CategoryComponent } from './category.component';
 import {FormElementModule} from "../form-element/form-element.module";
 import {BiitButtonModule} from "biit-ui/button";
 import {MultimediaModule} from "../multimedia/multimedia.module";
+import {UtilsModule} from "../../utils/utils.module";
 
 
 
@@ -14,12 +15,13 @@ import {MultimediaModule} from "../multimedia/multimedia.module";
   exports: [
     CategoryComponent
   ],
-  imports: [
-    CommonModule,
-    FormElementModule,
-    BiitButtonModule,
-    NgOptimizedImage,
-    MultimediaModule
-  ]
+    imports: [
+        CommonModule,
+        FormElementModule,
+        BiitButtonModule,
+        NgOptimizedImage,
+        MultimediaModule,
+        UtilsModule
+    ]
 })
 export class CategoryModule { }
