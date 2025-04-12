@@ -19,6 +19,9 @@ export class FormItem extends Item {
     to.name = from.name;
     to.label = from.label;
     to.hidden = from.hidden;
+    to.display = from.display;
+    to.path = from.path;
+    to.pathName = from.pathName;
     if (to.hidden) {
       to.display = false;
       to.disabled = true;

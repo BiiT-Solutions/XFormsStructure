@@ -34,6 +34,7 @@ export class Question<T> extends Directional {
     to.answerSubformat = from.answerSubformat;
     to.mandatory = from.mandatory;
     to.horizontal = from.horizontal;
+    to.valid = from.valid;
     to.description = from.description;
     to.response = from.response;
     to.inverseAnswerOrder = from.inverseAnswerOrder;
