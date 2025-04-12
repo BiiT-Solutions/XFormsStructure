@@ -13,7 +13,7 @@ export class FormItem {
 
   public static clone(from: FormItem): FormItem {
     const to: FormItem = new FormItem(from.class);
-    this.copy(from, to);
+    FormItem.copy(from, to);
     return to;
   }
 

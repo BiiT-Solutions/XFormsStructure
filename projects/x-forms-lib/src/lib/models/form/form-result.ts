@@ -13,7 +13,7 @@ export class FormResult extends FormItem {
 
   public static override clone(from: FormResult): FormResult {
     const to: FormResult = new FormResult();
-    this.copy(from, to);
+    FormResult.copy(from, to);
     return to;
   }
 
