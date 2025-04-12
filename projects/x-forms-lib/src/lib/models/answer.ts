@@ -4,6 +4,7 @@ import {Image} from "./image";
 export class Answer extends FormItem {
   selected: boolean = false;
   description: string;
+  descriptionTranslations: {[key: string]: string};
   answerDescriptionAlwaysVisible: boolean;
   image: Image;
 
@@ -13,6 +14,12 @@ export class Answer extends FormItem {
     to.description = from.description;
     to.answerDescriptionAlwaysVisible = from.answerDescriptionAlwaysVisible;
     to.image = from.image ? Image.clone(from.image) : null;
+    to.descriptionTranslations = {};
+    if (from.descriptionTranslations) {
+      Object.keys(from.descriptionTranslations).forEach((key: string) => {
+        to.descriptionTranslations[key] = from.descriptionTranslations[key];
+      });
+    }
   }
   public static override clone(from: Answer): Answer {
     const to: Answer = new Answer();

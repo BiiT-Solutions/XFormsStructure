@@ -5,6 +5,7 @@ export class FormItem {
   updateTime: Date = new Date();
   name: string;
   label: string;
+  labelTranslations: {[key: string]: string};
   constructor(clazz: string) {
     this.class = clazz;
    }

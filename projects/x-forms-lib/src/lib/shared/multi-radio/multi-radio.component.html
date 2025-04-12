@@ -8,14 +8,14 @@
       [value]="answer.name"
       [required]="required"
       [disabled]="disabled"
-      [description]="(answer | instanceof : Answer) && $any(answer).description"
+      [description]="(answer | instanceof : Answer) && ($any(answer).description | translate: $any(answer).descriptionTranslations)"
       [showAlwaysDescription]="showAnswersDescription"
     >
       <div *ngIf="!(answer | instanceof: DynamicAnswer)">
-        {{answer.label | varFormat: dataStoreService: dataStoreService.fingerPrint}}
+        {{(answer.label | translate: answer.labelTranslations) | varFormat: dataStoreService: dataStoreService.fingerPrint}}
       </div>
       <div *ngIf="answer | instanceof: DynamicAnswer">
-        {{ '${' + $any(answer).referencePath +'}' | varFormat: dataStoreService: dataStoreService.fingerPrint: answer.label}}
+        {{ '${' + $any(answer).referencePath +'}' | varFormat: dataStoreService: dataStoreService.fingerPrint: (answer.label | translate: answer.labelTranslations)}}
       </div>
     </biit-radio-button>
     <biit-form-multimedia
@@ -24,7 +24,7 @@
       [url]="$any(answer).image.imageUrl"
       [width]="$any(answer).image.width"
       [height]="$any(answer).image.height"
-      [label]="$any(answer).label"
+      [label]="$any(answer).label | translate: $any(answer).labelTranslations"
     />
   </div>
   <biit-multi-radio *ngIf="selectedAnswer && selectedAnswer.id === answer.id"

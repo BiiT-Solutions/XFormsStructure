@@ -14,7 +14,7 @@
     <div [class.hidden]="hiddenMenu">
       <div class="category" *ngFor="let iCategory of form.children" [class.display-none]="iCategory.hidden || !iCategory.display" [class.selected]="iCategory.pathName === category.pathName">
         <div *ngIf="!iCategory.hidden && iCategory.display" (click)="onCategory(iCategory)"
-             [class.disabled]="iCategory.disabled">{{iCategory.label}}</div>
+             [class.disabled]="iCategory.disabled">{{(iCategory.label | translate: iCategory.labelTranslations)}}</div>
       </div>
     </div>
     </div>

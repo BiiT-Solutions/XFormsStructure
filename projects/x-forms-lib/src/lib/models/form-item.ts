@@ -4,6 +4,7 @@ import {Form} from "./form";
 export class FormItem extends Item {
   name: string;
   label: string;
+  labelTranslations: {[key: string]: string};
   hidden: boolean;
   children: FormItem[];
   // display means the item is reachable from the current node path, but user still has not reached the node.
@@ -21,6 +22,12 @@ export class FormItem extends Item {
     if (to.hidden) {
       to.display = false;
       to.disabled = true;
+    }
+    to.labelTranslations = {};
+    if (from.labelTranslations) {
+      Object.keys(from.labelTranslations).forEach((key: string) => {
+        to.labelTranslations[key] = from.labelTranslations[key];
+      });
     }
     to.children = from.children ? from.children.map(Form.cloneFormItem) : [];
   }
