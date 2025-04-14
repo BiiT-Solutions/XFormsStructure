@@ -11,10 +11,12 @@ import {QuestionWithValueResult} from "../models/form/question-with-value-result
 import {Answer} from "../models/answer";
 import {SystemField} from "../models/system-field";
 import {SystemFieldResult} from "../models/form/system-field-result";
+import {TranslatePipe} from "./translate.pipe";
+
 
 export class FormConverter {
 
-  public static convert(form: Form): FormResult {
+  public static convert(form: Form, translatePipe: TranslatePipe): FormResult {
     const formResult: FormResult = new FormResult();
     formResult.label = form.label;
     formResult.labelTranslations = form.labelTranslations;
@@ -25,22 +27,22 @@ export class FormConverter {
     formResult.comparationId = form.comparationId;
     formResult.creationTime = form.creationTime;
     formResult.updateTime = form.updateTime;
-    formResult.children = this.convertChildren(form.children);
+    formResult.children = this.convertChildren(form.children, translatePipe);
     return formResult;
   }
 
-  public static convertChildren(children: FormItem[], path: string[] = []): FormItemResult[] {
+  public static convertChildren(children: FormItem[], translatePipe: TranslatePipe, path: string[] = []): FormItemResult[] {
     const formItemResults: FormItemResult[] = [];
     children.forEach(child => {
       if (child.hidden || !child.display) {
         return;
       }
       if (child instanceof Category) {
-        formItemResults.push(FormConverter.convertCategory(child, path));
+        formItemResults.push(FormConverter.convertCategory(child, path, translatePipe));
       } else if (child instanceof Group) {
-        formItemResults.push(FormConverter.convertGroup(child, path));
+        formItemResults.push(FormConverter.convertGroup(child, path, translatePipe));
       } else if (child instanceof Question) {
-        formItemResults.push(FormConverter.convertQuestion(child));
+        formItemResults.push(FormConverter.convertQuestion(child, translatePipe));
       } else if (child instanceof SystemField) {
         formItemResults.push(FormConverter.convertSystemField(child));
       }
@@ -48,25 +50,25 @@ export class FormConverter {
     return formItemResults;
   }
 
-  private static convertCategory(category: Category, path: string[] = []): CategoryResult {
+  private static convertCategory(category: Category, path: string[] = [], translatePipe: TranslatePipe): CategoryResult {
     const categoryResult: CategoryResult = new CategoryResult();
     this.setFormItemResult(category, categoryResult);
-    categoryResult.children = FormConverter.convertChildren(category.children, [...path, category.name]);
+    categoryResult.children = FormConverter.convertChildren(category.children, translatePipe, [...path, category.name]);
     return categoryResult;
   }
 
-  private static convertGroup(group: Group, path: string[] = []): RepeatableGroupResult {
+  private static convertGroup(group: Group, path: string[] = [], translatePipe: TranslatePipe): RepeatableGroupResult {
     const groupResult: RepeatableGroupResult = new RepeatableGroupResult();
     this.setFormItemResult(group, groupResult);
-    groupResult.children = FormConverter.convertChildren(group.children, [...path, group.name]);
+    groupResult.children = FormConverter.convertChildren(group.children, translatePipe, [...path, group.name]);
     return groupResult;
   }
 
-  private static convertQuestion(question: Question<any>): QuestionWithValueResult {
+  private static convertQuestion(question: Question<any>, translatePipe: TranslatePipe): QuestionWithValueResult {
     const questionResult: QuestionWithValueResult = new QuestionWithValueResult();
     this.setFormItemResult(question, questionResult);
-    questionResult.answerLabels = FormConverter.getAnswerLabels(question);
-    if (!question.children || !question.children.length){
+    questionResult.answerLabels = FormConverter.getAnswerLabels(question, translatePipe);
+    if (!question.children || !question.children.length) {
       questionResult.values = [question.response];
     } else {
       questionResult.values = FormConverter.getAnswerValues(question);
@@ -106,7 +108,7 @@ export class FormConverter {
   }
 
 
-  private static getAnswerLabels(child: FormItem): string[] {
+  private static getAnswerLabels(child: FormItem, translatePipe: TranslatePipe): string[] {
     const answerLabels: string[] = [];
     if (child instanceof Question) {
       if ((!child.children || !child.children.length) && child.response) {
@@ -115,14 +117,14 @@ export class FormConverter {
     }
 
     if (child instanceof Answer && child.selected && (!child.children || !child.children.length)) {
-      return [child.label];
+      return [translatePipe.transform(child.label, child.labelTranslations)];
     }
     if (!child.children || !child.children.length) {
       return [];
     }
     child.children.filter(child => child instanceof Answer).map(child => child as Answer)
       .filter(child => child.selected).forEach(child => {
-      const childLabels: string[] = this.getAnswerLabels(child);
+      const childLabels: string[] = this.getAnswerLabels(child, translatePipe);
       if (childLabels && childLabels.length) {
         answerLabels.push(...childLabels);
       }

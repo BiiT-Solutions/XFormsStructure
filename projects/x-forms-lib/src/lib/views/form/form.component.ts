@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, NgModule, OnInit, Output} from '@angular/core';
 import {Form} from "../../models/form";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
@@ -23,6 +23,7 @@ import {FormResult} from "../../models/form/form-result";
 import {QuestionsCounted} from "../../utils/questions-counted";
 import {CheckAnswersPipe} from "../../utils/check-answers.pipe";
 import {BiitProgressBarType} from "biit-ui/info";
+import {TranslatePipe} from "../../utils/translate.pipe";
 
 @Component({
   selector: 'biit-x-form',
@@ -45,7 +46,8 @@ export class FormComponent implements OnInit {
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe,
               private checkAnswers: CheckAnswersPipe,
-              private changeDetectorRef: ChangeDetectorRef
+              private changeDetectorRef: ChangeDetectorRef,
+              private translatePipe: TranslatePipe
   ) {
     iconService.registerIcons(completeIconSet);
   }
@@ -179,7 +181,7 @@ export class FormComponent implements OnInit {
     const visibleCategories: FormItem[] = this.form.children.filter(child => !child.hidden);
     visibleCategories.forEach((child, index) => {
       if (!child.display) {
-        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1] , child.pathName);
+        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1], child.pathName);
         if (child.display) {
           (child as Category).displayedByDefault = true;
         }
@@ -218,7 +220,7 @@ export class FormComponent implements OnInit {
   }
 
   protected onSubmit(): void {
-    const formResult: FormResult = FormConverter.convert(this.form);
+    const formResult: FormResult = FormConverter.convert(this.form, this.translatePipe);
     this.completed.emit(formResult);
   }
 
