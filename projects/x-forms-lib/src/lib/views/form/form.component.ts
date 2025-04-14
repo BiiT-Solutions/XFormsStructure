@@ -219,6 +219,7 @@ export class FormComponent implements OnInit {
 
   protected onSubmit(): void {
     const formResult: FormResult = FormConverter.convert(this.form);
+    //console.log(JSON.stringify(formResult));
     this.completed.emit(formResult);
   }
 
