@@ -15,6 +15,7 @@ export class FormConverter {
   public static convert(form: Form): FormResult {
     const formResult: FormResult = new FormResult();
     formResult.label = form.label;
+    formResult.labelTranslations = form.labelTranslations;
     formResult.organizationId = form.organizationId;
     formResult.version = form.version;
     formResult.updatedBy = form.updatedBy;
@@ -120,6 +121,7 @@ export class FormConverter {
   private static setFormItemResult(formItem: FormItem, formItemResult: FormItemResult): void {
     formItemResult.name = formItem.name;
     formItemResult.label = formItem.label;
+    formItemResult.labelTranslations = formItem.labelTranslations;
     formItemResult.comparationId = formItem.comparationId;
     formItemResult.updateTime = formItem.updateTime;
     formItemResult.creationTime = formItem.creationTime;

@@ -14,6 +14,7 @@ export class Question<T> extends Directional {
   horizontal: boolean;
   inverseAnswerOrder: boolean;
   description: string;
+  descriptionTranslations: {[key: string]: string};
   descriptionAlwaysVisible: boolean;
   answerDescriptionAlwaysVisible: boolean;
   image: Image;
@@ -33,6 +34,7 @@ export class Question<T> extends Directional {
     to.answerSubformat = from.answerSubformat;
     to.mandatory = from.mandatory;
     to.horizontal = from.horizontal;
+    to.valid = from.valid;
     to.description = from.description;
     to.response = from.response;
     to.inverseAnswerOrder = from.inverseAnswerOrder;
@@ -42,6 +44,12 @@ export class Question<T> extends Directional {
     to.editionDisabled = from.editionDisabled;
     to.maxAnswersSelected = from.maxAnswersSelected;
     to.answersValuesOnTooltip = from.answersValuesOnTooltip;
+    to.descriptionTranslations = {};
+    if (from.descriptionTranslations) {
+      Object.keys(from.descriptionTranslations).forEach((key: string) => {
+        to.descriptionTranslations[key] = from.descriptionTranslations[key];
+      });
+    }
     Question.setDefaultValues(from, to);
   }
 
