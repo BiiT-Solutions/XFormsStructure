@@ -68,7 +68,8 @@ import { TranslatePipe } from './translate.pipe';
     CheckDatePipe,
     GetRegexPipe,
     VarFormatPipe,
-    NestedAnswersPipe
+    NestedAnswersPipe,
+    TranslatePipe
   ]
 })
 export class UtilsModule { }

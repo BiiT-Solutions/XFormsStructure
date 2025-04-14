@@ -11,12 +11,11 @@ import {QuestionWithValueResult} from "../models/form/question-with-value-result
 import {Answer} from "../models/answer";
 import {SystemField} from "../models/system-field";
 import {SystemFieldResult} from "../models/form/system-field-result";
-import {TranslatePipe} from "./translate.pipe";
 
 
 export class FormConverter {
 
-  public static convert(form: Form, translatePipe: TranslatePipe): FormResult {
+  public static convert(form: Form): FormResult {
     const formResult: FormResult = new FormResult();
     formResult.label = form.label;
     formResult.labelTranslations = form.labelTranslations;
@@ -27,22 +26,22 @@ export class FormConverter {
     formResult.comparationId = form.comparationId;
     formResult.creationTime = form.creationTime;
     formResult.updateTime = form.updateTime;
-    formResult.children = this.convertChildren(form.children, translatePipe);
+    formResult.children = this.convertChildren(form.children);
     return formResult;
   }
 
-  public static convertChildren(children: FormItem[], translatePipe: TranslatePipe, path: string[] = []): FormItemResult[] {
+  public static convertChildren(children: FormItem[], path: string[] = []): FormItemResult[] {
     const formItemResults: FormItemResult[] = [];
     children.forEach(child => {
       if (child.hidden || !child.display) {
         return;
       }
       if (child instanceof Category) {
-        formItemResults.push(FormConverter.convertCategory(child, path, translatePipe));
+        formItemResults.push(FormConverter.convertCategory(child, path));
       } else if (child instanceof Group) {
-        formItemResults.push(FormConverter.convertGroup(child, path, translatePipe));
+        formItemResults.push(FormConverter.convertGroup(child, path));
       } else if (child instanceof Question) {
-        formItemResults.push(FormConverter.convertQuestion(child, translatePipe));
+        formItemResults.push(FormConverter.convertQuestion(child));
       } else if (child instanceof SystemField) {
         formItemResults.push(FormConverter.convertSystemField(child));
       }
@@ -50,24 +49,25 @@ export class FormConverter {
     return formItemResults;
   }
 
-  private static convertCategory(category: Category, path: string[] = [], translatePipe: TranslatePipe): CategoryResult {
+  private static convertCategory(category: Category, path: string[] = []): CategoryResult {
     const categoryResult: CategoryResult = new CategoryResult();
     this.setFormItemResult(category, categoryResult);
-    categoryResult.children = FormConverter.convertChildren(category.children, translatePipe, [...path, category.name]);
+    categoryResult.children = FormConverter.convertChildren(category.children, [...path, category.name]);
     return categoryResult;
   }
 
-  private static convertGroup(group: Group, path: string[] = [], translatePipe: TranslatePipe): RepeatableGroupResult {
+  private static convertGroup(group: Group, path: string[] = []): RepeatableGroupResult {
     const groupResult: RepeatableGroupResult = new RepeatableGroupResult();
     this.setFormItemResult(group, groupResult);
-    groupResult.children = FormConverter.convertChildren(group.children, translatePipe, [...path, group.name]);
+    groupResult.children = FormConverter.convertChildren(group.children, [...path, group.name]);
     return groupResult;
   }
 
-  private static convertQuestion(question: Question<any>, translatePipe: TranslatePipe): QuestionWithValueResult {
+  private static convertQuestion(question: Question<any>): QuestionWithValueResult {
     const questionResult: QuestionWithValueResult = new QuestionWithValueResult();
     this.setFormItemResult(question, questionResult);
-    questionResult.answerLabels = FormConverter.getAnswerLabels(question, translatePipe);
+    questionResult.answerLabels = FormConverter.getAnswerLabels(question);
+    questionResult.answerLabelTranslations = FormConverter.getAnswerLabelsTranslations(question);
     if (!question.children || !question.children.length) {
       questionResult.values = [question.response];
     } else {
@@ -108,7 +108,7 @@ export class FormConverter {
   }
 
 
-  private static getAnswerLabels(child: FormItem, translatePipe: TranslatePipe): string[] {
+  private static getAnswerLabels(child: FormItem): string[] {
     const answerLabels: string[] = [];
     if (child instanceof Question) {
       if ((!child.children || !child.children.length) && child.response) {
@@ -117,19 +117,49 @@ export class FormConverter {
     }
 
     if (child instanceof Answer && child.selected && (!child.children || !child.children.length)) {
-      return [translatePipe.transform(child.label, child.labelTranslations)];
+      // return [translatePipe.transform(child.label, child.labelTranslations)];
+      return [child.label];
     }
     if (!child.children || !child.children.length) {
       return [];
     }
     child.children.filter(child => child instanceof Answer).map(child => child as Answer)
       .filter(child => child.selected).forEach(child => {
-      const childLabels: string[] = this.getAnswerLabels(child, translatePipe);
+      const childLabels: string[] = this.getAnswerLabels(child);
       if (childLabels && childLabels.length) {
         answerLabels.push(...childLabels);
       }
     })
     return answerLabels;
+  }
+
+  private static getAnswerLabelsTranslations(child: FormItem): { [key: string]: { [key: string]: string }[] } {
+    const answerLabelTranslations: { [key: string]: { [key: string]: string }[] } = {};
+    if (child instanceof Question) {
+      if ((!child.children || !child.children.length) && child.response) {
+        return answerLabelTranslations;
+      }
+    }
+
+    if (child instanceof Answer && child.selected && (!child.children || !child.children.length)) {
+      answerLabelTranslations[child.name] = [];
+      answerLabelTranslations[child.name].push(child.labelTranslations);
+      return answerLabelTranslations;
+    }
+    if (!child.children || !child.children.length) {
+      return answerLabelTranslations;
+    }
+    child.children.filter(child => child instanceof Answer).map(child => child as Answer)
+      .filter(child => child.selected).forEach(child => {
+      const childLabels: { [key: string]: { [key: string]: string }[] } = this.getAnswerLabelsTranslations(child);
+      if (childLabels) {
+        Object.keys(childLabels).forEach(key => {
+          answerLabelTranslations[key] = [];
+          answerLabelTranslations[key] = childLabels[key];
+        })
+      }
+    })
+    return answerLabelTranslations;
   }
 
   private static setFormItemResult(formItem: FormItem, formItemResult: FormItemResult): void {
