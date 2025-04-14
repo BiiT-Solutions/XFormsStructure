@@ -9,6 +9,8 @@ import {RepeatableGroupResult} from "../models/form/repeatable-group-result";
 import {Question} from "../models/question";
 import {QuestionWithValueResult} from "../models/form/question-with-value-result";
 import {Answer} from "../models/answer";
+import {SystemField} from "../models/system-field";
+import {SystemFieldResult} from "../models/form/system-field-result";
 
 export class FormConverter {
 
@@ -39,6 +41,8 @@ export class FormConverter {
         formItemResults.push(FormConverter.convertGroup(child, path));
       } else if (child instanceof Question) {
         formItemResults.push(FormConverter.convertQuestion(child));
+      } else if (child instanceof SystemField) {
+        formItemResults.push(FormConverter.convertSystemField(child));
       }
     })
     return formItemResults;
@@ -57,6 +61,7 @@ export class FormConverter {
     groupResult.children = FormConverter.convertChildren(group.children, [...path, group.name]);
     return groupResult;
   }
+
   private static convertQuestion(question: Question<any>): QuestionWithValueResult {
     const questionResult: QuestionWithValueResult = new QuestionWithValueResult();
     this.setFormItemResult(question, questionResult);
@@ -67,6 +72,13 @@ export class FormConverter {
       questionResult.values = FormConverter.getAnswerValues(question);
     }
     return questionResult;
+  }
+
+  private static convertSystemField(systemField: SystemField): SystemFieldResult {
+    const systemFieldResult: SystemFieldResult = new SystemFieldResult();
+    this.setFormItemResult(systemField, systemFieldResult);
+    systemFieldResult.value = systemField.value;
+    return systemFieldResult;
   }
 
   private static getAnswerValues(child: FormItem): string[] {

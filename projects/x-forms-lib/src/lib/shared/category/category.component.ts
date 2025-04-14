@@ -25,29 +25,32 @@ import {ViewportScroller} from "@angular/common";
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css'],
   providers: [
-    { provide: Window, useValue: window }
+    {provide: Window, useValue: window}
   ]
 })
-export class CategoryComponent implements OnInit{
+export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.onFormChanged();
   }
+
   @Input('category') set _category(category: Category) {
     this.category = category;
-    const visibleChildren: FormItem[] = this.category.children.filter(child => !child.hidden);
+    const visibleChildren: FormItem[] = this.category && this.category.children ? this.category.children.filter(child => !child.hidden) : [];
     if (visibleChildren.length) {
       this.enableElements(visibleChildren);
     }
     this.onFormChanged();
     this.scrollToTop();
   }
+
   @Input() form: Form;
   @Output() completed: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild("categoryViewport") categoryViewPort : ElementRef;
+  @ViewChild("categoryViewport") categoryViewPort: ElementRef;
 
-  constructor( private viewportScroller: ViewportScroller) { }
+  constructor(private viewportScroller: ViewportScroller) {
+  }
 
   private completionSentinel: boolean = false;
   protected category: Category;
@@ -79,7 +82,7 @@ export class CategoryComponent implements OnInit{
         currentDisplay = this.expandDisplayedChildren(item.children, currentDisplay);
         item.display = item.children.some(child => child.display);
       } else {
-        if (!item.display){
+        if (!item.display) {
           item.display = currentDisplay && !item.hidden;
         } else {
           currentDisplay = item.display;
@@ -97,6 +100,9 @@ export class CategoryComponent implements OnInit{
   }
 
   private displayNodeDown(item: FormItem, firstChild: boolean = false): void {
+    if (!item) {
+      return;
+    }
     if (!item.hidden) {
       item.display = true;
     }
@@ -130,7 +136,7 @@ export class CategoryComponent implements OnInit{
   // When received a form event we need to check the complete form to check the complete category status
   protected onFormChanged(question?: Question<any>): void {
     this.validateFlows(question);
-    this.enableElements(this.category.children.filter(items => !items.hidden));
+    this.enableElements(this.category.children ? this.category.children.filter(items => !items.hidden) : []);
     if (CategoryComponent.isCompleted(this.category)) {
       this.category.completed = true;
       this.completed.emit(true);
@@ -180,7 +186,7 @@ export class CategoryComponent implements OnInit{
         if (flow.others) {
           defaultFlow = flow;
         } else {
-          if (this.validateConditions(flow.condition)){
+          if (this.validateConditions(flow.condition)) {
             if (flow.destiny) {
               pathFound = true;
               flow.destiny.display = true;
@@ -238,7 +244,7 @@ export class CategoryComponent implements OnInit{
   }
 
   private disableDeep(item: FormItem) {
-    if (!item ) {
+    if (!item) {
       return;
     }
     if (item instanceof Directional) {
@@ -262,7 +268,7 @@ export class CategoryComponent implements OnInit{
 
   private disableNextNode(item: Directional): void {
     const directionals: Directional[] = Structure.getDirectionals(this.form);
-    const directional: Directional =this.getNextNode(item, directionals);
+    const directional: Directional = this.getNextNode(item, directionals);
     if (directional) {
       directional.disabled = true;
       directional.display = false;
@@ -276,13 +282,13 @@ export class CategoryComponent implements OnInit{
     }
     if (item.flows && item.flows.length) {
       const defeaultFlow: Flow = item.flows.find(flow => flow.others);
-      for (let flow of item.flows){
+      for (let flow of item.flows) {
         if (!flow.others) {
           if (this.validateConditions(flow.condition)) {
             return flow.destiny as Directional;
           }
         }
-        if (defeaultFlow){
+        if (defeaultFlow) {
           return defeaultFlow.destiny as Directional;
         }
       }
@@ -309,7 +315,7 @@ export class CategoryComponent implements OnInit{
       }
     });
     const statement: string = statementParts.join(' ');
-    console.log ('Evaluating:', statement, 'Result:', eval(statement));
+    console.log('Evaluating:', statement, 'Result:', eval(statement));
     return eval(statement);
   }
 
@@ -321,7 +327,9 @@ export class CategoryComponent implements OnInit{
       if (!condition.linkedQuestion || !condition.linkedQuestion.response || !condition.linkedQuestion.response.length) {
         return false;
       }
-      const result: boolean = eval(`'${condition.linkedQuestion.response}' ${TokenParser.parse(condition)} '${condition.value}'`);
+      const result: boolean = eval(`'${condition.linkedQuestion.response}'
+      ${TokenParser.parse(condition)}
+      '${condition.value}'`);
       console.log('Evaluating:', `${condition.linkedQuestion?.response} ${TokenParser.parse(condition)} ${condition.value}`, result);
       return result;
     }
@@ -391,6 +399,7 @@ export class CategoryComponent implements OnInit{
     FormElementComponent.insertDuplicated(group, children);
     this.onFormChanged();
   }
+
   protected onRemoved(group: Group, children: FormItem[]): void {
     FormElementComponent.removeDuplicated(group, children);
   }

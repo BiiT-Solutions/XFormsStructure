@@ -13,10 +13,13 @@ import {Structure} from "../utils/structure";
 import {AnswerType} from "./answer-type";
 
 export class Form extends FormItem {
+
+  public static readonly LOCALIZATION_SYSTEM_FIELD: string = "localization";
+
   version: number;
   organizationId: number;
   description: string;
-  descriptionTranslations: {[key: string]: string};
+  descriptionTranslations: { [key: string]: string };
   flows: Flow[];
 
   // TODO(jpastor): typify next variables properly
@@ -48,6 +51,7 @@ export class Form extends FormItem {
    */
 
   public static import(from: Form, properties: Map<string, any> = new Map()): Form {
+    this.setUserLocalizationPreference(from);
     const form: Form = Form.clone(from);
     const systemFields: Map<string, SystemField> = new Map();
     Structure.extractSystemFields(form, systemFields);
@@ -80,6 +84,35 @@ export class Form extends FormItem {
       }
     });
     return form;
+  }
+
+  private static setUserLocalizationPreference(form: Form): void {
+    const existsLocalization: boolean = this.setExistingLocalizationPreference(form);
+
+    //Add it to the first category if it does not exist.
+    if (!existsLocalization && form.children && form.children.length > 0) {
+      const localizationSystemField: SystemField = new SystemField();
+      localizationSystemField.fieldName = Form.LOCALIZATION_SYSTEM_FIELD;
+      localizationSystemField.name = Form.LOCALIZATION_SYSTEM_FIELD;
+      localizationSystemField.value = (navigator.languages || [navigator.language]).map(language => language.split('-')[0].toLowerCase());
+      form.children[0].children.push(localizationSystemField);
+    }
+
+  }
+
+  private static setExistingLocalizationPreference(item: FormItem): boolean {
+    //Search fo the system field.
+    let existsLocalization: boolean = false;
+    item.children.filter(child => !child.hidden).forEach(child => {
+      if (!existsLocalization && child instanceof SystemField && child.fieldName === Form.LOCALIZATION_SYSTEM_FIELD && !child.value) {
+        //Set the browser localization preferences.
+        child.value = (navigator.languages || [navigator.language]).map(language => language.split('-')[0].toLowerCase());
+        existsLocalization = true;
+      } else {
+        existsLocalization = this.setExistingLocalizationPreference(child);
+      }
+    })
+    return existsLocalization;
   }
 
   public static override clone(from: Form): Form {

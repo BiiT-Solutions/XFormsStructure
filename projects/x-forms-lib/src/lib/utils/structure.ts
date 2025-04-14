@@ -3,14 +3,12 @@ import {Question} from "../models/question";
 import {Text} from "../models/text";
 import {Answer} from "../models/answer";
 import {Directional} from "../models/directional";
-import {by} from "ng-packagr/lib/graph/select";
-import {Form} from "../models/form";
 import {Group} from "../models/group";
 import {SystemField} from "../models/system-field";
 
 export class Structure {
 
-  public static extractGroups(item: FormItem, map:  Map<string, Group>, path?: string[]): void {
+  public static extractGroups(item: FormItem, map: Map<string, Group>, path?: string[]): void {
     if (!path) {
       path = [];
     } else {
@@ -28,7 +26,7 @@ export class Structure {
     path.pop();
   }
 
-  public static extractSystemFields(item: FormItem, map:  Map<string, SystemField>, path?: string[]): void {
+  public static extractSystemFields(item: FormItem, map: Map<string, SystemField>, path?: string[]): void {
     if (!path) {
       path = [];
     } else {
@@ -46,7 +44,7 @@ export class Structure {
     path.pop();
   }
 
-  public static extractQuestions(item: FormItem, map:  Map<string, Question<any>>, path?: string[]): void {
+  public static extractQuestions(item: FormItem, map: Map<string, Question<any>>, path?: string[]): void {
     if (!path) {
       path = [];
     } else {
@@ -63,7 +61,8 @@ export class Structure {
     }
     path.pop();
   }
-  public static extractTexts(item: FormItem, map:  Map<string, Text>, path?: string[]): void {
+
+  public static extractTexts(item: FormItem, map: Map<string, Text>, path?: string[]): void {
     if (!path) {
       path = [];
     } else {
@@ -83,7 +82,7 @@ export class Structure {
     path.pop();
   }
 
-  public static extractAnswers(item: FormItem, map:  Map<string, Answer>, path?: string[]): void {
+  public static extractAnswers(item: FormItem, map: Map<string, Answer>, path?: string[]): void {
     if (!path) {
       path = [];
     } else {

@@ -1,12 +1,12 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'translate'
 })
 export class TranslatePipe implements PipeTransform {
 
-  transform(label: string, translations: {[key: string]: string}): string {
-    const availableTranslations: string[] = Object.keys(translations);
+  transform(label: string, translations: { [key: string]: string }): string {
+    const availableTranslations: string[] = translations ? Object.keys(translations) : [];
     const language: string = this.getBrowserLanguage(availableTranslations);
     if (language && translations[language.toUpperCase()]) {
       return translations[language.toUpperCase()];
