@@ -12,6 +12,7 @@ import {Answer} from "../models/answer";
 import {SystemField} from "../models/system-field";
 import {SystemFieldResult} from "../models/form/system-field-result";
 
+
 export class FormConverter {
 
   public static convert(form: Form): FormResult {
@@ -66,7 +67,8 @@ export class FormConverter {
     const questionResult: QuestionWithValueResult = new QuestionWithValueResult();
     this.setFormItemResult(question, questionResult);
     questionResult.answerLabels = FormConverter.getAnswerLabels(question);
-    if (!question.children || !question.children.length){
+    questionResult.answerLabelTranslations = FormConverter.getAnswerLabelsTranslations(question);
+    if (!question.children || !question.children.length) {
       questionResult.values = [question.response];
     } else {
       questionResult.values = FormConverter.getAnswerValues(question);
@@ -115,6 +117,7 @@ export class FormConverter {
     }
 
     if (child instanceof Answer && child.selected && (!child.children || !child.children.length)) {
+      // return [translatePipe.transform(child.label, child.labelTranslations)];
       return [child.label];
     }
     if (!child.children || !child.children.length) {
@@ -128,6 +131,35 @@ export class FormConverter {
       }
     })
     return answerLabels;
+  }
+
+  private static getAnswerLabelsTranslations(child: FormItem): { [key: string]: { [key: string]: string }[] } {
+    const answerLabelTranslations: { [key: string]: { [key: string]: string }[] } = {};
+    if (child instanceof Question) {
+      if ((!child.children || !child.children.length) && child.response) {
+        return answerLabelTranslations;
+      }
+    }
+
+    if (child instanceof Answer && child.selected && (!child.children || !child.children.length)) {
+      answerLabelTranslations[child.name] = [];
+      answerLabelTranslations[child.name].push(child.labelTranslations);
+      return answerLabelTranslations;
+    }
+    if (!child.children || !child.children.length) {
+      return answerLabelTranslations;
+    }
+    child.children.filter(child => child instanceof Answer).map(child => child as Answer)
+      .filter(child => child.selected).forEach(child => {
+      const childLabels: { [key: string]: { [key: string]: string }[] } = this.getAnswerLabelsTranslations(child);
+      if (childLabels) {
+        Object.keys(childLabels).forEach(key => {
+          answerLabelTranslations[key] = [];
+          answerLabelTranslations[key] = childLabels[key];
+        })
+      }
+    })
+    return answerLabelTranslations;
   }
 
   private static setFormItemResult(formItem: FormItem, formItemResult: FormItemResult): void {

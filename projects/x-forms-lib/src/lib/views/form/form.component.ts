@@ -179,7 +179,7 @@ export class FormComponent implements OnInit {
     const visibleCategories: FormItem[] = this.form.children.filter(child => !child.hidden);
     visibleCategories.forEach((child, index) => {
       if (!child.display) {
-        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1] , child.pathName);
+        child.display = this.isVisible.transform(index < 1 ? null : visibleCategories[index - 1], child.pathName);
         if (child.display) {
           (child as Category).displayedByDefault = true;
         }
