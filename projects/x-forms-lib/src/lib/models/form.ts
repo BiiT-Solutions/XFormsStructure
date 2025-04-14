@@ -94,7 +94,7 @@ export class Form extends FormItem {
       const localizationSystemField: SystemField = new SystemField();
       localizationSystemField.fieldName = Form.LOCALIZATION_SYSTEM_FIELD;
       localizationSystemField.name = Form.LOCALIZATION_SYSTEM_FIELD;
-      localizationSystemField.value = (navigator.languages || [navigator.language]).map(language => language.split('-')[0].toLowerCase());
+      localizationSystemField.value = (navigator.languages || [navigator.language]).map(language => language.split('-')[0].toLowerCase()).join(",");
       form.children[0].children.push(localizationSystemField);
     }
 
