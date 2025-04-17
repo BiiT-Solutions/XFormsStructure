@@ -25,7 +25,12 @@ export class TranslatePipe implements PipeTransform {
     const browserLanguages: string[] = (navigator.languages || [navigator.language]).map(language => language.split('-')[0].toLowerCase());
     const availableLanguages: string[] = languages.map(language => language.toLowerCase());
     let languageAvailable: string = null;
+
     for (const lang of browserLanguages) {
+      //English is the default language. So if it selected, the default label must be shown.
+      if (lang === "en") {
+        return null;
+      }
       if (availableLanguages.includes(lang)) {
         return lang;
       }
