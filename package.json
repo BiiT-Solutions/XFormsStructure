@@ -7,7 +7,7 @@
     "build": "ng build",
     "build:library": "ng build x-forms-lib",
     "prepare:docs": "cpx ./README.md ./dist/x-forms && echo \"{\\\"name\\\": \\\"`node -e \"console.log(require('./package.json').name);\"\n`\\\", \\\"version\\\": \\\"`node -e \"console.log(require('./package.json').version);\"\n`\\\"}\" > ./dist/x-forms/package.json",
-    "prepare:publication": "npm run build && npm run prepare:docs && npm run prepare:translations",
+    "prepare:publication": "npm run prepare:translations && npm run build && npm run prepare:docs",
     "prepare:translations": "npm run transloco:extract && cpx './node_modules/biit-ui/assets/i18n/**/*.json' './src/assets/i18n/biit-ui/'",
     "transloco:clean": "del-cli --force ./src/assets/i18n/biit-ui/ && del-cli --force ./src/assets/i18n/xforms/",
     "transloco:extract": "npm run transloco:clean && transloco-scoped-libs",
