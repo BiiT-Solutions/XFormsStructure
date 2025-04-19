@@ -23,11 +23,19 @@ import {FormResult} from "../../models/form/form-result";
 import {QuestionsCounted} from "../../utils/questions-counted";
 import {CheckAnswersPipe} from "../../utils/check-answers.pipe";
 import {BiitProgressBarType} from "biit-ui/info";
+import {TRANSLOCO_SCOPE} from "@ngneat/transloco";
 
 @Component({
   selector: 'biit-x-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  styleUrls: ['./form.component.scss'],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      multi:true,
+      useValue: {scope: 'xforms', alias: 'xforms'}
+    }
+  ],
 })
 export class FormComponent implements OnInit {
 

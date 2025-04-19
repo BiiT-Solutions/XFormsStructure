@@ -1,3 +1,7 @@
 {
-  "error-max-selected": "Je kunt maximaal {0} items selecteren"
+  "error-max-selected": "Je kunt maximaal {0} items selecteren",
+  "categories": "Categorieën",
+  "previous": "Vorige",
+  "next": "Volgende",
+  "submit": "Verzenden"
 }

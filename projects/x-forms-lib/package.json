@@ -13,5 +13,11 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
+  "i18n": [
+    {
+      "scope": "xforms",
+      "path": "src/i18n"
+    }
+  ],
   "sideEffects": false
 }
