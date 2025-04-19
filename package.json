@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "npm run prepare:translations && ng serve",
     "build": "ng build",
-    "build:library": "ng build x-forms-lib",
+    "build:library": "npm run prepare:translations && ng build x-forms-lib",
     "prepare:docs": "cpx ./README.md ./dist/x-forms && echo \"{\\\"name\\\": \\\"`node -e \"console.log(require('./package.json').name);\"\n`\\\", \\\"version\\\": \\\"`node -e \"console.log(require('./package.json').version);\"\n`\\\"}\" > ./dist/x-forms/package.json",
     "prepare:publication": "npm run prepare:translations && npm run build && npm run prepare:docs",
     "prepare:translations": "npm run transloco:extract && cpx './node_modules/biit-ui/assets/i18n/**/*.json' './src/assets/i18n/biit-ui/'",

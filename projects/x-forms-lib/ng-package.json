@@ -5,6 +5,10 @@
     "entryFile": "src/public-api.ts"
   },
   "assets": [
-    "i18n"
+    {
+      "input": "src/i18n",
+      "output": "assets/i18n",
+      "glob": "**/*"
+    }
   ]
 }
