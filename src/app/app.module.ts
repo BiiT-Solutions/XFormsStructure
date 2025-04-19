@@ -10,7 +10,8 @@ import {registerLocaleData} from "@angular/common";
 import localeEn from '@angular/common/locales/en';
 import localeEs from '@angular/common/locales/es';
 import localeNL from '@angular/common/locales/nl';
-import {TRANSLOCO_CONFIG, translocoConfig} from "@ngneat/transloco";
+import {TRANSLOCO_CONFIG, TRANSLOCO_LOADER, translocoConfig} from "@ngneat/transloco";
+import {TranslocoHttpLoader} from "./transloco-root.module";
 
 registerLocaleData(localeEn, 'en')
 registerLocaleData(localeEs, 'es');
@@ -26,16 +27,22 @@ registerLocaleData(localeNL, 'nl');
     RouterModule.forRoot([]),
     HttpClientModule
   ],
-  providers: [{
-    provide: TRANSLOCO_CONFIG,
-    useValue: translocoConfig({
-      availableLangs: ['en', 'es', 'nl'],
-      defaultLang: 'en',
-      fallbackLang: 'en',
-      reRenderOnLangChange: true,
-      prodMode: !isDevMode()
-    })
-  }],
+  providers: [
+    {
+      provide: TRANSLOCO_CONFIG,
+      useValue: translocoConfig({
+        availableLangs: ['en', 'es', 'nl'],
+        defaultLang: 'en',
+        fallbackLang: 'en',
+        missingHandler: {
+          useFallbackTranslation: true
+        },
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode()
+      })
+    },
+    { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

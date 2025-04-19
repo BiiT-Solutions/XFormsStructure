@@ -5,6 +5,7 @@ import { Constants } from "../../projects/x-forms-lib/src/lib/utils/constants";
 import {HttpClient} from "@angular/common/http";
 import {BiitIconService} from "biit-ui/icon";
 import {completeIconSet} from "biit-icons-collection";
+import {TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,12 @@ import {completeIconSet} from "biit-icons-collection";
 })
 export class AppComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private biitIconService: BiitIconService ,private http: HttpClient) {
+  constructor(private route: ActivatedRoute,
+              transloco: TranslocoService,
+              biitIconService: BiitIconService,
+              private http: HttpClient) {
     biitIconService.registerIcons(completeIconSet);
+    transloco.setActiveLang(navigator.language.split('-')[0]);
   }
 
   ngOnInit(): void {
