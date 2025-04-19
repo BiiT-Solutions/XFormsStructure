@@ -3,5 +3,7 @@
   "categories": "Categorieën",
   "previous": "Vorige",
   "next": "Volgende",
-  "submit": "Verzenden"
+  "submit": "Verzenden",
+  "form-submitted": "Formulier verzonden",
+  "go-back": "Terug"
 }

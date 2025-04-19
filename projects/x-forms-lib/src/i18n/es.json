@@ -3,5 +3,7 @@
   "categories": "Categorías",
   "previous": "Anterior",
   "next": "Siguiente",
-  "submit": "Enviar"
+  "submit": "Enviar",
+  "form-submitted": "Formulario enviado",
+  "go-back": "Regresar"
 }

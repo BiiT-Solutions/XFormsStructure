@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SubmittedComponent } from './submitted.component';
 import {BiitIconModule} from "biit-ui/icon";
 import {BiitButtonModule} from "biit-ui/button";
+import {TranslocoRootModule} from "biit-ui/i18n";
 
 
 
@@ -13,10 +14,11 @@ import {BiitButtonModule} from "biit-ui/button";
   exports: [
     SubmittedComponent
   ],
-  imports: [
-    CommonModule,
-    BiitIconModule,
-    BiitButtonModule
-  ]
+    imports: [
+        CommonModule,
+        BiitIconModule,
+        BiitButtonModule,
+        TranslocoRootModule
+    ]
 })
 export class SubmittedModule { }
