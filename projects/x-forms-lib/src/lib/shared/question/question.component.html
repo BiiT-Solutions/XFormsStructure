@@ -55,7 +55,7 @@
 </div>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER">
   <div style="margin-bottom: 0.5rem">
-    <label class="question-label" *ngIf="question.label && question.label.length">{{ question.label }}</label>
+    <label class="question-label" *ngIf="question.label && question.label.length">{{ question.label | translate: question.labelTranslations }}</label>
     <div *ngIf="question.descriptionAlwaysVisible
               && question.description
               && question.description.length"
@@ -124,7 +124,7 @@
   </div>
   <biit-multi-radio
     [required]="question.mandatory"
-    [label]="question.label | varFormat: dataStoreService: dataStoreService.fingerPrint"
+    [label]="(question.label | translate: question.labelTranslations) | varFormat: dataStoreService: dataStoreService.fingerPrint"
     [disabled]="question.editionDisabled"
     [answers]="question.children"
     [info]="question.description | translate: question.descriptionTranslations"
