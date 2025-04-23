@@ -7,6 +7,7 @@ import {BiitButtonModule} from "biit-ui/button";
 import {SubmittedModule} from "../submitted/submitted.module";
 import {BiitIconModule} from "biit-ui/icon";
 import {BiitProgressBarModule} from "biit-ui/info";
+import {TranslocoRootModule} from "biit-ui/i18n";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {BiitProgressBarModule} from "biit-ui/info";
     BiitButtonModule,
     SubmittedModule,
     BiitIconModule,
-    BiitProgressBarModule
+    BiitProgressBarModule,
+    TranslocoRootModule
   ],
   exports: [
     FormComponent

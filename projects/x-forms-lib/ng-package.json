@@ -3,5 +3,12 @@
   "dest": "../../dist/x-forms-lib",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    {
+      "input": "src/i18n",
+      "output": "assets/i18n",
+      "glob": "**/*"
+    }
+  ]
 }

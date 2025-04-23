@@ -1,3 +1,9 @@
 {
-  "error-max-selected", "Puedes seleccionar hasta {0} elementos"
+  "error-max-selected": "Puedes seleccionar hasta {0} elementos",
+  "categories": "Categorías",
+  "previous": "Anterior",
+  "next": "Siguiente",
+  "submit": "Enviar",
+  "form-submitted": "Formulario enviado",
+  "go-back": "Regresar"
 }

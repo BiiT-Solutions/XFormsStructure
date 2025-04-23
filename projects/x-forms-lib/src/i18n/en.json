@@ -1,3 +1,9 @@
 {
-  "error-max-selected": "You can select up to {0} items"
+  "error-max-selected": "You can select up to {0} items",
+  "categories": "Categories",
+  "previous": "Previous",
+  "next": "Next",
+  "submit": "Submit",
+  "form-submitted": "Form submitted",
+  "go-back": "Go back"
 }
