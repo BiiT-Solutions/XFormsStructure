@@ -20,7 +20,7 @@ import {TokenBetween} from "../../models/token-between";
 import {Directional} from "../../models/directional";
 import {FormConverter} from "../../utils/form-converter";
 import {FormResult} from "../../models/form/form-result";
-import {QuestionsCounted} from "../../utils/questions-counted";
+import {FormCounter} from "../../utils/form-counter";
 import {CheckAnswersPipe} from "../../utils/check-answers.pipe";
 import {BiitProgressBarType} from "biit-ui/info";
 import {TRANSLOCO_SCOPE} from "@ngneat/transloco";
@@ -46,7 +46,7 @@ export class FormComponent implements OnInit {
   protected category: Category;
   protected nextCategory: Category;
   protected previousCategory: Category;
-  protected questionsCounted: QuestionsCounted;
+  protected questionsCounted: FormCounter;
 
   protected hiddenMenu: boolean = true;
 
@@ -63,6 +63,7 @@ export class FormComponent implements OnInit {
       return;
     }
     this.category = category as Category;
+    this.category.visited = true;
     this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
     this.previousCategory = this.previous.transform(this.form.children as Category[], "id", this.category.id);
   }
@@ -216,6 +217,7 @@ export class FormComponent implements OnInit {
       if (nextCategory) {
         this.previousCategory = this.category;
         this.category = nextCategory;
+        this.category.visited = true;
         this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       }
     }
@@ -264,40 +266,38 @@ export class FormComponent implements OnInit {
     this.questionsCounted = this.countQuestions(this.form);
   }
 
-  //NOTE: This is an approximation to the real count of questions (it doesn't take into account the flows)
-  private countQuestions(form: Form): QuestionsCounted {
+  //NOTE: This is an approximation to the real count of questions (not possible to get the complete flow of the form)
+  private countQuestions(form: Form): FormCounter {
+    /* Getting all questions to get the total number of questions on the form */
     const questions: Map<string, Question<any>> = new Map();
     Structure.extractQuestions(form, questions);
     const questionArray: Question<any>[] = Array.from(questions.values());
-    const enabledQuestions: Question<any>[] = [];
-    for (let question of questionArray) {
-      enabledQuestions.push(question)
-      if (question.flows && (!question.display || !question.valid) && !this.moreDisplayed(questionArray, question)) {
-        break;
-      }
-    }
-    const questionsCounted = new QuestionsCounted(0, enabledQuestions.length);
-    if (!this.nextCategory && this.checkAnswers.transform(this.form)) {
-      questionsCounted.answeredQuestions = enabledQuestions.length;
-    } else {
-      enabledQuestions.forEach(question => {
-        if (question.valid || question.hidden || !question.mandatory ||
-          (!question.display && this.moreDisplayed(questionArray, question))) {
-          questionsCounted.answeredQuestions++;
+    const formCounter = new FormCounter(0, questionArray.length);
+    const categories: FormItem[] = form.children.filter(child => child instanceof Category);
+    /* Getting all visited categories to count all the questions in them */
+    const visitedCategories: FormItem[] = categories.filter(child => child instanceof Category).filter(child => (child as Category).visited && child.id !== this.category.id);
+    let countedQuestions: number = 0;
+    const questionsInVisitedCategories: Map<string, Question<any>> = new Map();
+    visitedCategories.forEach(category => {Structure.extractQuestions(category, questionsInVisitedCategories)});
+    countedQuestions += questionsInVisitedCategories.size;
+    const questionsInCurrentCategory: Map<string, Question<any>> = new Map();
+    Structure.extractQuestions(this.category, questionsInCurrentCategory);
+    /*Counting current category*/
+    questionsInCurrentCategory.forEach(question => {
+      if (question.display){
+        if (!question.mandatory) {
+          countedQuestions++;
+        } else {
+          if (question.valid) {
+            countedQuestions++;
+          }
         }
-      });
-    }
-    return questionsCounted;
-  }
-
-  private moreDisplayed(questions: Question<any>[], question: Question<any>): boolean {
-    const index = questions.indexOf(question);
-    for (let i = index + 1; i < questions.length; i++) {
-      if (questions[i].display) {
-        return true;
+      } else {
+        countedQuestions++;
       }
-    }
-    return false;
+    });
+    formCounter.answeredQuestions=countedQuestions;
+    return formCounter;
   }
 
   private containsDisplayedDirectionals(formItem: FormItem): boolean {
