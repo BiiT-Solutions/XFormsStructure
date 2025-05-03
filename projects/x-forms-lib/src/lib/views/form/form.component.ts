@@ -1,4 +1,12 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import {Form} from "../../models/form";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
@@ -23,7 +31,8 @@ import {FormResult} from "../../models/form/form-result";
 import {FormCounter} from "../../utils/form-counter";
 import {CheckAnswersPipe} from "../../utils/check-answers.pipe";
 import {BiitProgressBarType} from "biit-ui/info";
-import {TRANSLOCO_SCOPE} from "@ngneat/transloco";
+import {TRANSLOCO_SCOPE, TranslocoService} from "@ngneat/transloco";
+import {Language} from "../../shared/language";
 
 @Component({
   selector: 'biit-x-form',
@@ -35,7 +44,7 @@ import {TRANSLOCO_SCOPE} from "@ngneat/transloco";
       multi:true,
       useValue: {scope: 'xforms', alias: 'xforms'}
     }
-  ],
+  ]
 })
 export class FormComponent implements OnInit {
 
@@ -47,12 +56,14 @@ export class FormComponent implements OnInit {
   protected nextCategory: Category;
   protected previousCategory: Category;
   protected questionsCounted: FormCounter;
+  protected availableLanguages: { key: string, value: string }[] = [];
+  protected selectedLanguage: { key: string, value: string } = null;
 
   protected hiddenMenu: boolean = true;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe,
-              private checkAnswers: CheckAnswersPipe,
+              private translocoService: TranslocoService,
               private changeDetectorRef: ChangeDetectorRef
   ) {
     iconService.registerIcons(completeIconSet);
@@ -75,8 +86,40 @@ export class FormComponent implements OnInit {
     this.displayChildren();
     this.hideByHiddenElements(this.form);
     this.startForm();
+    this.loadLanguages();
     this.questionsCounted = this.countQuestions(this.form);
     console.debug("Form: ", this.form);
+  }
+
+  private loadLanguages(): void {
+      this.availableLanguages.push({key:'EN', value: 'EN'});
+      Object.keys(this.form.labelTranslations).forEach(key => {
+        this.availableLanguages.push({key: key, value: key});
+      });
+      this.availableLanguages.sort((a, b) => a.value < b.value ? -1 : 1);
+      const browserLanguages: Set<string> = new Set<string>();
+    const savedLanguage: string = Language.loadLanguage();
+    if (savedLanguage) {
+      browserLanguages.add(savedLanguage);
+    }
+      (navigator.languages || [navigator.language]).forEach(language => {
+        const lang: string = language.split('-')[0].toUpperCase();
+          browserLanguages.add(lang);
+      });
+
+
+    for (const browserLang of browserLanguages) {
+        const lang: { key: string, value: string } = this.availableLanguages.find(l => l.key === browserLang);
+        if (lang) {
+          this.selectedLanguage = lang;
+          break;
+        }
+      }
+  }
+
+  protected onLanguageChange(selectedLanguage: { key: string, value: string }): void {
+    this.translocoService.setActiveLang(selectedLanguage.key.toLowerCase());
+    Language.setLanguage(selectedLanguage.key);
   }
 
   private hideByHiddenElements(formItem: FormItem): void {
@@ -275,13 +318,20 @@ export class FormComponent implements OnInit {
     const formCounter = new FormCounter(0, questionArray.length);
     const categories: FormItem[] = form.children.filter(child => child instanceof Category);
     /* Getting all visited categories to count all the questions in them */
-    const visitedCategories: FormItem[] = categories.filter(child => child instanceof Category).filter(child => (child as Category).visited && child.id !== this.category.id);
+    let visitedCategories: FormItem[] = categories.filter(child => child instanceof Category).filter(child => (child as Category).visited && child.id !== this.category.id);
+    const latestVisitedCategory: Category = visitedCategories.length > 0 ? visitedCategories[visitedCategories.length - 1] as Category : null;
+    if (latestVisitedCategory && !latestVisitedCategory.completed) {
+      visitedCategories = visitedCategories.filter(child => child.id !== latestVisitedCategory.id);
+    }
     let countedQuestions: number = 0;
     const questionsInVisitedCategories: Map<string, Question<any>> = new Map();
     visitedCategories.forEach(category => {Structure.extractQuestions(category, questionsInVisitedCategories)});
     countedQuestions += questionsInVisitedCategories.size;
     const questionsInCurrentCategory: Map<string, Question<any>> = new Map();
     Structure.extractQuestions(this.category, questionsInCurrentCategory);
+    if (latestVisitedCategory && !latestVisitedCategory.completed) {
+      Structure.extractQuestions(latestVisitedCategory, questionsInCurrentCategory);
+    }
     /*Counting current category*/
     questionsInCurrentCategory.forEach(question => {
       if (question.display){
@@ -312,4 +362,5 @@ export class FormComponent implements OnInit {
 
   protected readonly console: Console = console;
   protected readonly BiitProgressBarType = BiitProgressBarType;
+  protected readonly Language = Language;
 }

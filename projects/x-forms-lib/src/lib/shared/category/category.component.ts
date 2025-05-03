@@ -19,6 +19,7 @@ import {FlowType} from "../../models/flow-type";
 import {Form} from "../../models/form";
 import {Structure} from "../../utils/structure";
 import {ViewportScroller} from "@angular/common";
+import {Language} from "../language";
 
 @Component({
   selector: 'biit-category',
@@ -403,4 +404,6 @@ export class CategoryComponent implements OnInit {
   protected onRemoved(group: Group, children: FormItem[]): void {
     FormElementComponent.removeDuplicated(group, children);
   }
+
+  protected readonly Language = Language;
 }

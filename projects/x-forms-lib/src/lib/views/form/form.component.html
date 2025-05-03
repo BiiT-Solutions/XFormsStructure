@@ -2,8 +2,16 @@
   [value]="this.questionsCounted.answeredQuestions | percentage : this.questionsCounted.totalQuestions"
   [type]="BiitProgressBarType.DETERMINATE"
 />
+<div class="lang-selector">
+    <biit-dropdown [data]="availableLanguages"
+                   [ngModel]="selectedLanguage"
+                    (ngModelChange)="onLanguageChange($event)"
+                   label="value"
+    />
+
+</div>
 <div class="form-view" *ngIf="!submitted">
-  <div class="categories" [class.hidden-menu]="hiddenMenu">
+  <div class="categories sticky" [class.hidden-menu]="hiddenMenu">
     <div style="display: flex; gap: 1rem">
       <div class="category-title" [class.hidden]="hiddenMenu">{{'xforms.categories' | transloco}}</div>
       <div class="category-title-button" [class.hidden-menu]="hiddenMenu"
@@ -14,7 +22,7 @@
     <div [class.hidden]="hiddenMenu">
       <div class="category" *ngFor="let iCategory of form.children" [class.display-none]="iCategory.hidden || !iCategory.display" [class.selected]="iCategory.pathName === category.pathName">
         <div *ngIf="!iCategory.hidden && iCategory.display" (click)="onCategory(iCategory)"
-             [class.disabled]="iCategory.disabled">{{(iCategory.label | translate: iCategory.labelTranslations)}}</div>
+             [class.disabled]="iCategory.disabled">{{(iCategory.label | translate: iCategory.labelTranslations : Language.language)}}</div>
       </div>
     </div>
     </div>

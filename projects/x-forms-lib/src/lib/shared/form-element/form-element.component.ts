@@ -6,6 +6,7 @@ import {Text} from "../../models/text";
 import {Answer} from "../../models/answer";
 import {DataStoreService} from "../../utils/data-store.service";
 import {group} from "@angular/animations";
+import {Language} from "../language";
 
 @Component({
   selector: 'biit-form-element',
@@ -118,4 +119,5 @@ export class FormElementComponent {
   protected readonly console = console;
   protected readonly isNaN = isNaN;
   protected readonly group = group;
+  protected readonly Language = Language;
 }

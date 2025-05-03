@@ -11,6 +11,7 @@ import {NestedAnswersPipe} from "../../utils/nested-answers.pipe";
 import {MultiRadioComponent} from "../multi-radio/multi-radio.component";
 import {DataStoreService} from "../../utils/data-store.service";
 import {TRANSLOCO_SCOPE, TranslocoService} from "@ngneat/transloco";
+import {Language} from "../language";
 
 @Component({
   selector: 'biit-question',
@@ -108,4 +109,5 @@ export class QuestionComponent {
 
   protected readonly console: Console = console;
   protected readonly Answer = Answer;
+  protected readonly Language = Language;
 }

@@ -88,4 +88,22 @@ biit-progress-bar {
   .category-title-button.hidden-menu {
     position: fixed; }
 
+:host > .lang-selector {
+  display: flex;
+  justify-content: end;
+  margin: 1rem 2rem 0;
+  position: sticky;
+  top: 1rem; }
+  :host > .lang-selector > biit-dropdown {
+    width: 5rem;
+    border-left: solid 0.2rem #262626;
+    border-right: solid 0.2rem #262626;
+    border-top: solid 0.2rem #262626; }
+    :host > .lang-selector > biit-dropdown > ::ng-deep .biit-input {
+      min-width: unset !important; }
+
+.sticky {
+  position: sticky;
+  top: 1rem; }
+
 /*# sourceMappingURL=form.component.css.map */

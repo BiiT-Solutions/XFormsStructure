@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Text} from "../../models/text";
+import {Language} from "../language";
 
 @Component({
   selector: 'biit-text',
@@ -8,4 +9,5 @@ import {Text} from "../../models/text";
 })
 export class TextComponent {
   @Input() text: Text;
+  protected readonly Language = Language;
 }

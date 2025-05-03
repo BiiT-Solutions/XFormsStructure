@@ -4,14 +4,14 @@
   [url]="question.image.imageUrl"
   [width]="question.image.width"
   [height]="question.image.height"
-  [label]="question.label | translate: question.labelTranslations"
+  [label]="question.label | translate: question.labelTranslations : Language.language"
   [mId]="question.comparationId"
 />
 
 <div *ngIf="question.answerType === AnswerType.INPUT" [ngSwitch]="question.answerFormat" [id]="question.id">
   <div style="margin-bottom: 0.5rem">
     <biit-question-title
-      [title]="question.label | translate: question.labelTranslations"
+      [title]="question.label | translate: question.labelTranslations : Language.language"
       [required]="question.mandatory"
       [completed]="!!question.response"
     />
@@ -19,19 +19,19 @@
               && question.description
               && question.description.length"
          class="question-description"
-    >{{ question.description | translate: question.descriptionTranslations }}
+    >{{ question.description | translate: question.descriptionTranslations : Language.language }}
     </div>
   </div>
   <biit-input-text *ngSwitchCase="VariableType.TEXT"
                    [regEx]="question.answerSubformat | getRegex"
-                   [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations) : undefined"
+                   [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations : Language.language) : undefined"
                    [disabled]="question.editionDisabled"
                    [(ngModel)]="question.response"
                    (ngModelChange)="onChanged($event)"
   ></biit-input-text>
   <biit-input-text *ngSwitchCase="VariableType.POSTAL_CODE"
                    [regEx]="question.answerSubformat | getRegex"
-                   [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations) : undefined"
+                   [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations : Language.language) : undefined"
                    [disabled]="question.editionDisabled"
                    [(ngModel)]="question.response"
                    (ngModelChange)="onChanged($event)"
@@ -40,7 +40,7 @@
                    [type]="Type.NUMBER"
                    [disabled]="question.editionDisabled"
                    [regEx]="question.answerSubformat | getRegex"
-                   [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations) : undefined"
+                   [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations : Language.language) : undefined"
                    [(ngModel)]="question.response"
                    (ngModelChange)="onChanged($event)"
   ></biit-input-text>
@@ -55,12 +55,12 @@
 </div>
 <div *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_SLIDER">
   <div style="margin-bottom: 0.5rem">
-    <label class="question-label" *ngIf="question.label && question.label.length">{{ question.label | translate: question.labelTranslations }}</label>
+    <label class="question-label" *ngIf="question.label && question.label.length">{{ question.label | translate: question.labelTranslations : Language.language }}</label>
     <div *ngIf="question.descriptionAlwaysVisible
               && question.description
               && question.description.length"
          class="question-description"
-    >{{ question.description | translate: question.descriptionTranslations }}
+    >{{ question.description | translate: question.descriptionTranslations  : Language.language}}
     </div>
   </div>
   <div>
@@ -87,7 +87,7 @@
 <div *ngIf="question.answerType === AnswerType.TEXT_AREA">
   <div style="margin-bottom: 0.5rem">
     <biit-question-title
-      [title]="question.label | translate: question.labelTranslations"
+      [title]="question.label | translate: question.labelTranslations : Language.language"
       [required]="question.mandatory"
       [completed]="!!question.response"
     />
@@ -95,12 +95,12 @@
               && question.description
               && question.description.length"
          class="question-description"
-    >{{ question.description | translate: question.descriptionTranslations}}
+    >{{ question.description | translate: question.descriptionTranslations : Language.language}}
     </div>
   </div>
   <biit-textarea
-                 [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations) : undefined"
-                 [description]="question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations) : undefined"
+                 [info]="!question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations : Language.language) : undefined"
+                 [description]="question.descriptionAlwaysVisible ? (question.description | translate: question.descriptionTranslations : Language.language) : undefined"
                  [(ngModel)]="question.response"
                  [disabled]="question.editionDisabled"
                  (ngModelChange)="onChanged($event)"
@@ -110,7 +110,7 @@
   <div style="display: flex; flex-direction: column; margin-bottom: 0.5rem">
     <div style="display: flex">
       <label class="question-label" [required]="question.mandatory" [value]="question.response">
-        {{ (question.label | translate: question.labelTranslations) | varFormat: dataStoreService: dataStoreService.fingerPrint }}</label>
+        {{ (question.label | translate: question.labelTranslations : Language.language) | varFormat: dataStoreService: dataStoreService.fingerPrint }}</label>
       <biit-tooltip-icon
         *ngIf="!question.descriptionAlwaysVisible && question.description && question.description.length"
         [text]="question.description" inline></biit-tooltip-icon>
@@ -119,27 +119,27 @@
               && question.description
               && question.description.length"
          class="question-description"
-    >{{ question.description | translate: question.descriptionTranslations}}
+    >{{ question.description | translate: question.descriptionTranslations : Language.language}}
     </div>
   </div>
   <biit-multi-radio
     [required]="question.mandatory"
-    [label]="(question.label | translate: question.labelTranslations) | varFormat: dataStoreService: dataStoreService.fingerPrint"
+    [label]="(question.label | translate: question.labelTranslations : Language.language) | varFormat: dataStoreService: dataStoreService.fingerPrint"
     [disabled]="question.editionDisabled"
     [answers]="question.children"
-    [info]="question.description | translate: question.descriptionTranslations"
+    [info]="question.description | translate: question.descriptionTranslations : Language.language"
     [showAnswersDescription]="question.answerDescriptionAlwaysVisible"
     (selected)="question.response = $event; onChanged($event);"
   ></biit-multi-radio>
 </div>
 
 <biit-multi-checkbox *ngIf="question.answerType === AnswerType.MULTIPLE_SELECTION"
-                     [label]="(question.label | translate: question.labelTranslations) | varFormat: dataStoreService: dataStoreService.fingerPrint"
+                     [label]="(question.label | translate: question.labelTranslations : Language.language) | varFormat: dataStoreService: dataStoreService.fingerPrint"
                      [answers]="question.children"
                      [required]="question.mandatory"
                      [disabled]="question.editionDisabled"
                      [alert]="exceeded"
-                     [info]="question.description | translate: question.descriptionTranslations"
+                     [info]="question.description | translate: question.descriptionTranslations : Language.language"
                      [showQuestionDescription]="question.descriptionAlwaysVisible"
                      [showAnswersDescription]="question.answerDescriptionAlwaysVisible"
                      (selected)="question.response = $event; onChanged($event);"
@@ -148,7 +148,7 @@
 <biit-dropdown *ngIf="question.answerType === AnswerType.SINGLE_SELECTION_LIST"
                [data]="question.children | varFormatAnswers: dataStoreService: dataStoreService.fingerPrint"
                label="label"
-               [title]="(question.label | translate: question.labelTranslations) | varFormat: dataStoreService: dataStoreService.fingerPrint"
+               [title]="(question.label | translate: question.labelTranslations : Language.language) | varFormat: dataStoreService: dataStoreService.fingerPrint"
                value="name"
                [required]="question.mandatory"
                [description]="'description'"

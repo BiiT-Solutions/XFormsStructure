@@ -3,6 +3,7 @@ import {FormItem} from "../../models/form-item";
 import {Answer} from "../../models/answer";
 import {DynamicAnswer} from "../../models/dynamic-answer";
 import {DataStoreService} from "../../utils/data-store.service";
+import {Language} from "../language";
 
 @Component({
   selector: 'biit-multi-radio',
@@ -83,4 +84,5 @@ export class MultiRadioComponent implements OnInit{
 
   protected readonly Answer = Answer;
   protected readonly DynamicAnswer = DynamicAnswer;
+  protected readonly Language = Language;
 }
