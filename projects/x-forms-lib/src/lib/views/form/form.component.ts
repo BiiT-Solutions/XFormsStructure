@@ -115,6 +115,9 @@ export class FormComponent implements OnInit {
           break;
         }
       }
+      if (this.selectedLanguage) {
+        this.onLanguageChange(this.selectedLanguage)
+      }
   }
 
   protected onLanguageChange(selectedLanguage: { key: string, value: string }): void {
