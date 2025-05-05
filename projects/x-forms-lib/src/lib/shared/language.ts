@@ -13,9 +13,11 @@ export class Language {
     return Language.language;
   }
 
-  static setLanguage(language: string): void {
+  static setLanguage(language: string, save : boolean): void {
     Language.language = language;
-    localStorage.setItem(Language.LANGUAGE_STORAGE_KEY, language);
+    if (save) {
+      localStorage.setItem(Language.LANGUAGE_STORAGE_KEY, language);
+    }
   }
 
   static clear(): void {

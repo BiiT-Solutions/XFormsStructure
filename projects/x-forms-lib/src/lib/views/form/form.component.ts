@@ -116,13 +116,13 @@ export class FormComponent implements OnInit {
         }
       }
       if (this.selectedLanguage) {
-        this.onLanguageChange(this.selectedLanguage)
+        this.onLanguageChange(this.selectedLanguage, false)
       }
   }
 
-  protected onLanguageChange(selectedLanguage: { key: string, value: string }): void {
+  protected onLanguageChange(selectedLanguage: { key: string, value: string }, save = true): void {
     this.translocoService.setActiveLang(selectedLanguage.key.toLowerCase());
-    Language.setLanguage(selectedLanguage.key);
+    Language.setLanguage(selectedLanguage.key, save);
   }
 
   private hideByHiddenElements(formItem: FormItem): void {
