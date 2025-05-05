@@ -1,4 +1,12 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import {Form} from "../../models/form";
 import {FormItem} from "../../models/form-item";
 import {Question} from "../../models/question";
@@ -20,10 +28,11 @@ import {TokenBetween} from "../../models/token-between";
 import {Directional} from "../../models/directional";
 import {FormConverter} from "../../utils/form-converter";
 import {FormResult} from "../../models/form/form-result";
-import {QuestionsCounted} from "../../utils/questions-counted";
+import {FormCounter} from "../../utils/form-counter";
 import {CheckAnswersPipe} from "../../utils/check-answers.pipe";
 import {BiitProgressBarType} from "biit-ui/info";
-import {TRANSLOCO_SCOPE} from "@ngneat/transloco";
+import {TRANSLOCO_SCOPE, TranslocoService} from "@ngneat/transloco";
+import {Language} from "../../shared/language";
 
 @Component({
   selector: 'biit-x-form',
@@ -35,7 +44,7 @@ import {TRANSLOCO_SCOPE} from "@ngneat/transloco";
       multi:true,
       useValue: {scope: 'xforms', alias: 'xforms'}
     }
-  ],
+  ]
 })
 export class FormComponent implements OnInit {
 
@@ -46,13 +55,15 @@ export class FormComponent implements OnInit {
   protected category: Category;
   protected nextCategory: Category;
   protected previousCategory: Category;
-  protected questionsCounted: QuestionsCounted;
+  protected questionsCounted: FormCounter;
+  protected availableLanguages: { key: string, value: string }[] = [];
+  protected selectedLanguage: { key: string, value: string } = null;
 
   protected hiddenMenu: boolean = true;
 
   constructor(iconService: BiitIconService, private isVisible: IsVisiblePipe,
               private next: NextPipe, private previous: PreviousPipe,
-              private checkAnswers: CheckAnswersPipe,
+              private translocoService: TranslocoService,
               private changeDetectorRef: ChangeDetectorRef
   ) {
     iconService.registerIcons(completeIconSet);
@@ -63,6 +74,7 @@ export class FormComponent implements OnInit {
       return;
     }
     this.category = category as Category;
+    this.category.visited = true;
     this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
     this.previousCategory = this.previous.transform(this.form.children as Category[], "id", this.category.id);
   }
@@ -74,8 +86,40 @@ export class FormComponent implements OnInit {
     this.displayChildren();
     this.hideByHiddenElements(this.form);
     this.startForm();
+    this.loadLanguages();
     this.questionsCounted = this.countQuestions(this.form);
     console.debug("Form: ", this.form);
+  }
+
+  private loadLanguages(): void {
+      this.availableLanguages.push({key:'EN', value: 'EN'});
+      Object.keys(this.form.labelTranslations).forEach(key => {
+        this.availableLanguages.push({key: key, value: key});
+      });
+      this.availableLanguages.sort((a, b) => a.value < b.value ? -1 : 1);
+      const browserLanguages: Set<string> = new Set<string>();
+    const savedLanguage: string = Language.loadLanguage();
+    if (savedLanguage) {
+      browserLanguages.add(savedLanguage);
+    }
+      (navigator.languages || [navigator.language]).forEach(language => {
+        const lang: string = language.split('-')[0].toUpperCase();
+          browserLanguages.add(lang);
+      });
+
+
+    for (const browserLang of browserLanguages) {
+        const lang: { key: string, value: string } = this.availableLanguages.find(l => l.key === browserLang);
+        if (lang) {
+          this.selectedLanguage = lang;
+          break;
+        }
+      }
+  }
+
+  protected onLanguageChange(selectedLanguage: { key: string, value: string }): void {
+    this.translocoService.setActiveLang(selectedLanguage.key.toLowerCase());
+    Language.setLanguage(selectedLanguage.key);
   }
 
   private hideByHiddenElements(formItem: FormItem): void {
@@ -216,6 +260,7 @@ export class FormComponent implements OnInit {
       if (nextCategory) {
         this.previousCategory = this.category;
         this.category = nextCategory;
+        this.category.visited = true;
         this.nextCategory = this.next.transform(this.form.children as Category[], 'id', this.category.id);
       }
     }
@@ -264,40 +309,45 @@ export class FormComponent implements OnInit {
     this.questionsCounted = this.countQuestions(this.form);
   }
 
-  //NOTE: This is an approximation to the real count of questions (it doesn't take into account the flows)
-  private countQuestions(form: Form): QuestionsCounted {
+  //NOTE: This is an approximation to the real count of questions (not possible to get the complete flow of the form)
+  private countQuestions(form: Form): FormCounter {
+    /* Getting all questions to get the total number of questions on the form */
     const questions: Map<string, Question<any>> = new Map();
     Structure.extractQuestions(form, questions);
     const questionArray: Question<any>[] = Array.from(questions.values());
-    const enabledQuestions: Question<any>[] = [];
-    for (let question of questionArray) {
-      enabledQuestions.push(question)
-      if (question.flows && (!question.display || !question.valid) && !this.moreDisplayed(questionArray, question)) {
-        break;
-      }
+    const formCounter = new FormCounter(0, questionArray.length);
+    const categories: FormItem[] = form.children.filter(child => child instanceof Category);
+    /* Getting all visited categories to count all the questions in them */
+    let visitedCategories: FormItem[] = categories.filter(child => child instanceof Category).filter(child => (child as Category).visited && child.id !== this.category.id);
+    const latestVisitedCategory: Category = visitedCategories.length > 0 ? visitedCategories[visitedCategories.length - 1] as Category : null;
+    if (latestVisitedCategory && !latestVisitedCategory.completed) {
+      visitedCategories = visitedCategories.filter(child => child.id !== latestVisitedCategory.id);
     }
-    const questionsCounted = new QuestionsCounted(0, enabledQuestions.length);
-    if (!this.nextCategory && this.checkAnswers.transform(this.form)) {
-      questionsCounted.answeredQuestions = enabledQuestions.length;
-    } else {
-      enabledQuestions.forEach(question => {
-        if (question.valid || question.hidden || !question.mandatory ||
-          (!question.display && this.moreDisplayed(questionArray, question))) {
-          questionsCounted.answeredQuestions++;
+    let countedQuestions: number = 0;
+    const questionsInVisitedCategories: Map<string, Question<any>> = new Map();
+    visitedCategories.forEach(category => {Structure.extractQuestions(category, questionsInVisitedCategories)});
+    countedQuestions += questionsInVisitedCategories.size;
+    const questionsInCurrentCategory: Map<string, Question<any>> = new Map();
+    Structure.extractQuestions(this.category, questionsInCurrentCategory);
+    if (latestVisitedCategory && !latestVisitedCategory.completed) {
+      Structure.extractQuestions(latestVisitedCategory, questionsInCurrentCategory);
+    }
+    /*Counting current category*/
+    questionsInCurrentCategory.forEach(question => {
+      if (question.display){
+        if (!question.mandatory) {
+          countedQuestions++;
+        } else {
+          if (question.valid) {
+            countedQuestions++;
+          }
         }
-      });
-    }
-    return questionsCounted;
-  }
-
-  private moreDisplayed(questions: Question<any>[], question: Question<any>): boolean {
-    const index = questions.indexOf(question);
-    for (let i = index + 1; i < questions.length; i++) {
-      if (questions[i].display) {
-        return true;
+      } else {
+        countedQuestions++;
       }
-    }
-    return false;
+    });
+    formCounter.answeredQuestions=countedQuestions;
+    return formCounter;
   }
 
   private containsDisplayedDirectionals(formItem: FormItem): boolean {
@@ -312,4 +362,5 @@ export class FormComponent implements OnInit {
 
   protected readonly console: Console = console;
   protected readonly BiitProgressBarType = BiitProgressBarType;
+  protected readonly Language = Language;
 }

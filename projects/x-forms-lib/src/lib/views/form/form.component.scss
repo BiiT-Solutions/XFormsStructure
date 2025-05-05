@@ -103,6 +103,7 @@ biit-progress-bar{
     display: none;
   }
 }
+
 .category-title-button {
   cursor: pointer;
   &:not(.hidden-menu) {
@@ -111,4 +112,25 @@ biit-progress-bar{
   &.hidden-menu {
     position: fixed;
   }
+}
+
+:host > .lang-selector {
+  display: flex;
+  justify-content: end;
+  margin: 1rem 2rem 0;
+  position: sticky;
+  top: 1rem;
+  & > biit-dropdown {
+    width: 5rem;
+    border-left: solid 0.2rem #262626;
+    border-right: solid 0.2rem #262626;
+    border-top: solid 0.2rem #262626;
+    & > ::ng-deep .biit-input {
+      min-width: unset !important;
+    }
+  }
+}
+.sticky {
+  position: sticky;
+  top: 1rem;
 }

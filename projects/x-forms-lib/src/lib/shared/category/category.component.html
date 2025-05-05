@@ -4,9 +4,9 @@
   [url]="category.image.imageUrl"
   [width]="category.image.width"
   [height]="category.image.height"
-  [label]="category.label | translate: category.labelTranslations"
+  [label]="category.label | translate: category.labelTranslations : Language.language"
 />
-<div class="category-label">{{(category.label | translate: category.labelTranslations) | uppercase}}</div>
+<div class="category-label">{{(category.label | translate: category.labelTranslations : Language.language) | uppercase}}</div>
 <div *ngFor="let element of category.children">
   <biit-form-element [element]="element" (changed)="onFormChanged($event)"
                      (duplicated)="onDuplicated($event, this.category.children)"

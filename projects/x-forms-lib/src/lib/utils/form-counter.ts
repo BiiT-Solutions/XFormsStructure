@@ -1,4 +1,4 @@
-export class QuestionsCounted {
+export class FormCounter {
   answeredQuestions: number = 0;
   totalQuestions: number = 0;
 

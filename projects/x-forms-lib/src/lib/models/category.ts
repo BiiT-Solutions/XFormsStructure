@@ -8,11 +8,13 @@ export class Category extends FormItem {
   public displayedByDefault: boolean = false;
   public completed: boolean = false;
   public image: Image;
+  public visited: boolean = false;
 
   public static override copy(from: Category, to: Category): void {
     super.copy(from, to);
     to.displayedByDefault = from.displayedByDefault == undefined ? false : from.displayedByDefault;
     to.completed = from.completed;
+    to.visited = from.visited;
     to.children = from.children ? from.children.map(Form.cloneFormItem) : [];
     to.image = from.image ? Image.clone(from.image) : null;
   }

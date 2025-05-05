@@ -1,5 +1,5 @@
 <biit-group *ngIf="(element | instanceof: Group) && element.display"
-            [legend]="(element.label | translate: element.labelTranslations) | varFormat: dataStoreService: dataStoreService.fingerPrint"
+            [legend]="(element.label | translate: element.labelTranslations : Language.language) | varFormat: dataStoreService: dataStoreService.fingerPrint"
             [enablePlus]="(element | asGroup)?.repeatable && !(element | asGroup)?.duplicated"
             [enableMinus]="(element | asGroup)?.duplicated"
             (onPlusClick)="duplicate()"
