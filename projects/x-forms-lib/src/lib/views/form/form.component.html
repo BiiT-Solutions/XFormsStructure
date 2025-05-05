@@ -2,46 +2,53 @@
   [value]="this.questionsCounted.answeredQuestions | percentage : this.questionsCounted.totalQuestions"
   [type]="BiitProgressBarType.DETERMINATE"
 />
-<div class="lang-selector">
-    <biit-dropdown [data]="availableLanguages"
-                   [ngModel]="selectedLanguage"
-                    (ngModelChange)="onLanguageChange($event)"
-                   label="value"
-    />
-
+<div class="lang-selector" *ngIf="availableLanguages && availableLanguages.length>1">
+  <biit-dropdown [data]="availableLanguages"
+                 [ngModel]="selectedLanguage"
+                 (ngModelChange)="onLanguageChange($event)"
+                 label="value"
+  />
 </div>
+
 <div class="form-view" *ngIf="!submitted">
   <div class="categories sticky" [class.hidden-menu]="hiddenMenu">
     <div style="display: flex; gap: 1rem">
-      <div class="category-title" [class.hidden]="hiddenMenu">{{'xforms.categories' | transloco}}</div>
+      <div class="category-title" [class.hidden]="hiddenMenu">{{ 'xforms.categories' | transloco }}</div>
       <div class="category-title-button" [class.hidden-menu]="hiddenMenu"
            (click)="hiddenMenu=!hiddenMenu" style="height: 1rem">
         <biit-icon [name]="hiddenMenu ? 'column_selection' : 'cross_wide'"></biit-icon>
       </div>
     </div>
     <div [class.hidden]="hiddenMenu">
-      <div class="category" *ngFor="let iCategory of form.children" [class.display-none]="iCategory.hidden || !iCategory.display" [class.selected]="iCategory.pathName === category.pathName">
+      <div class="category" *ngFor="let iCategory of form.children"
+           [class.display-none]="iCategory.hidden || !iCategory.display"
+           [class.selected]="iCategory.pathName === category.pathName">
         <div *ngIf="!iCategory.hidden && iCategory.display" (click)="onCategory(iCategory)"
-             [class.disabled]="iCategory.disabled">{{(iCategory.label | translate: iCategory.labelTranslations : Language.language)}}</div>
+             [class.disabled]="iCategory.disabled">{{ (iCategory.label | translate: iCategory.labelTranslations : Language.language) }}
+        </div>
       </div>
     </div>
-    </div>
+  </div>
 
   <div (click)="hiddenMenu = true">
     <div>
-      <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()" (completed)="onCategoryCompleted($event)" />
-      <div class="buttons" *ngIf="category" >
+      <biit-category *ngIf="category" [form]="form" [category]="category" (changed)="onFormChanged()"
+                     (completed)="onCategoryCompleted($event)"/>
+      <div class="buttons" *ngIf="category">
         <button biit-button secondary
                 (click)="onPrevious()"
-                [disabled]="!previousCategory">{{'xforms.previous' | transloco}}</button>
+                [disabled]="!previousCategory">{{ 'xforms.previous' | transloco }}
+        </button>
         <button biit-button primary
                 *ngIf="nextCategory"
                 (click)="onNext()"
-                [disabled]="nextCategory?.disabled || !category.completed">{{'xforms.next' | transloco}}</button>
+                [disabled]="nextCategory?.disabled || !category.completed">{{ 'xforms.next' | transloco }}
+        </button>
         <button biit-button primary
                 *ngIf="!nextCategory"
                 (click)="onSubmit()"
-                [disabled]="!(form | checkAnswers)">{{'xforms.submit' | transloco}}</button>
+                [disabled]="!(form | checkAnswers)">{{ 'xforms.submit' | transloco }}
+        </button>
       </div>
     </div>
   </div>
