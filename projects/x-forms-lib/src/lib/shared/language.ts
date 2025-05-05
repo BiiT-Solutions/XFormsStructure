@@ -1,5 +1,5 @@
 export class Language {
-  static readonly LANGUAGE_STORAGE_KEY: string = 'pl';
+  static readonly LANGUAGE_STORAGE_KEY: string = 'preferredLanguage';
   static language: string = 'en';
 
   static loadLanguage(): string {

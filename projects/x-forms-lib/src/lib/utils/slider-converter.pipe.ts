@@ -7,7 +7,7 @@ import {FormItem} from "../models/form-item";
 })
 export class SliderConverterPipe implements PipeTransform {
 
-  transform(answers: FormItem[]): { value: string | number, label: string, description: string }[] {
+  transform(answers: FormItem[], language: string): { value: string | number, label: string, description: string}[] {
     if (!answers || !answers.length) {
       return [];
     }
@@ -15,8 +15,8 @@ export class SliderConverterPipe implements PipeTransform {
       .map(answer => {
         return {
           value: answer.name,
-          label: this.getTranslation(answer.label, answer.labelTranslations),
-          description: this.getTranslation(answer.description, answer.descriptionTranslations) ?? undefined
+          label: this.getTranslation(answer.label, answer.labelTranslations, language),
+          description: this.getTranslation(answer.description, answer.descriptionTranslations, language) ?? undefined
         }
       });
   }
@@ -25,24 +25,11 @@ export class SliderConverterPipe implements PipeTransform {
   /**
    * Get the text depending on the languages available
    */
-  private getTranslation(defaultLabel: string, translations: { [key: string]: string }): string {
-    const availableTranslations: string[] = translations ? Object.keys(translations) : [];
-    if (!translations || availableTranslations.length === 0) {
-      return defaultLabel;
+  private getTranslation(label: string, translations: { [key: string]: string }, language: string): string {
+    if (language && translations[language.toUpperCase()]) {
+      return translations[language.toUpperCase()];
     }
-    const browserLanguages: string[] = (navigator.languages || [navigator.language]).map(language => language.split('-')[0].toLowerCase());
-    const availableLanguages: string[] = availableTranslations.map(language => language.toLowerCase());
-
-    for (const lang of browserLanguages) {
-      //English is the default language. So if it selected, the default label must be shown.
-      if (lang === "en") {
-        return defaultLabel;
-      }
-      if (availableLanguages.includes(lang)) {
-        return translations[lang.toUpperCase()];
-      }
-    }
-    return defaultLabel;
+    return label;
   }
 
 }
