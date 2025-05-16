@@ -1,0 +1,10 @@
+{
+  "error-max-selected": "Vous pouvez sélectionner jusqu'à {0} articles.",
+  "categories": "Catégories",
+  "previous": "Précédent",
+  "next": "Suivant",
+  "submit": "Soumettre",
+  "form-submitted": "Formulaire envoyé",
+  "go-back": "Retour",
+  "default": "Par défaut"
+}
