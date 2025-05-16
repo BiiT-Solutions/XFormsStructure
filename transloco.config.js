@@ -1,6 +1,6 @@
 module.exports = {
   rootTranslationsPath: 'src/assets/i18n/',
-  langs: ['en', 'es', 'nl', 'de', fr],
+  langs: ['en', 'es', 'nl', 'de', 'fr'],
   keysManager: {},
   /*
   LOADING LIBRARIES EXAMPLE
