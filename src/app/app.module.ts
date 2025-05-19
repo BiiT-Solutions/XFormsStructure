@@ -35,7 +35,7 @@ registerLocaleData(localeDe, 'de');
     {
       provide: TRANSLOCO_CONFIG,
       useValue: translocoConfig({
-        availableLangs: ['en', 'es', 'nl'],
+        availableLangs: ['en', 'es', 'nl', 'fr', 'de'],
         defaultLang: 'en',
         fallbackLang: 'en',
         missingHandler: {
