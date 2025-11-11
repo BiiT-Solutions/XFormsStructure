@@ -1,6 +1,9 @@
 {
-  "name": "x-forms",
+  "name": "@biit-solutions/x-forms",
   "version": "0.1.82",
+  "license": "AGPLv3",
+  "author": "BiiT Sourcing Solutions",
+  "private": false,
   "scripts": {
     "ng": "ng",
     "start": "npm run prepare:translations && ng serve",
@@ -17,7 +20,6 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "v15-lts",
     "@angular/common": "v15-lts",
@@ -40,8 +42,8 @@
     "@ngneat/transloco": "^4.2.2",
     "@ngneat/transloco-scoped-libs": "^5.0.3",
     "@types/jasmine": "~4.3.0",
-    "biit-icons-collection": "latest",
-    "biit-ui": "latest",
+    "@biit-solutions/biit-icons-collection": "latest",
+    "@biit-solutions/wizardry-theme": "latest",
     "cpx": "^1.5.0",
     "del-cli": "^5.1.0",
     "jasmine-core": "~4.5.0",
@@ -52,5 +54,9 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "ng-packagr": "~15.2.2",
     "typescript": "~4.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BiiT-Solutions/XFormsStructure.git"
   }
 }

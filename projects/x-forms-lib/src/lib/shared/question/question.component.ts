@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {Question} from "../../models/question";
 import {VariableType} from "../../models/variable-type";
-import {Type} from "biit-ui/inputs";
+import {Type} from "@biit-solutions/wizardry-theme/inputs";
 import {AnswerType} from "../../models/answer-type";
 import {CheckDatePipe} from "../../utils/check-date.pipe";
 import {GetRegexPipe} from "../../utils/get-regex.pipe";

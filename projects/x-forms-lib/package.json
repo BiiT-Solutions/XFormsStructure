@@ -1,6 +1,9 @@
 {
-  "name": "x-forms-lib",
+  "name": "@biit-solutions/x-forms",
   "version": "0.1.82",
+  "license": "AGPLv3",
+  "author": "BiiT Sourcing Solutions",
+  "private": false,
   "peerDependencies": {
     "@angular/common": "v15-lts",
     "@angular/core": "v15-lts",
@@ -19,5 +22,9 @@
       "path": "src/i18n"
     }
   ],
-  "sideEffects": false
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BiiT-Solutions/XFormsStructure.git"
+  }
 }

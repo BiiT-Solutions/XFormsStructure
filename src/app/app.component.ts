@@ -3,8 +3,8 @@ import { Form } from 'projects/x-forms-lib/src/lib/models/form';
 import {ActivatedRoute} from "@angular/router";
 import { Constants } from "../../projects/x-forms-lib/src/lib/utils/constants";
 import {HttpClient} from "@angular/common/http";
-import {BiitIconService} from "biit-ui/icon";
-import {completeIconSet} from "biit-icons-collection";
+import {BiitIconService} from "@biit-solutions/wizardry-theme/icon";
+import {completeIconSet} from "@biit-solutions/biit-icons-collection";
 import {TranslocoService} from "@ngneat/transloco";
 
 @Component({

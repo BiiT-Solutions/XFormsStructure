@@ -7,13 +7,13 @@ import {
   BiitMultiselectModule,
   BiitRadioButtonModule, BiitSliderOptionModule, BiitSliderOptionVerticalModule,
   BiitTextareaModule
-} from "biit-ui/inputs";
+} from "@biit-solutions/wizardry-theme/inputs";
 import {FormsModule} from "@angular/forms";
 import {UtilsModule} from "../../utils/utils.module";
 import {MultiRadioModule} from "../multi-radio/multi-radio.module";
 import {RequiredLabelModule} from "../required-label/required-label.module";
 import {MultiCheckboxModule} from "../multi-checkbox/multi-checkbox.module";
-import {BiitTooltipIconModule, BiitTooltipModule} from "biit-ui/info";
+import {BiitTooltipIconModule, BiitTooltipModule} from "@biit-solutions/wizardry-theme/info";
 import {MultimediaModule} from "../multimedia/multimedia.module";
 import {QuestionTitleModule} from "../question-title/question-title.module";
 
